@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main>F1 Dataset</main>;
+  return <div>F1 main content</div>;
 }

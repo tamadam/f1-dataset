@@ -4,6 +4,13 @@
     gap: 1rem;
 }
 
+/* SIMPLE HEADER */
+.simpleHeader {
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
 .headerWrapper {
     @include flexCenter;
     justify-content: space-between;
@@ -24,3 +31,4 @@
         }
     }
 }
+

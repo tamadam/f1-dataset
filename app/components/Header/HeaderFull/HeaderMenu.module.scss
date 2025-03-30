@@ -1,0 +1,50 @@
+.menuOptionsWrapper {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows ease-in-out .2s, opacity ease-out .8s;
+    background: black;
+
+    > .headerItem {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.menuOpen {
+        opacity: 1;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows ease-out .2s, opacity ease-in-out .2s;
+    }
+}
+
+.menuCover {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: -1;
+}
+
+@media (min-width: 650px) {
+    .menuCover,
+    .menuIcon {
+        display: none;
+    }
+
+    .menuOptionsWrapper {
+        position: relative;
+        inset: unset;
+        display: flex;
+        opacity: 1;
+        transition: none;
+       
+        .headerItem {
+            flex-direction: row;
+        }
+    }
+
+}

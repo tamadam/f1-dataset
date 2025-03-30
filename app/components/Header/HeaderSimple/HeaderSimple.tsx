@@ -7,7 +7,7 @@ import {
 
 const HeaderSimple = () => {
   return (
-    <header>
+    <header className={styles.simpleHeader}>
       <div className={styles.headerWrapper}>
         <div className={styles.headerItem}>
           <Image

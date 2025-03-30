@@ -3,6 +3,7 @@
 import { useState } from "react";
 import styles from "./HeaderMenu.module.scss";
 import Link from "next/link";
+import { Burger } from "../../icons";
 
 const HeaderMenu = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
@@ -14,7 +15,9 @@ const HeaderMenu = () => {
         className={styles.menuIcon}
         onClick={() => setMenuOpen((prev) => !prev)}
       >
-        <span>Burger</span>
+        <span>
+          <Burger width={24} height={24} color="#ee0000" />
+        </span>
       </div>
       <div
         className={

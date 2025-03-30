@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-icons": "npx @svgr/cli --no-dimensions --out-dir ./app/components/icons ./app/svgs/ --typescript"
   },
   "dependencies": {
     "next": "^15.2.4",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@svgr/cli": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

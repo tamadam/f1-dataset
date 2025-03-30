@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "./HeaderMenu.module.scss";
 import Link from "next/link";
-import { Burger } from "../../icons";
+import { Burger, Close } from "@/app/components/icons";
 
 const HeaderMenu = () => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
@@ -16,7 +16,11 @@ const HeaderMenu = () => {
         onClick={() => setMenuOpen((prev) => !prev)}
       >
         <span>
-          <Burger width={24} height={24} color="#ee0000" />
+          {isMenuOpen ? (
+            <Close width={24} height={24} color="#ee0000" />
+          ) : (
+            <Burger width={24} height={24} color="#ee0000" />
+          )}
         </span>
       </div>
       <div

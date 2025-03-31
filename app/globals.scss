@@ -30,7 +30,8 @@
 
   --header-height: 5rem;
 
-  --page-spacing-: 4vw;
+  --page-spacing: 4vw;
+  --half-spacing: calc(var(--page-spacing) / 2);
 }
 
 *,

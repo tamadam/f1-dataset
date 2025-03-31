@@ -16,11 +16,10 @@
         color: #fff;
 
         .headerItem {
-            --half-spacing: calc(--page-spacing / 2)
-            padding-inline: 0 --half-spacing;
+            padding-inline: 0 var(--half-spacing);
             margin-block: 0.5rem;
             padding-block: 0.5rem;
-            margin-inline: var(--page-spacing) --half-spacing;
+            margin-inline: var(--page-spacing) var(--half-spacing);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -47,6 +46,10 @@
     inset: 0;
     background: var(--black-transparent);
     z-index: -1;
+}
+
+.menuIcon {
+    cursor: pointer;
 }
 
 @media (min-width: 960px) {

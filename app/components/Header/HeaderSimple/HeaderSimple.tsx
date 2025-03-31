@@ -11,7 +11,7 @@ const HeaderSimple = () => {
       <div className={styles.headerWrapper}>
         <div className={styles.headerItem}>
           <Image
-            src="/f1DatasetLogo.svg"
+            src="/images/f1DatasetLogo.svg"
             width={F1_LOGO_ORIGINAL_WIDTH / 8}
             height={F1_LOGO_ORIGINAL_HEIGHT / 8}
             alt="F1 Dataset Logo"

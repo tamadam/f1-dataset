@@ -1,13 +1,13 @@
 .menuOptionsWrapper {
     position: absolute;
-    top: 5rem;
+    top: var(--header-height);
     left: 0;
     width: 100%;
     display: grid;
     grid-template-rows: 0fr;
     opacity: 0;
     transition: grid-template-rows ease-in-out .2s, opacity ease-out .2s;
-    background: #000;
+    background: var(--black);
 
     > .headerItems {
         overflow: hidden;
@@ -16,16 +16,17 @@
         color: #fff;
 
         .headerItem {
-            padding-inline: 0 2vw;
+            --half-spacing: calc(--page-spacing / 2)
+            padding-inline: 0 --half-spacing;
             margin-block: 0.5rem;
             padding-block: 0.5rem;
-            margin-inline: 4vw 2vw;
+            margin-inline: var(--page-spacing) --half-spacing;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-width: 0 2px 2px 0;
             border-style: solid;
-            border-color: #ee0000;
+            border-color: var(--red);
             border-bottom-right-radius: 1rem;
 
             &:last-child {
@@ -44,13 +45,14 @@
 .menuCover {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .5);
+    background: var(--black-transparent);
     z-index: -1;
 }
 
 @media (min-width: 960px) {
     .menuCover,
-    .menuIcon {
+    .menuIcon,
+    .headerItemIcon {
         display: none;
     }
 
@@ -80,10 +82,5 @@
                 }
             }
         }
-
-        .headerItemIcon {
-            display: none;
-        }
     }
-
 }

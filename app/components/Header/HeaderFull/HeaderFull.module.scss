@@ -5,7 +5,7 @@
     z-index: 10;
     font-family: "Formula1_Regular";
     font-size: 18px;
-    background: #272727;
+    background: var(--grey-dark);
     background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,1) 70%);
     color: #fff;
 }
@@ -14,10 +14,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 5rem;
+    height: var(--header-height);
     max-width: 80rem;
     margin: 0 auto;
-    padding-inline: 4vw;
+    padding-inline: var(--page-spacing);
 }
 
 @media (min-width: 960px) {
@@ -25,14 +25,4 @@
         justify-content: center;
         gap: 3rem;
     }
-}
-
-@media (max-width: 320px) {
-    .headerItemWrapper {
-
-
-        .menuIcon {
-            
-        }
-    }   
 }

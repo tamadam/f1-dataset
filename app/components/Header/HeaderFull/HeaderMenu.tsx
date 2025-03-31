@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./HeaderMenu.module.scss";
 import Link from "next/link";
 import { ArrowRight, Burger, Close } from "@/app/components/icons";
@@ -13,9 +13,31 @@ interface HeaderMenuProps {
 const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
 
+  // Close menu when Esc or Space pressed
+  useEffect(() => {
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === " ") {
+        setMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      window.addEventListener("keydown", handleKeydown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, [isMenuOpen, setMenuOpen]);
+
   return (
     <>
-      {isMenuOpen && <div className={styles.menuCover}></div>}
+      {isMenuOpen && (
+        <div
+          className={styles.menuCover}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        ></div>
+      )}
       <div
         className={styles.menuIcon}
         onClick={() => setMenuOpen((prev) => !prev)}

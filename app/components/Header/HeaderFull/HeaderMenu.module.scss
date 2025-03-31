@@ -71,17 +71,20 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.4rem;
             text-align: center;
             margin: 0;
 
             .headerItem {
-                margin: 0;
+                margin: 4px;
                 padding: 0;
-                border: none;
+                border-width: 1px;
+                border-style: unset;
+                border-color: unset;
+                border-radius: unset;
 
                 &:last-child {
-                    margin: 0;
+                    margin: 4px;
                 }
             }
         }

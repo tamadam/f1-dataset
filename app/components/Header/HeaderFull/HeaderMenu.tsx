@@ -38,9 +38,12 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
           onClick={() => setMenuOpen((prev) => !prev)}
         ></div>
       )}
-      <div
+      <button
         className={styles.menuIcon}
         onClick={() => setMenuOpen((prev) => !prev)}
+        aria-label="Toggle Navigation"
+        tabIndex={0}
+        role="button"
       >
         <span>
           {isMenuOpen ? (
@@ -49,13 +52,15 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
             <Burger width={26} height={26} color="#ee0000" />
           )}
         </span>
-      </div>
+      </button>
       <div
         className={
           isMenuOpen
             ? [styles.menuOptionsWrapper, styles.menuOpen].join(" ")
             : styles.menuOptionsWrapper
         }
+        aria-label="Primary Navigation"
+        aria-hidden={!isMenuOpen}
       >
         <div className={styles.headerItems}>
           {menuItems.map((menuItem) => (

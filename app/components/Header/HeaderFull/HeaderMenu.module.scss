@@ -6,8 +6,8 @@
     display: grid;
     grid-template-rows: 0fr;
     opacity: 0;
-    transition: grid-template-rows ease-in-out .2s, opacity ease-out .8s;
-    background: black;
+    transition: grid-template-rows ease-in-out .2s, opacity ease-out .2s;
+    background: #000;
 
     > .headerItems {
         overflow: hidden;
@@ -48,7 +48,7 @@
     z-index: -1;
 }
 
-@media (min-width: 650px) {
+@media (min-width: 960px) {
     .menuCover,
     .menuIcon {
         display: none;
@@ -60,9 +60,29 @@
         display: flex;
         opacity: 1;
         transition: none;
+        background: transparent;
        
         .headerItems {
             flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            text-align: center;
+            margin: 0;
+
+            .headerItem {
+                margin: 0;
+                padding: 0;
+                border: none;
+
+                &:last-child {
+                    margin: 0;
+                }
+            }
+        }
+
+        .headerItemIcon {
+            display: none;
         }
     }
 

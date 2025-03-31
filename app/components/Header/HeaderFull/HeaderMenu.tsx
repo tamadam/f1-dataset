@@ -43,7 +43,9 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
               className={styles.headerItem}
             >
               <span>{menuItem.label}</span>
-              <ArrowRight width={26} height={26} />
+              <span className={styles.headerItemIcon}>
+                <ArrowRight width={26} height={26} />
+              </span>
             </Link>
           ))}
         </div>

@@ -5,6 +5,7 @@ import styles from "./HeaderMenu.module.scss";
 import Link from "next/link";
 import { ArrowRight, Burger, Close } from "@/app/components/icons";
 import { MenuItem } from "@/app/types";
+import Button from "../../Button/Button";
 
 interface HeaderMenuProps {
   menuItems: MenuItem[];
@@ -38,12 +39,11 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
           onClick={() => setMenuOpen((prev) => !prev)}
         ></div>
       )}
-      <button
+      <Button
         className={styles.menuIcon}
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label="Toggle Navigation"
         tabIndex={0}
-        role="button"
       >
         <span>
           {isMenuOpen ? (
@@ -52,7 +52,7 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
             <Burger width={26} height={26} color="#ee0000" />
           )}
         </span>
-      </button>
+      </Button>
       <div
         className={
           isMenuOpen

@@ -3,9 +3,14 @@
 import { useState } from "react";
 import styles from "./HeaderMenu.module.scss";
 import Link from "next/link";
-import { Burger, Close } from "@/app/components/icons";
+import { ArrowRight, Burger, Close } from "@/app/components/icons";
+import { MenuItem } from "@/app/types";
 
-const HeaderMenu = () => {
+interface HeaderMenuProps {
+  menuItems: MenuItem[];
+}
+
+const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
 
   return (
@@ -17,9 +22,9 @@ const HeaderMenu = () => {
       >
         <span>
           {isMenuOpen ? (
-            <Close width={24} height={24} color="#ee0000" />
+            <Close width={26} height={26} color="#ee0000" />
           ) : (
-            <Burger width={24} height={24} color="#ee0000" />
+            <Burger width={26} height={26} color="#ee0000" />
           )}
         </span>
       </div>
@@ -30,12 +35,17 @@ const HeaderMenu = () => {
             : styles.menuOptionsWrapper
         }
       >
-        <div className={styles.headerItem}>
-          <Link href="#">Results</Link>
-          <Link href="#">Statistics</Link>
-          <Link href="#">Future Feature</Link>
-          <Link href="#">Videos</Link>
-          <Link href="#">Power Rankings</Link>
+        <div className={styles.headerItems}>
+          {menuItems.map((menuItem) => (
+            <Link
+              key={menuItem.id}
+              href={menuItem.href}
+              className={styles.headerItem}
+            >
+              <span>{menuItem.label}</span>
+              <ArrowRight width={26} height={26} />
+            </Link>
+          ))}
         </div>
       </div>
     </>

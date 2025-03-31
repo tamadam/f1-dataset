@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'NetflixBold';
+  src: url('/fonts/Netflix_Sans_Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NetflixMedium';
+  src: url('/fonts/Netflix_Sans_Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NetflixLight';
+  src: url('/fonts/Netflix_Sans_Light.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Formula1_Regular';
+  src: url('/fonts/Formula1_Regular.ttf') format('truetype');
+}
+
+
 *,
 *::before,
 *::after {
@@ -42,3 +63,18 @@ figcaption {
     text-wrap: pretty;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.1s ;
+
+  @media(hover: hover) and (pointer: fine) {
+    &:hover {
+      color: #ee0000;
+    }
+
+    &:active {
+      color: #ff0000;
+    }
+  }
+}

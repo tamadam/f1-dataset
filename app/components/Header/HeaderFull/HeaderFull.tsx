@@ -5,8 +5,17 @@ import {
 import styles from "./HeaderFull.module.scss";
 import Image from "next/image";
 import HeaderMenu from "./HeaderMenu";
+import { MenuItem } from "@/app/types";
 
 const HeaderFull = () => {
+  const menuItemsList: MenuItem[] = [
+    { id: 1, label: "Results", href: "#" },
+    { id: 2, label: "Statistics", href: "#" },
+    { id: 3, label: "Future Feature", href: "#" },
+    { id: 4, label: "Videos", href: "#" },
+    { id: 5, label: "Power Rankings", href: "#" },
+  ];
+
   return (
     <header className={styles.fullHeader}>
       <div className={styles.headerFullWrapper}>
@@ -21,7 +30,7 @@ const HeaderFull = () => {
           </div>
         </div>
         <div className={styles.headerItemWrapper}>
-          <HeaderMenu />
+          <HeaderMenu menuItems={menuItemsList} />
         </div>
       </div>
     </header>

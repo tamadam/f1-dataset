@@ -4,18 +4,19 @@
     gap: 1rem;
 }
 
-/* SIMPLE HEADER */
 .simpleHeader {
     display: block;
     position: relative;
     z-index: 10;
+    font-family: "NetflixMedium";
+    font-size: 0.875rem;
 }
 
 .headerWrapper {
     @include flexCenter;
     justify-content: space-between;
-    height: 5rem;
-    padding-inline: 1rem;
+    height: var(--header-height);
+    padding-inline: clamp(1rem, 4vw, 7rem);
     position: absolute;
     width: 100%;
 
@@ -31,4 +32,3 @@
         }
     }
 }
-

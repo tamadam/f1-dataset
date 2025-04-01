@@ -1,0 +1,100 @@
+@font-face {
+  font-family: 'NetflixBold';
+  src: url('/fonts/Netflix_Sans_Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NetflixMedium';
+  src: url('/fonts/Netflix_Sans_Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NetflixLight';
+  src: url('/fonts/Netflix_Sans_Light.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Formula1_Regular';
+  src: url('/fonts/Formula1_Regular.ttf') format('truetype');
+}
+
+:root {
+  --red: #ee0000;
+  --red-light: #ff0000;
+  --red-dark: #a70606;
+  
+  --white: #fff;
+  --black: #000;
+  --black-transparent: #00000080;
+  --grey-dark: #272727;
+
+  --header-height: 5rem;
+
+  --page-spacing: 4vw;
+  --half-spacing: calc(var(--page-spacing) / 2);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+html {
+  color-scheme: dark light;
+}
+
+body {
+  min-height: 100vh;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+    max-width: 65ch;
+    text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.1s ;
+
+  @media(hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--red);
+    }
+
+    &:active {
+      color: var(--red-light);
+    }
+  }
+}
+
+button {
+  background: none;
+  border: none;
+}

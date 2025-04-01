@@ -1,0 +1,28 @@
+/* FULL HEADER */
+.fullHeader {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    font-family: "Formula1_Regular";
+    font-size: 18px;
+    background: var(--grey-dark);
+    background: linear-gradient(180deg, rgb(20, 20, 20) 0%, rgba(0,0,0,1) 70%);
+    color: #fff;
+}
+
+.headerFullWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    max-width: 80rem;
+    margin: 0 auto;
+    padding-inline: var(--page-spacing);
+}
+
+@media (min-width: 960px) {
+    .headerFullWrapper {
+        justify-content: center;
+        gap: 3rem;
+    }
+}

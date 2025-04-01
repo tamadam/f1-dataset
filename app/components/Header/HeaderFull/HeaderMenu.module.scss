@@ -1,0 +1,92 @@
+.menuOptionsWrapper {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows ease-in-out .2s, opacity ease-out .2s;
+    background: var(--black);
+
+    > .headerItems {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+
+        .headerItem {
+            padding-inline: 0 var(--half-spacing);
+            margin-block: 0.5rem;
+            padding-block: 0.5rem;
+            margin-inline: var(--page-spacing) var(--half-spacing);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-width: 0 2px 2px 0;
+            border-style: solid;
+            border-color: var(--red);
+            border-bottom-right-radius: 1rem;
+
+            &:last-child {
+                margin-block-end: 1.4rem;
+            }
+        }
+    }
+
+    &.menuOpen {
+        opacity: 1;
+        grid-template-rows: 1fr;
+        transition: grid-template-rows ease-out .2s, opacity ease-in-out .2s;
+    }
+}
+
+.menuCover {
+    position: fixed;
+    inset: 0;
+    background: var(--black-transparent);
+    z-index: -1;
+}
+
+.menuIcon {
+    cursor: pointer;
+}
+
+@media (min-width: 960px) {
+    .menuCover,
+    .menuIcon,
+    .headerItemIcon {
+        display: none;
+    }
+
+    .menuOptionsWrapper {
+        position: relative;
+        inset: unset;
+        display: flex;
+        opacity: 1;
+        transition: none;
+        background: transparent;
+       
+        .headerItems {
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 1.4rem;
+            text-align: center;
+            margin: 0;
+
+            .headerItem {
+                margin: 4px;
+                padding: 0;
+                border-width: 1px;
+                border-style: unset;
+                border-color: unset;
+                border-radius: unset;
+
+                &:last-child {
+                    margin: 4px;
+                }
+            }
+        }
+    }
+}

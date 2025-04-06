@@ -15,10 +15,12 @@
 .headerWrapper {
     @include flexCenter;
     justify-content: space-between;
-    height: var(--header-height);
+    flex-wrap: wrap;
+    min-height: var(--header-height);
     padding-inline: clamp(1rem, 4vw, 5rem);
     position: absolute;
     width: 100%;
+    overflow: hidden;
 
     .headerItem {
         flex-grow: 1;

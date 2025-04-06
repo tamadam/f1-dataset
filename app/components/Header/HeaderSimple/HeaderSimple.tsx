@@ -4,6 +4,7 @@ import {
   F1_LOGO_ORIGINAL_HEIGHT,
   F1_LOGO_ORIGINAL_WIDTH,
 } from "@/app/constants";
+import Button from "@/app/components/Button";
 
 const HeaderSimple = () => {
   return (
@@ -19,7 +20,11 @@ const HeaderSimple = () => {
         </div>
         <div className={styles.headerItem}>
           <div>Language Selector</div>
-          <div>Explore Button</div>
+          <div>
+            <Button variant="primary">
+              <span>Expore</span>
+            </Button>
+          </div>
         </div>
       </div>
     </header>

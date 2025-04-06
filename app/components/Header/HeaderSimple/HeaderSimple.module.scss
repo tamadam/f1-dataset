@@ -16,7 +16,7 @@
     @include flexCenter;
     justify-content: space-between;
     height: var(--header-height);
-    padding-inline: clamp(1rem, 4vw, 7rem);
+    padding-inline: clamp(1rem, 4vw, 5rem);
     position: absolute;
     width: 100%;
 

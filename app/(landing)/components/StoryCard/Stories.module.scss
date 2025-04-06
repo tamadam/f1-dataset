@@ -1,0 +1,13 @@
+.storyVideoWrapper {
+    position: relative;
+    display: grid;
+    place-items: center;
+
+
+    .videoWrapper {
+        position: absolute;
+        top: 11%;
+        width: 76%;
+        z-index: -1;
+    }
+}

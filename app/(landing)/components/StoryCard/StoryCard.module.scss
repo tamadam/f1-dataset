@@ -1,9 +1,9 @@
 .storyCardWrapper {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 2.4rem;
     padding-block: 4.5rem;
-    background: var(--black);
     color: var(--white);
     margin-inline: auto;
     max-width: calc(100% - 3rem);

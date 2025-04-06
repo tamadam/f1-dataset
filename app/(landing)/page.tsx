@@ -2,6 +2,7 @@ import React from "react";
 import MainCard from "./components/MainCard/MainCard";
 import Separator from "./components/Separator/Separator";
 import StoryCard, { StoryCardProps } from "./components/StoryCard/StoryCard";
+import StoryVideo from "./components/StoryCard/StoryVideo";
 
 export default function Home() {
   const storyCards: (StoryCardProps & { id: number })[] = [
@@ -10,7 +11,7 @@ export default function Home() {
       title: "Ne maradj le a lényegről.",
       description:
         "Nézd meg rövid összefoglalóinkat a nagydíjakról magyar nyelven, hogy minden fontos momentum megmaradjon.",
-      children: <h1>Dynamic content here</h1>,
+      children: <StoryVideo />,
     },
     {
       id: 2,

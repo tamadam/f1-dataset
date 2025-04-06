@@ -1,0 +1,50 @@
+.storyCardWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding-block: 4.5rem;
+    background: var(--black);
+    color: var(--white);
+    margin-inline: auto;
+    max-width: calc(100% - 3rem);
+
+    .storyCardText,
+    .storyCardDynamic {
+        flex-basis: 50%;
+        text-align: center;
+    }
+
+    .reverseOrder {
+        order: 1;
+    }
+
+    .storyCardTitle {
+        font-family: "NetflixBold";
+        --size: 1.5rem + 2vw;
+        font-size: clamp(1.8rem, var(--size), 2.2rem);
+        line-height: 1.2;
+    }
+
+    .storyCardDescription {
+        font-family: "NetflixLight";
+        --size: 0.6rem + 1vw;
+        font-size: clamp(1.125rem, var(--size), 1.4rem);
+        margin-block-start: 1rem;
+    }
+    
+
+    @media (min-width: 800px) {
+        flex-direction: row;
+        max-width: calc(100% - 4rem);
+
+        .storyCardText,
+        .storyCardDynamic {
+            text-align: left;
+        }
+    }
+
+    @media (min-width: 1140px) {
+        max-width: calc(84% - 6rem);
+    }
+
+}

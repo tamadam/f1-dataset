@@ -1,12 +1,25 @@
+@mixin primary {
+    background-color: var(--red-medium);
+    color: var(--white);
+    transition-duration: 0.25s;
+    transition-property: background-color;
+    transition-timing-function: cubic-bezier(0.9, 0, 0.51, 1);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+  }
+  
+
 .btn {
     &.primary {
-        background-color: var(--red-medium);
-        color: var(--white);
-        transition-duration: .25s;
-        transition-property: background-color;
-        transition-timing-function: cubic-bezier(.9,0,.51,1);
-        padding: .5rem 1rem;
-        border-radius: .25rem;
+        @include primary;
+    }
+}
+
+.link {
+    display: inline-block;
+    
+    &.primary {
+        @include primary;
     }
 }
 

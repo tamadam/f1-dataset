@@ -1,0 +1,61 @@
+.mainCardWrapper {
+    position: relative;
+    min-height: 36rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--black);
+    color: var(--white);
+    padding-block: 8rem;
+
+    @media (min-width: 800px) {
+        min-height: 50rem;
+    }
+
+    .mainBackground {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .mainBackgroundColorCover {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: rgb(0 0 0 / 40%);
+        background-image: linear-gradient(to top,rgba(0,0,0,.8) 0,rgba(0,0,0,0) 60%,rgba(0,0,0,.8) 100%);
+    }
+
+    .mainContent {
+       position: relative;
+       max-width: 80rem;
+       margin-inline: 1rem;
+       text-align: center;
+
+       .title {
+        --size: calc(1rem + 2vw);
+        font-size: clamp(1.8rem, var(--size), 3rem);
+        font-family: "NetflixBold";
+       }
+
+       .subtitle {
+        --size: calc(1rem + 1vw);
+        font-size: clamp(1.4rem, var(--size), 2rem);
+        font-family: "NetflixMedium";
+        margin-block: 1rem;
+       }
+
+       .description {
+        --size: calc(0.6rem + 1vw);
+        font-size: clamp(1.125rem, var(--size), 1.4rem);
+        font-family: "NetflixMedium";
+  
+            > .descriptionButton {
+                margin-block-start: 2rem;
+                display: inline-flex;
+                gap: 0.4rem
+            }
+       }
+    }
+}
+

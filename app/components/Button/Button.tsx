@@ -3,11 +3,12 @@ import styles from "./Button.module.scss";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
+  variant: "primary";
 }
 
-const Button = ({ children, className, ...props }: ButtonProps) => {
+const Button = ({ children, variant, className, ...props }: ButtonProps) => {
   return (
-    <button className={clsx(styles.btn, className)} {...props}>
+    <button className={clsx(styles.btn, styles[variant], className)} {...props}>
       {children}
     </button>
   );

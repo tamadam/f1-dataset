@@ -1,0 +1,13 @@
+.btn {
+    &.primary {
+        background-color: var(--red-medium);
+        color: var(--white);
+        transition-duration: .25s;
+        transition-property: background-color;
+        transition-timing-function: cubic-bezier(.9,0,.51,1);
+        padding: .5rem 1rem;
+        border-radius: .25rem;
+    }
+}
+
+

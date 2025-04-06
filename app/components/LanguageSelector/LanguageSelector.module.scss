@@ -1,0 +1,43 @@
+.languageSelectorWrapper {
+    display: flex;
+    align-items: center;
+    position: relative; 
+
+    .languageSelectorIcon {
+        position: absolute;
+        pointer-events: none;
+        color: var(--white);
+
+        &:first-child {
+            left: 0.4rem;
+        }
+
+        &:last-child {
+            right: 0.4rem;
+        }
+    }
+    
+    .languageSelector {
+        appearance: none;
+        border: none;
+        background: var(--grey-dark-transparent);
+        color: var(--white);
+        border: 1px solid var(--white-transparent);
+        border-radius: .25rem;
+        padding-block: .5rem;
+        padding-inline: 1.6rem;
+        /* hide text on small screens */
+        width: .5rem;
+    }
+
+    @media (min-width: 520px) {
+        .languageSelector {
+            padding-inline: 1.9rem;
+            /* show text from medium screens */
+            width: fit-content;
+            max-width: 8rem;
+        }
+    }
+
+  
+}

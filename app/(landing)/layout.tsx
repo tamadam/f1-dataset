@@ -1,5 +1,4 @@
 import HeaderSimple from "@/app/components/Header/HeaderSimple/HeaderSimple";
-import HeaderFull from "../components/Header/HeaderFull/HeaderFull";
 
 export default function LandingPageLayout({
   children,
@@ -8,7 +7,7 @@ export default function LandingPageLayout({
 }>) {
   return (
     <>
-      <HeaderFull />
+      <HeaderSimple />
       <main>{children}</main>
     </>
   );

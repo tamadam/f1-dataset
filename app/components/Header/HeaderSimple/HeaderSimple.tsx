@@ -5,6 +5,7 @@ import {
   F1_LOGO_ORIGINAL_WIDTH,
 } from "@/app/constants";
 import Button from "@/app/components/Button";
+import LanguageSelector from "../../LanguageSelector/LanguageSelector";
 
 const HeaderSimple = () => {
   return (
@@ -19,7 +20,7 @@ const HeaderSimple = () => {
           />
         </div>
         <div className={styles.headerItem}>
-          <div>Language Selector</div>
+          <LanguageSelector />
           <div>
             <Button variant="primary">
               <span>Expore</span>

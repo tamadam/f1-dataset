@@ -2,8 +2,8 @@ import React from "react";
 import MainCard from "./components/MainCard/MainCard";
 import Separator from "./components/Separator/Separator";
 import StoryCard, { StoryCardProps } from "./components/StoryCard/StoryCard";
-import StoryVideo from "./components/StoryCard/StoryVideo";
-import StoryAnimation from "./components/StoryCard/StoryAnimation";
+import StoryVideo from "./components/StoryCard/Stories/StoryVideo";
+import StoryAnimation from "./components/StoryCard/Stories/StoryAnimation";
 import { drivers } from "./components/drivers";
 
 export default function Home() {

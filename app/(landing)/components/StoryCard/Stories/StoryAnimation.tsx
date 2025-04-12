@@ -1,9 +1,9 @@
 "use client";
 
 import { CSSProperties } from "react";
-import { AnimatedItem } from "../../types";
+import { AnimatedItem } from "../../../types";
 import styles from "./Stories.module.scss";
-import { useInView } from "../../../hooks/useInView";
+import { useInView } from "../../../../hooks/useInView";
 import clsx from "clsx";
 
 export interface StoryAnimationProps {

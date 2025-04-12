@@ -1,7 +1,11 @@
-.storyVideoWrapper {
+@mixin gridCenter {
     position: relative;
     display: grid;
     place-items: center;
+}
+
+.storyVideoWrapper {
+    @include gridCenter;
 
 
     .videoWrapper {
@@ -9,5 +13,98 @@
         top: 11%;
         width: 76%;
         z-index: -1;
+    }
+}
+
+.storyAnimationWrapper {
+    --size1: 20rem;
+    --size2: 16rem;
+
+    background: radial-gradient(ellipse var(--size1) var(--size2) at center,rgb(39,39,39) 0%,rgba(0,0,0,0) 60%);
+   
+    .animatedItemsWrapper {
+        .animatedItemWrapper {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            align-items: center;
+
+            --column-line: 1 / 12;
+            --column-value: 14 / 16;
+            --after-element-size: 4rem;
+
+            @media (max-width: 400px) {
+                --column-line: 1 / 10;
+                --after-element-size: 3rem;
+            }
+
+            &:not(:first-child) {
+                margin-top: 3rem;
+            }
+      
+            .animatedItem {
+                height: .6rem;
+                width: 0;
+                background: var(--white);   
+                position: relative;
+                grid-column: var(--column-line);
+
+                &.animateLine {
+                    animation: animate-line 1.4s ease forwards;
+                }
+        
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 100%;
+                    transform: translate(-50%, -50%);
+                    width: var(--after-element-size);
+                    height: var(--after-element-size);
+                    border-radius: 50%;
+                    background-color: inherit;
+                    background-position: center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-image: var(--bg-after);
+                }
+            }
+
+            .animatedItemValue {
+                scale: 1;
+                font-family: "Formula1_Regular";
+                font-size: 2rem;
+                grid-column: var(--column-value);
+                justify-self: end;
+
+                &.animateValue {
+                    animation: animate-value 1.4s ease forwards;
+                }
+            }
+    
+        }
+    }
+
+    @media (min-width: 1400px) {
+        --size1: 28rem;
+    }
+}
+
+
+@keyframes animate-line {
+    to {
+      width: var(--line-width);
+    }
+  }
+
+@keyframes animate-value {
+    50% {
+        scale: 1.4;
+        color: #18f21a;
+    }
+
+    100% {
+        scale: 1.2;
+        color: #18f21a;
+        font-weight: 700;
     }
 }

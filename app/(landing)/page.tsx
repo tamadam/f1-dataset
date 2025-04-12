@@ -3,6 +3,8 @@ import MainCard from "./components/MainCard/MainCard";
 import Separator from "./components/Separator/Separator";
 import StoryCard, { StoryCardProps } from "./components/StoryCard/StoryCard";
 import StoryVideo from "./components/StoryCard/StoryVideo";
+import StoryAnimation from "./components/StoryCard/StoryAnimation";
+import { drivers } from "./components/drivers";
 
 export default function Home() {
   const storyCards: (StoryCardProps & { id: number })[] = [
@@ -18,7 +20,7 @@ export default function Home() {
       title: "Erősorrend. Ahol csak a versenyző számít.",
       description:
         "Ez a rangsor olyan tényezők alapján, mint az aktuális versenyzői teljesítmény vagy a konzisztencia, sorrendbe állítja a versenyzőket az általuk vezetett autó teljesítményétől teljesen elvonatkoztatva.",
-      children: <h1>Dynamic content here</h1>,
+      children: <StoryAnimation animatedItemsList={drivers} />,
       reverse: true,
     },
     {

@@ -12,10 +12,7 @@
     .storyCardDynamic {
         flex-basis: 50%;
         text-align: center;
-    }
-
-    .reverseOrder {
-        order: 1;
+        width: 100%;
     }
 
     .storyCardTitle {
@@ -40,6 +37,10 @@
         .storyCardText,
         .storyCardDynamic {
             text-align: left;
+        }
+
+        .reverseOrder {
+            order: 1;
         }
     }
 

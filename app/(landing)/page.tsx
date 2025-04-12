@@ -4,6 +4,7 @@ import Separator from "./components/Separator/Separator";
 import StoryCard, { StoryCardProps } from "./components/StoryCard/StoryCard";
 import StoryVideo from "./components/StoryCard/Stories/StoryVideo";
 import StoryAnimation from "./components/StoryCard/Stories/StoryAnimation";
+import StoryStatistics from "./components/StoryCard/Stories/StoryStatistics";
 import { drivers } from "./components/drivers";
 
 export default function Home() {
@@ -28,7 +29,7 @@ export default function Home() {
       title: "Testreszabható statisztika",
       description:
         "Az adatok korlátlan mennyiségben állnak rendelkezésedre. Ezekből az adatokból pedig bármilyen statisztikát képes leszel összeállítani!",
-      children: <h1>Dynamic content here</h1>,
+      children: <StoryStatistics />,
     },
   ];
 

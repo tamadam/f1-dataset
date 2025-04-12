@@ -87,24 +87,30 @@
     @media (min-width: 1400px) {
         --size1: 28rem;
     }
+    
+    @keyframes animate-line {
+        to {
+          width: var(--line-width);
+        }
+      }
+    
+    @keyframes animate-value {
+        50% {
+            scale: 1.4;
+            color: #18f21a;
+        }
+    
+        100% {
+            scale: 1.2;
+            color: #18f21a;
+            font-weight: 700;
+        }
+    }
 }
 
-
-@keyframes animate-line {
-    to {
-      width: var(--line-width);
-    }
-  }
-
-@keyframes animate-value {
-    50% {
-        scale: 1.4;
-        color: #18f21a;
-    }
-
-    100% {
-        scale: 1.2;
-        color: #18f21a;
-        font-weight: 700;
-    }
+.storyStatisticsWrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 550px;
+    margin: auto;
 }

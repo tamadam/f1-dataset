@@ -11,7 +11,6 @@ const MainCard = () => {
           src="/images/landingPageBackground.jpg"
           alt="racing f1 cars"
           fill
-          objectFit="cover"
         />
         <div className={styles.mainBackgroundColorCover}></div>
       </div>

@@ -1,7 +1,15 @@
+.languageSelectorOuterWrapper {
+    display: flex;
+    container-type: inline-size; 
+    width: 100%;
+}
+
 .languageSelectorWrapper {
     display: flex;
     align-items: center;
     position: relative; 
+    font-family: "NetflixMedium";
+    margin-left: auto;
 
     .languageSelectorIcon {
         position: absolute;
@@ -30,7 +38,8 @@
         width: .5rem;
     }
 
-    @media (min-width: 520px) {
+
+    @container (min-width: 250px) {
         .languageSelector {
             padding-inline: 1.9rem;
             /* show text from medium screens */
@@ -38,6 +47,5 @@
             max-width: 8rem;
         }
     }
-
   
 }

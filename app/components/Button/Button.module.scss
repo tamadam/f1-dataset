@@ -1,3 +1,8 @@
+@mixin base {
+    background-color: transparent;
+    color: var(--white);
+}
+
 @mixin primary {
     background-color: var(--red-medium);
     color: var(--white);
@@ -8,6 +13,10 @@
     border-radius: 0.25rem;
   }
   
+.btn,
+.link {
+    @include base;
+} 
 
 .btn {
     &.primary {

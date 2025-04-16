@@ -1,0 +1,82 @@
+.faqWrapper {
+    color: var(--white);
+    margin-inline: auto;
+    max-width: var(--landing-page-inline-padding);
+    padding-block: var(--landing-page-block-padding);
+    font-family: "NetflixLight";
+
+    .faqTitle {
+        font-family: "NetflixBold";
+        font-size: var(--landing-page-title-size);
+        margin-block-end: 1rem;
+        text-align: center;
+    }
+
+    .faqLi {
+        list-style-type: none;
+        text-indent: 0;
+        margin: 0 0 .5rem;
+        display: list-item;
+    }
+
+    .faqQuestionWrapper {
+        background-color: #2d2d2d;
+        margin-bottom: .0625rem;
+        transition-duration: .25s;
+        transition-property: background-color;
+        transition-timing-function: cubic-bezier(.9,0,.51,1);
+
+        &:hover {
+            transition-timing-function: cubic-bezier(.5,0,.1,1);
+            background-color: #4e4e4e;
+        }
+
+
+        .faqQuestion {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 1.5rem;
+            transition: transform ease-out 1.2s;
+            cursor: pointer;
+
+            .questionIcon {
+                transition: transform 0.3s ease;
+
+                &.rotate {
+                    transform: rotate(135deg);
+                }
+            }
+
+
+        }
+    }
+
+    .faqAnswerWrapper {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        padding-block: 0rem;
+        padding-inline: 1.5rem;
+        transition: grid-template-rows ease-out .2s, opacity ease-in-out .2s, padding-block ease-in-out .2s;
+        background-color: #2d2d2d;
+        font-size: var(--landing-page-description-size);
+
+        .faqAnswer {
+            overflow: hidden;
+        }
+
+        &.activeItem {
+            opacity: 1;
+            grid-template-rows: 1fr;
+            padding-block: 1rem;
+            transition: grid-template-rows ease-out .2s, opacity ease-in-out .2s, padding-block ease-in-out .2s;
+            
+        }
+    }
+}
+
+

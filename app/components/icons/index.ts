@@ -4,3 +4,4 @@ export { default as ArrowRight } from "./ArrowRight";
 export { default as Burger } from "./Burger";
 export { default as Close } from "./Close";
 export { default as Globe } from "./Globe";
+export { default as Plus } from "./Plus";

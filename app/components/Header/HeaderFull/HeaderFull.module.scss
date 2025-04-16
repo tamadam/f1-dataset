@@ -17,7 +17,7 @@
     height: var(--header-height);
     max-width: 80rem;
     margin: 0 auto;
-    padding-inline: clamp(1rem, var(--page-spacing), 5rem);
+    padding-inline: clamp(1rem, var(--header-inline-padding), 5rem);
 }
 
 @media (min-width: 960px) {

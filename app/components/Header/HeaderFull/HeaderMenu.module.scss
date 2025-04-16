@@ -16,10 +16,10 @@
         color: #fff;
 
         .headerItem {
-            padding-inline: 0 var(--half-spacing);
+            padding-inline: 0 var(--header-half-inline-padding);
             margin-block: 0.5rem;
             padding-block: 0.5rem;
-            margin-inline: var(--page-spacing) var(--half-spacing);
+            margin-inline: var(--header-inline-padding) var(--header-half-inline-padding);
             display: flex;
             align-items: center;
             justify-content: space-between;

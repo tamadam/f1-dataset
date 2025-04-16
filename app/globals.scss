@@ -33,8 +33,12 @@
 
   --header-height: 5rem;
 
-  --page-spacing: 4vw;
-  --half-spacing: calc(var(--page-spacing) / 2);
+  --header-inline-padding: 4vw;
+  --header-half-inline-padding: calc(var(--header-inline-padding) / 2);
+  --landing-page-inline-padding: calc(100% - 3rem); 
+  --landing-page-block-padding: 4.5rem;
+  --landing-page-title-size: clamp(1.8rem, 1.5rem + 2vw, 2.8rem);
+  --landing-page-description-size: clamp(1.125rem, 0.6rem + 1vw, 1.4rem);
 }
 
 *,
@@ -100,4 +104,17 @@ a {
 button {
   background: none;
   border: none;
+}
+
+    
+@media (min-width: 800px) {
+  :root {
+    --landing-page-inline-padding: calc(100% - 4rem);
+  }
+}
+
+@media (min-width: 1140px) {
+  :root {
+    --landing-page-inline-padding: calc(84% - 6rem);
+  }
 }

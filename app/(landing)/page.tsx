@@ -6,6 +6,7 @@ import StoryVideo from "./components/StoryCard/Stories/StoryVideo";
 import StoryAnimation from "./components/StoryCard/Stories/StoryAnimation";
 import StoryStatistics from "./components/StoryCard/Stories/StoryStatistics";
 import { drivers } from "./components/drivers";
+import Faq from "../components/Faq/Faq";
 
 export default function Home() {
   const storyCards: (StoryCardProps & { id: number })[] = [
@@ -49,6 +50,7 @@ export default function Home() {
           <Separator />
         </React.Fragment>
       ))}
+      <Faq />
     </>
   );
 }

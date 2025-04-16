@@ -3,10 +3,10 @@
     align-items: center;
     flex-direction: column;
     gap: 2.4rem;
-    padding-block: 4.5rem;
+    padding-block: var(--landing-page-block-padding);
     color: var(--white);
     margin-inline: auto;
-    max-width: calc(100% - 3rem);
+    max-width: var(--landing-page-inline-padding);
 
     .storyCardText,
     .storyCardDynamic {
@@ -17,22 +17,19 @@
 
     .storyCardTitle {
         font-family: "NetflixBold";
-        --size: 1.5rem + 2vw;
-        font-size: clamp(1.8rem, var(--size), 2.2rem);
+        font-size: var(--landing-page-title-size);
         line-height: 1.2;
     }
 
     .storyCardDescription {
         font-family: "NetflixLight";
-        --size: 0.6rem + 1vw;
-        font-size: clamp(1.125rem, var(--size), 1.4rem);
+        font-size: var(--landing-page-description-size);
         margin-block-start: 1rem;
     }
     
 
     @media (min-width: 800px) {
         flex-direction: row;
-        max-width: calc(100% - 4rem);
 
         .storyCardText,
         .storyCardDynamic {
@@ -43,9 +40,4 @@
             order: 1;
         }
     }
-
-    @media (min-width: 1140px) {
-        max-width: calc(84% - 6rem);
-    }
-
 }

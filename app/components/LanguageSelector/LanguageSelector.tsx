@@ -1,11 +1,24 @@
 "use client";
 
+import clsx from "clsx";
 import { ArrowDown, Globe } from "../icons";
 import styles from "./LanguageSelector.module.scss";
 
-const LanguageSelector = () => {
+interface LanguageSelectorProps {
+  horizontalAlignment?: "left" | "center" | "right";
+}
+
+const LanguageSelector = ({
+  horizontalAlignment = "center",
+}: LanguageSelectorProps) => {
   return (
-    <div className={styles.languageSelectorOuterWrapper}>
+    <div
+      className={clsx(styles.languageSelectorOuterWrapper, {
+        [styles.alignLeft]: horizontalAlignment === "left",
+        [styles.alignCenter]: horizontalAlignment === "center",
+        [styles.alignRight]: horizontalAlignment === "right",
+      })}
+    >
       <div className={styles.languageSelectorWrapper}>
         <div className={styles.languageSelectorIcon} aria-hidden>
           <Globe width={16} height={16} focusable={false} />

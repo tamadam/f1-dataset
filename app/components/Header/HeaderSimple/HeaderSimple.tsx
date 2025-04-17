@@ -20,7 +20,7 @@ const HeaderSimple = () => {
           />
         </div>
         <div className={styles.headerItem}>
-          <LanguageSelector />
+          <LanguageSelector horizontalAlignment="right" />
           <div>
             <Button variant="primary">
               <span>Expore</span>

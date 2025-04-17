@@ -1,3 +1,53 @@
 .footerWrapper {
-    color: blue;
+    color: var(--white);
+    max-width: 800px;
+    margin-inline: auto;
+    margin-block: 4rem 6rem;
+    font-family: "NetflixLight";
+    font-size: 1.2rem;
+
+    .footerTitle  {
+        margin-block-end: 2rem;
+        img {
+            margin-inline: auto;
+        }
+    }
+
+    .footerLinks {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        place-items: center;
+        gap: 1rem;
+        text-align: center;
+        margin-block-end: 2rem;
+
+        a {
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            color: var(--white-transparent);
+            width: max-content;
+        }
+    }
+
+    .footerDescription {
+        text-align: center;
+
+        .dangerous {
+            color: var(--red-medium);
+            font-family: "NetflixMedium";
+            margin-block: 1rem;
+        }
+    }
+
+    .footerLanguageSelectorWrapper {
+        display: grid;
+        place-items: center;
+    }
+
+    .copyright {
+        color: var(--white-transparent);
+        font-size: 0.8rem;
+        text-align: center;
+        margin-block-start: 1rem;
+    }
 }

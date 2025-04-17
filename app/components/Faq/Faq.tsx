@@ -50,7 +50,9 @@ const Faq = () => {
                   }
                 >
                   <Button variant="normal" className={styles.faqQuestion}>
-                    <span>{item.question}</span>
+                    <span className={styles.faqQuestionContent}>
+                      {item.question}
+                    </span>
                     <Plus
                       width={24}
                       height={24}

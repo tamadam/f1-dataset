@@ -34,17 +34,23 @@
 
         .faqQuestion {
             padding: 1.5rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 24px;
+            overflow: hidden;
+            gap: 2rem;
             width: 100%;
             font-size: 1.5rem;
             transition: transform ease-out 1.2s;
             cursor: pointer;
 
+            .faqQuestionContent {
+                text-align: left;
+               
+            }
+
             .questionIcon {
                 transition: transform 0.3s ease;
+                width: 24px;
 
                 &.rotate {
                     transform: rotate(135deg);

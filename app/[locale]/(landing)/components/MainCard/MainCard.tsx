@@ -25,7 +25,7 @@ const MainCard = () => {
         </h3>
         <div className={styles.description}>
           <p>{translation("mainCard.mainDescription")}</p>
-          <Button href="#" className={styles.descriptionButton}>
+          <Button href="/dashboard" className={styles.descriptionButton}>
             <span>{generalTranslation("exploreButton")}</span>
             <ArrowRight width={24} height={24} />
           </Button>

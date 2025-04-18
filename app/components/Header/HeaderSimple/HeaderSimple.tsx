@@ -24,7 +24,7 @@ const HeaderSimple = () => {
         <div className={styles.headerItem}>
           <LanguageSelector horizontalAlignment="right" />
           <div>
-            <Button variant="primary">
+            <Button variant="primary" href="/dashboard">
               <span>{translation("exploreButton")}</span>
             </Button>
           </div>

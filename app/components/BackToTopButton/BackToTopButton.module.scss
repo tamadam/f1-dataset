@@ -1,0 +1,14 @@
+.backToTop {
+    position: fixed;
+    aspect-ratio: 1 / 1;
+    bottom: 40px;
+    right: 40px;
+    border-radius: 50% !important;
+    display: grid;
+    place-items: center;
+    z-index: 99;
+
+    .icon {
+        transform: rotate(-90deg);
+    }
+}

@@ -6,30 +6,30 @@ import StoryVideo from "./components/StoryCard/Stories/StoryVideo";
 import StoryAnimation from "./components/StoryCard/Stories/StoryAnimation";
 import StoryStatistics from "./components/StoryCard/Stories/StoryStatistics";
 import { drivers } from "./components/drivers";
-import Faq from "../components/Faq/Faq";
+import Faq from "../../components/Faq/Faq";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const translation = useTranslations("LandingPage");
+
   const storyCards: (StoryCardProps & { id: number })[] = [
     {
       id: 1,
-      title: "Ne maradj le a lényegről.",
-      description:
-        "Nézd meg rövid összefoglalóinkat a nagydíjakról magyar nyelven, hogy minden fontos momentum megmaradjon.",
+      title: translation("storyCards.cardVideo.storyTitle"),
+      description: translation("storyCards.cardVideo.storyDescription"),
       children: <StoryVideo />,
     },
     {
       id: 2,
-      title: "Erősorrend. Ahol csak a versenyző számít.",
-      description:
-        "Ez a rangsor olyan tényezők alapján, mint az aktuális versenyzői teljesítmény vagy a konzisztencia, sorrendbe állítja a versenyzőket az általuk vezetett autó teljesítményétől teljesen elvonatkoztatva.",
+      title: translation("storyCards.cardAnimation.storyTitle"),
+      description: translation("storyCards.cardAnimation.storyDescription"),
       children: <StoryAnimation animatedItemsList={drivers} />,
       reverse: true,
     },
     {
       id: 3,
-      title: "Testreszabható statisztika",
-      description:
-        "Az adatok korlátlan mennyiségben állnak rendelkezésedre. Ezekből az adatokból pedig bármilyen statisztikát képes leszel összeállítani!",
+      title: translation("storyCards.cardStatistics.storyTitle"),
+      description: translation("storyCards.cardStatistics.storyDescription"),
       children: <StoryStatistics />,
     },
   ];

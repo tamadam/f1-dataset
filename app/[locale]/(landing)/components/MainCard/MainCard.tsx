@@ -2,29 +2,31 @@ import Image from "next/image";
 import styles from "./MainCard.module.scss";
 import Button from "@/app/components/Button";
 import { ArrowRight } from "@/app/components/icons";
+import { useTranslations } from "next-intl";
 
 const MainCard = () => {
+  const translation = useTranslations("LandingPage");
+  const generalTranslation = useTranslations("General");
+
   return (
     <div className={styles.mainCardWrapper}>
       <div className={styles.mainBackground}>
         <Image
           src="/images/landingPageBackground.jpg"
-          alt="racing f1 cars"
+          alt={translation("mainCard.imageAltText")}
           fill
         />
         <div className={styles.mainBackgroundColorCover}></div>
       </div>
       <div className={styles.mainContent}>
-        <h1 className={styles.title}>
-          Forma 1 adatok és elemzések korlátlan kínálata.
-        </h1>
+        <h1 className={styles.title}>{translation("mainCard.mainTitle")}</h1>
         <h3 className={styles.subtitle}>
-          Bárhol nézheted. Amikor csak akarod.
+          {translation("mainCard.mainSubtitle")}
         </h3>
         <div className={styles.description}>
-          <p>A lámpák mindjárt kialszanak! Készen állsz?</p>
+          <p>{translation("mainCard.mainDescription")}</p>
           <Button href="#" className={styles.descriptionButton}>
-            <span>Felfedezés</span>
+            <span>{generalTranslation("exploreButton")}</span>
             <ArrowRight width={24} height={24} />
           </Button>
         </div>

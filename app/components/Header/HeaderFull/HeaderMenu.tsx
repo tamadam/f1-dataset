@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import styles from "./HeaderMenu.module.scss";
-import Link from "next/link";
 import { ArrowRight, Burger, Close } from "@/app/components/icons";
 import { MenuItem } from "@/app/types";
 import Button from "../../Button/Button";
+import { Link } from "@/i18n/navigation";
 
 interface HeaderMenuProps {
   menuItems: MenuItem[];

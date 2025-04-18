@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "./Button.module.scss";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

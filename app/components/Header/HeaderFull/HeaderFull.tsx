@@ -6,7 +6,7 @@ import styles from "./HeaderFull.module.scss";
 import Image from "next/image";
 import HeaderMenu from "./HeaderMenu";
 import { MenuItem } from "@/app/types";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const HeaderFull = () => {
   const menuItemsList: MenuItem[] = [

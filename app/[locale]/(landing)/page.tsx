@@ -7,10 +7,25 @@ import StoryAnimation from "./components/StoryCard/Stories/StoryAnimation";
 import StoryStatistics from "./components/StoryCard/Stories/StoryStatistics";
 import { drivers } from "./components/drivers";
 import Faq from "../../components/Faq/Faq";
-import { useTranslations } from "next-intl";
 
-export default function Home() {
-  const translation = useTranslations("LandingPage");
+import { routing } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LandingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
+  const translation = await getTranslations("LandingPage");
 
   const storyCards: (StoryCardProps & { id: number })[] = [
     {

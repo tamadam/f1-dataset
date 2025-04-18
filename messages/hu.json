@@ -18,6 +18,10 @@
         "exploreButton": "Felfedezés"
     },
     "LandingPage": {
+        "metadata": {
+            "title": "Forma 1 Statisztikák és Elemzések",
+            "description": "Fedezd fel a Forma 1 világát részletes statisztikákkal, versenyzői rangsorokkal és személyre szabható elemzésekkel. Kövesd nyomon az aktuális állásokat és böngéssz az F1 történelmének adatai között."
+        },
         "mainCard": {
             "mainTitle": "Forma 1 adatok és elemzések korlátlan kínálata.",
             "mainSubtitle": "Bárhol nézheted. Amikor csak akarod.",

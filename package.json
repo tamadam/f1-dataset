@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "prebuild": "shx mkdir -p cache/api",
+    "postbuild": "shx cp -r cache/api .next/cache/custom/ || true",
+    "clear:cache": "shx rm -rf cache/api .next/cache/custom && echo 'Cleared both cache folders'",
     "start": "next start",
     "lint": "next lint",
     "generate-icons": "npx @svgr/cli --no-dimensions --out-dir ./app/components/icons ./public/svgs/ --typescript"
@@ -25,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "sass": "^1.86.0",
+    "shx": "^0.4.0",
     "typescript": "^5"
   }
 }

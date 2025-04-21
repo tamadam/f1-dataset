@@ -5,8 +5,9 @@ import { generateCacheKey } from "./build-cache"
 
 export const getDriverStandings = async( year: string ): Promise<RawDriverStandings | null> => {
     try {
-        const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/`
-        const cacheKey = generateCacheKey(year);
+        const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/`;
+
+        const cacheKey = generateCacheKey("driver-standings", year);
         const currentYear = new Date().getFullYear().toString();
         const isCurrentSeason = year === currentYear;
     
@@ -20,6 +21,6 @@ export const getDriverStandings = async( year: string ): Promise<RawDriverStandi
             3600 * 24 // 1 day
         );
     } catch (error) {
-        throw new Error(`Failed to fetch driver standings for ${year}: ${error instanceof Error ? error.message : "Unknown error"}`)
+        throw new Error(`Failed to fetch driver standings for ${year}: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
 }

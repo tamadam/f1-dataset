@@ -33,8 +33,8 @@ export const getCachedResponse = async<T>( key: string ): Promise<T | null> => {
 }
 
 // Construct a cache key
-export const generateCacheKey = ( year: string): string => {
-    return `driver-standings-${year}`;
+export const generateCacheKey = ( tag: string, year: string ): string => {
+    return `${tag}-${year}`;
 }
 
 // Delete and recreate the cache folder

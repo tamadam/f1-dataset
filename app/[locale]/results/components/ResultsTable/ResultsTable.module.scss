@@ -53,6 +53,13 @@
                 padding-block-end: 0.4em;
                 padding-inline-end: 0.4em;
                 font-size: clamp(1rem, 0.6rem + 3vw, 2.2rem);
+
+                @media (max-width: 340px) {
+                    left: 50%;
+                    transform: translateX(-50%);
+                    white-space: nowrap;
+                    padding: 1rem;
+                }
             }    
         
             .tableHeaderWrapper {

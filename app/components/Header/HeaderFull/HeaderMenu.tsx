@@ -41,6 +41,7 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
       )}
       <Button
         className={styles.menuIcon}
+        variant="normal"
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label="Toggle Navigation"
         tabIndex={0}

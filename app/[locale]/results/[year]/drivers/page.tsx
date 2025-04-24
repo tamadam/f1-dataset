@@ -1,6 +1,6 @@
 import { F1_FIRST_YEAR } from "@/app/constants";
 import { routing } from "@/i18n/routing";
-import YearSelector from "./YearSelector";
+import YearSelector from "../../components/YearSelector/YearSelector";
 import { getDriverStandings } from "@/app/lib/api/getDriverStandings";
 import DriverStandingsTable from "./DriverStandingsTable";
 

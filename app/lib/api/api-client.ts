@@ -27,12 +27,13 @@ export const fetchWithRateLimit = async <T>(
 export const fetchWithCacheAndRateLimit = async <T>(
     endpoint: string,
     cacheKey: string,
+    cacheSubFolder: string,
     skipCustomCache: boolean,
     isValidResponse: (data: T) => boolean,
     revalidateTime = DEFAULT_REVALIDATE_TIME,
 ): Promise<T | null> => {
   if (!skipCustomCache) {
-    const cached = await getCachedResponse<T>(cacheKey);
+    const cached = await getCachedResponse<T>(cacheSubFolder, cacheKey);
     if (cached) {
       return cached;
     }
@@ -47,10 +48,10 @@ export const fetchWithCacheAndRateLimit = async <T>(
             throw new Error("Invalid API response structure.");
           } 
 
-          await setCachedResponse(cacheKey, data);
+          await setCachedResponse(cacheSubFolder, cacheKey, data);
         } catch (error) {
           if (error instanceof Error) {
-            throw new Error(`Failed to fetch driver standings: ${error.message}`);
+            throw new Error(`Fetch failed in api-client: ${error.message}`);
           } else {
             throw new Error("Unknown error happened during fetching.");
           }
@@ -63,7 +64,7 @@ export const fetchWithCacheAndRateLimit = async <T>(
 
     // Wait for the ongoing fetch to finish
     await cacheLocks.get(cacheKey);
-    return getCachedResponse<T>(cacheKey);
+    return getCachedResponse<T>(cacheSubFolder, cacheKey);
 
   } else {
     // Always fetch fresh (with rate limiting)
@@ -72,6 +73,11 @@ export const fetchWithCacheAndRateLimit = async <T>(
       { next: { revalidate: revalidateTime } }
     );
   }
+}
+
+// Construct a cache key
+export const generateCacheKey = ( tag: string, year: string ): string => {
+  return `${tag}-${year}`;
 }
 
 

@@ -1,16 +1,16 @@
 "use client";
 
-import { DriverStanding } from "@/app/types/driverStandings";
+import { DriverStandings } from "@/app/types/driverStandings";
 import ResultsTable from "../../components/ResultsTable/ResultsTable";
 
 interface DriverStandingsTableProps {
   year: string;
-  data: DriverStanding[] | undefined;
+  data: DriverStandings[] | undefined;
 }
 
 const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
   return (
-    <ResultsTable<DriverStanding>
+    <ResultsTable<DriverStandings>
       caption={`${year} Driver Standings`}
       columns={[
         {

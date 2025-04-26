@@ -1,15 +1,10 @@
-import { F1_FIRST_YEAR } from "@/app/constants";
 import { routing } from "@/i18n/routing";
-import YearSelector from "../../components/YearSelector/YearSelector";
 import { getDriverStandings } from "@/app/lib/api/getDriverStandings";
 import DriverStandingsTable from "./DriverStandingsTable";
+import { getAllF1Years } from "@/app/lib/year-utils";
 
 export async function generateStaticParams() {
-  const currentYear = new Date().getFullYear();
-  const historicalYears = Array.from(
-    { length: currentYear - F1_FIRST_YEAR },
-    (_, i) => F1_FIRST_YEAR + i
-  );
+  const historicalYears = getAllF1Years();
 
   return routing.locales.flatMap((locale) =>
     historicalYears.map((year) => ({
@@ -38,10 +33,6 @@ const DriversStandingsPage = async ({
         padding: "2rem",
       }}
     >
-      <YearSelector selectedYear={year} />
-      DriversStandingsPage {year}
-      NODE_ENV: {process.env.NODE_ENV}
-      <br />
       <DriverStandingsTable year={year} data={data} />
     </div>
   );

@@ -19,6 +19,7 @@ interface ResultsTableProps<T> {
   noDataText?: string;
   data: T[] | undefined;
   columns: ColumnDefinition<T>[];
+  tableInlineStyles?: CSSProperties;
 }
 
 const ResultsTable = <T,>({
@@ -26,6 +27,7 @@ const ResultsTable = <T,>({
   noDataText = "No data available",
   data,
   columns,
+  tableInlineStyles = {},
 }: ResultsTableProps<T>) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
@@ -77,7 +79,7 @@ const ResultsTable = <T,>({
       />
 
       <div ref={contentRef} className={styles.resultsTableWrapper}>
-        <table className={styles.resultsTable}>
+        <table className={styles.resultsTable} style={tableInlineStyles}>
           <caption className={styles.tableCaption}>{caption}</caption>
           <thead className={styles.tableHeaderWrapper}>
             <tr style={columnStyle}>

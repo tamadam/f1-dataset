@@ -44,6 +44,7 @@ const ConstructorStandingsTable = ({
           },
         },
       ]}
+      tableInlineStyles={{ minWidth: "350px" }}
       data={data}
     />
   );

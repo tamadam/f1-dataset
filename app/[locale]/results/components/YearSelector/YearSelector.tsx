@@ -1,6 +1,9 @@
 "use client";
 
+import { getAllF1YearsReverse } from "@/app/lib/year-utils";
+import { usePathname } from "next/navigation";
 import { useRouter, useParams } from "next/navigation";
+import { ChangeEvent } from "react";
 
 type YearSelectorProps = {
   selectedYear: string;
@@ -8,22 +11,20 @@ type YearSelectorProps = {
 
 const YearSelector = ({ selectedYear }: YearSelectorProps) => {
   const router = useRouter();
-  const { locale } = useParams();
-  const start = 1950;
-  const current = new Date().getFullYear();
+  const params = useParams();
+  const pathname = usePathname();
 
-  const years = Array.from({ length: current - start + 1 }, (_, i) =>
-    (start + i).toString()
-  ).reverse();
+  const years = getAllF1YearsReverse();
+
+  const handleYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newYear = event.target.value;
+    const updatedPath = pathname.replace(`/${params.year}/`, `/${newYear}/`);
+
+    router.push(updatedPath);
+  };
 
   return (
-    <select
-      value={selectedYear}
-      onChange={(e) => {
-        const year = e.target.value;
-        router.push(`/${locale}/results/${year}/drivers`);
-      }}
-    >
+    <select value={selectedYear} onChange={handleYearChange}>
       {years.map((year) => (
         <option key={year} value={year}>
           {year}

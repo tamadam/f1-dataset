@@ -15,8 +15,8 @@ export const getDriverStandings = async( year: string ): Promise<RawDriverStandi
     
         return await fetchWithCacheAndRateLimit<RawDriverStandings>(
             endpoint,
-            cacheKey,
             cacheSubFolder,
+            cacheKey,
             skipCustomCache,
             (data) => Boolean(data?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings),
             3600 * 24 // 1 day

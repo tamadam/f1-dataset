@@ -1,7 +1,7 @@
 "use client";
 
 import { DriverStandings } from "@/app/types/driverStandings";
-import ResultsTable from "../../components/ResultsTable/ResultsTable";
+import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 
 interface DriverStandingsTableProps {
   year: string;

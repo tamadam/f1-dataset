@@ -2,7 +2,7 @@
 
 import { ConstructorStandings } from "@/app/types/constructorStandings";
 import React from "react";
-import ResultsTable from "../../components/ResultsTable/ResultsTable";
+import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 
 interface ConstructorStandingsTableProps {
   year: string;

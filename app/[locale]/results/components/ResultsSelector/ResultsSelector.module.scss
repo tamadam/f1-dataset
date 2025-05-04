@@ -1,0 +1,13 @@
+.resultsSelectorWrapper {
+    display: grid;
+    font-family: "Formula1_Regular";
+    position: relative;
+    padding-block-start: 2rem;
+}
+
+
+@media (min-width: 1024px) {
+    .resultsSelectorWrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

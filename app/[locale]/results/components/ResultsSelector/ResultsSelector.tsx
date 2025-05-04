@@ -1,10 +1,11 @@
 import { getAllF1YearsReverse } from "@/app/lib/year-utils";
 import Selector from "./Selector";
+import styles from "./ResultsSelector.module.scss";
 
 type SelectorElements = {
   title: string;
   elements: string[] | number[] | undefined;
-  urlKey?: string;
+  urlKey: string;
 };
 
 const STATIC_ELEMENTS: SelectorElements[] = [
@@ -21,13 +22,14 @@ const STATIC_ELEMENTS: SelectorElements[] = [
 ];
 
 interface ResultsSelectorProps {
+  children: React.ReactNode;
   elementsLists: SelectorElements[];
 }
 
-const ResultsSelector = ({ elementsLists }: ResultsSelectorProps) => {
+const ResultsSelector = ({ children, elementsLists }: ResultsSelectorProps) => {
   const allElementsLists = [...STATIC_ELEMENTS, ...elementsLists];
   return (
-    <div>
+    <div className={styles.resultsSelectorWrapper}>
       {allElementsLists.map((elemensList) => (
         <Selector
           key={elemensList.title}
@@ -36,6 +38,7 @@ const ResultsSelector = ({ elementsLists }: ResultsSelectorProps) => {
           urlKey={elemensList.urlKey}
         />
       ))}
+      {children}
     </div>
   );
 };

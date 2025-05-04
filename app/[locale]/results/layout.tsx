@@ -1,13 +1,15 @@
 import HeaderFull from "@/app/components/Header/HeaderFull/HeaderFull";
-import YearSelector from "../components/YearSelector/YearSelector";
+import ResultsSelector from "./components/ResultsSelector/ResultsSelector";
 
 /*TODO: generateMetadata*/
 
 export default async function LandingPageLayout({
   params,
   children,
+  resultsDetail,
 }: Readonly<{
   children: React.ReactNode;
+  resultsDetail: React.ReactNode;
   params: Promise<{ locale: string; year: string }>;
 }>) {
   const { year } = await params;
@@ -15,7 +17,9 @@ export default async function LandingPageLayout({
   return (
     <>
       <HeaderFull />
-      <YearSelector selectedYear={year} />
+      <div style={{ background: "white" }}>
+        <ResultsSelector elementsLists={[]}>{resultsDetail}</ResultsSelector>
+      </div>
       <main>{children}</main>
     </>
   );

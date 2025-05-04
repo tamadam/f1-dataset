@@ -1,0 +1,35 @@
+.selectorDetails {
+    > .selectorSummary {
+        list-style: none;
+    }
+
+    > .selectorSummary::-webkit-details-marker {
+        display: none;
+    }
+
+    .selectorContent {
+        ul {
+            overflow-y: auto;
+            max-height: 7.5em;
+            position: relative;
+
+            li {
+                padding: 1rem;
+            }
+
+            .active {
+                text-decoration: underline;
+                text-decoration-color: var(--red-medium);
+                text-underline-offset: 4px;
+                font-weight: 600;
+            }
+        }
+    }    
+}
+
+@media (min-width: 1024px) {
+    .selectorSummary {
+        display: none;
+    }
+}
+

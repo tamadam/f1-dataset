@@ -3,7 +3,7 @@ import { F1_FIRST_YEAR } from "../constants";
 export const getAllF1Years = () => {
     const currentYear = getCurrentYear();
     const allF1Years = Array.from(
-    { length: currentYear - F1_FIRST_YEAR },
+    { length: currentYear - F1_FIRST_YEAR + 1 },
     (_, i) => F1_FIRST_YEAR + i
     );
 

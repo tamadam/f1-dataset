@@ -6,6 +6,7 @@ import {
   CATEGORY_HANDLERS,
   CategoryKey,
 } from "./components/CategoryPageHandler";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years();
@@ -47,8 +48,8 @@ async function renderCategoryPage<K extends CategoryKey>(
   const data = extract(rawData);
 
   return (
-    <div style={{ color: "black", background: "white", padding: "2rem" }}>
+    <ContentWrapper>
       <Component year={year} data={data} />
-    </div>
+    </ContentWrapper>
   );
 }

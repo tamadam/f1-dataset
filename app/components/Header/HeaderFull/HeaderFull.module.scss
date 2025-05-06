@@ -15,9 +15,9 @@
     align-items: center;
     justify-content: space-between;
     height: var(--header-height);
-    max-width: 80rem;
+    max-width: var(--content-max-width);
     margin: 0 auto;
-    padding-inline: clamp(1rem, var(--header-inline-padding), 5rem);
+    padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
 }
 
 @media (min-width: 960px) {

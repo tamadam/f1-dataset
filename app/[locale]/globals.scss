@@ -33,8 +33,9 @@
 
   --header-height: 5rem;
 
-  --header-inline-padding: 4vw;
-  --header-half-inline-padding: calc(var(--header-inline-padding) / 2);
+  --main-inline-padding: 4vw;
+  --main-half-inline-padding: calc(var(--main-inline-padding) / 2);
+  --content-max-width: 100rem;
   --landing-page-inline-padding: calc(100% - 3rem); 
   --landing-page-block-padding: 4.5rem;
   --landing-page-title-size: clamp(1.8rem, 1.5rem + 2vw, 2.8rem);

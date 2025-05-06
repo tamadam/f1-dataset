@@ -1,0 +1,9 @@
+.main {
+    background: #f6f4f0;
+}
+
+.mainContentWrapper {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+}

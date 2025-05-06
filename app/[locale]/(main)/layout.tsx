@@ -1,11 +1,11 @@
-import ResultsSelector from "./components/ResultsSelector/ResultsSelector";
+import HeaderFull from "@/app/components/Header/HeaderFull/HeaderFull";
+import styles from "./layout.module.scss";
 
 /*TODO: generateMetadata*/
 
-export default async function ResultsPageLayout({
+export default async function MainPageLayout({
   params,
   children,
-  resultsDetail,
 }: Readonly<{
   children: React.ReactNode;
   resultsDetail: React.ReactNode;
@@ -16,8 +16,10 @@ export default async function ResultsPageLayout({
 
   return (
     <>
-      <ResultsSelector elementsLists={[]}>{resultsDetail}</ResultsSelector>
-      <main>{children}</main>
+      <HeaderFull />
+      <main className={styles.main}>
+        <div className={styles.mainContentWrapper}>{children}</div>
+      </main>
     </>
   );
 }

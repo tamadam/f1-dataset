@@ -19,7 +19,7 @@ type ConstructorRaceTable = {
     Races: ConstructorRace[];
 }
 
-type ConstructorRace = {
+export type ConstructorRace = {
     season: string;
     round: string;
     url: string;

@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: var(--columns);
     align-items: center;
+    gap: 1rem;
 }
 
 @mixin shadow {

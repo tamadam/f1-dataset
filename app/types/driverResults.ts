@@ -19,7 +19,7 @@ type DriverRaceTable = {
     Races: DriverRace[];
 }
 
-type DriverRace = {
+export type DriverRace = {
     season: string;
     round: string;
     url: string;
@@ -27,7 +27,7 @@ type DriverRace = {
     Circuit: Circuit;
     date: string;
     time: string;
-    Results: DriverRaceResult;
+    Results: DriverRaceResult[];
 }
 
 

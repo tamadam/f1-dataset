@@ -12,6 +12,7 @@ export default async function LandingPageLayout({
   resultsDetail: React.ReactNode;
   params: Promise<{ locale: string; year: string }>;
 }>) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { year } = await params;
 
   return (

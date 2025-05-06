@@ -1,6 +1,6 @@
 "use client";
 
-import ResultsTable from "@/app/[locale]/results/components/ResultsTable/ResultsTable";
+import ResultsTable from "@/app/[locale]/(main)/results/components/ResultsTable/ResultsTable";
 import { ConstructorRace } from "@/app/types/constructorResults";
 
 interface ConstructorResultsTableProps {

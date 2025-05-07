@@ -1,4 +1,3 @@
-import ContentWrapper from "../../../components/ContentWrapper/ContentWrapper";
 import {
   CATEGORY_HANDLERS,
   CategoryKey,
@@ -36,9 +35,5 @@ async function renderCategoryPage<K extends CategoryKey>(
   const rawData = await fetch(year, subcategory);
   const data = extract(rawData);
 
-  return (
-    <ContentWrapper>
-      <Component year={year} data={data} />
-    </ContentWrapper>
-  );
+  return <Component year={year} data={data} />;
 }

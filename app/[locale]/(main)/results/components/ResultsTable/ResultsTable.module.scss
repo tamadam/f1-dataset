@@ -13,16 +13,30 @@
     width: 16%;
     z-index: 5;
     transition: opacity 0.2s;
-    margin-block: 3rem;
+    margin-block: 0rem 3rem;
     pointer-events: none;
 }
 
-.resultsTableOuterWrapper {
-    position: relative;
-    margin-block: 4rem;
+.tableBorder {
     padding-inline: 0.6rem;
     border: 2px solid var(--red-medium);
     border-radius: 0.8rem;
+}
+
+.tableCaption,
+.resultsTableOuterWrapper {
+    font-family: "Formula1_Regular";
+}
+
+.tableCaption {
+    font-size: clamp(1rem, 0.6rem + 3vw, 2.2rem);
+    margin-block-start: 1.4rem;
+}    
+
+.resultsTableOuterWrapper {
+    position: relative;
+    margin-block: 1rem 4rem;
+
 
     .shadowLeft {
         @include shadow;
@@ -41,35 +55,15 @@
         width: 100%;
 
         .resultsTable {
-            font-family: "Formula1_Regular";
             display: grid;
             min-width: 660px;
-         
-            .tableCaption {
-                position: absolute;
-                top: -0.75em;
-                left: -0.2em;
-                z-index: 5;
-                background-color: var(--white);
-                padding-block-end: 0.4em;
-                padding-inline-end: 0.4em;
-                font-size: clamp(1rem, 0.6rem + 3vw, 2.2rem);
-
-                @media (max-width: 340px) {
-                    left: 50%;
-                    transform: translateX(-50%);
-                    white-space: nowrap;
-                    padding: 1rem;
-                }
-            }    
-        
+                 
             .tableHeaderWrapper {
                 background-color: var(--red-medium);
                 color: var(--white);
-                padding: 0.6rem 0.8rem;
+                padding: 1rem 0.8rem;
                 border-radius: 0.4rem;
                 text-transform: uppercase;
-                margin-block: 3rem 1rem;
         
                 tr {
                     @include tableGrid;
@@ -80,7 +74,7 @@
                 margin-block: 0rem 3rem;
 
                 tr {
-                    padding: 1.25rem 0.8rem;
+                    padding: 1.6rem 0.8rem;
                     @include tableGrid;
         
                     &:nth-child(2n) {

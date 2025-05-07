@@ -40,7 +40,7 @@ const ResultsTable = <T,>({
     const updateShadows = () => {
       const { scrollLeft, scrollWidth, clientWidth } = content;
       setShowLeftShadow(scrollLeft > 0);
-      setShowRightShadow(scrollLeft + clientWidth < scrollWidth);
+      setShowRightShadow(scrollLeft + clientWidth < scrollWidth - 1); // 1px threshold
     };
 
     updateShadows(); // Check on mount
@@ -68,51 +68,53 @@ const ResultsTable = <T,>({
   });
 
   return (
-    <div className={styles.resultsTableOuterWrapper}>
-      <div
-        className={styles.shadowLeft}
-        style={{ opacity: showLeftShadow ? 1 : 0 }}
-      />
-      <div
-        className={styles.shadowRight}
-        style={{ opacity: showRightShadow ? 1 : 0 }}
-      />
+    <div>
+      <div className={styles.tableCaption}>{caption}</div>
+      <div className={styles.resultsTableOuterWrapper}>
+        <div
+          className={styles.shadowLeft}
+          style={{ opacity: showLeftShadow ? 1 : 0 }}
+        />
+        <div
+          className={styles.shadowRight}
+          style={{ opacity: showRightShadow ? 1 : 0 }}
+        />
 
-      <div ref={contentRef} className={styles.resultsTableWrapper}>
-        <table className={styles.resultsTable} style={tableInlineStyles}>
-          <caption className={styles.tableCaption}>{caption}</caption>
-          <thead className={styles.tableHeaderWrapper}>
-            <tr style={columnStyle}>
-              {columns.map((column) => (
-                <th key={column.header} style={getCellStyles(column)}>
-                  {column.header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className={styles.tableBodyWrapper}>
-            {noDataAvailable ? (
-              <tr>
-                <td colSpan={columns.length}>{noDataText}</td>
+        <div ref={contentRef} className={styles.resultsTableWrapper}>
+          <table className={styles.resultsTable} style={tableInlineStyles}>
+            <thead className={styles.tableHeaderWrapper}>
+              <tr style={columnStyle}>
+                {columns.map((column) => (
+                  <th key={column.header} style={getCellStyles(column)}>
+                    {column.header}
+                  </th>
+                ))}
               </tr>
-            ) : (
-              data.map((item, index) => (
-                <tr key={index} style={columnStyle}>
-                  {columns.map((column) => {
-                    const value = item[column.field];
-                    return (
-                      <td key={column.header} style={getCellStyles(column)}>
-                        {column.renderCell
-                          ? column.renderCell(item)
-                          : String(value)}
-                      </td>
-                    );
-                  })}
+            </thead>
+            <tbody className={styles.tableBodyWrapper}>
+              {noDataAvailable ? (
+                <tr>
+                  <td colSpan={columns.length}>{noDataText}</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                data.map((item, index) => (
+                  <tr key={index} style={columnStyle}>
+                    {columns.map((column) => {
+                      const value = item[column.field];
+                      return (
+                        <td key={column.header} style={getCellStyles(column)}>
+                          {column.renderCell
+                            ? column.renderCell(item)
+                            : String(value)}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

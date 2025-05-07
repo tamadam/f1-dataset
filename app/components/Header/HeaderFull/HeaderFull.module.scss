@@ -20,7 +20,7 @@
     padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
     .headerFullWrapper {
         justify-content: unset;
         gap: 2rem;

@@ -2,9 +2,10 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
-import styles from "./Selector.module.scss";
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
+import { ArrowDown } from "@/app/components/icons";
+import styles from "./Selector.module.scss";
 
 type ElementType = string | number | { id: string; name: string };
 
@@ -68,7 +69,10 @@ const Selector = ({ title, elements, urlKey }: SelectorProps) => {
 
   return (
     <details open className={styles.selectorDetails}>
-      <summary className={styles.selectorSummary}>{title}</summary>
+      <summary className={styles.selectorSummary}>
+        <span>{title}</span>
+        <ArrowDown width={24} height={24} />
+      </summary>
       <div className={styles.selectorContent}>
         <ul>
           {urlKey === "subcategory" && (

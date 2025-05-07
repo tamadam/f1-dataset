@@ -1,16 +1,28 @@
 .selectorDetails {
     > .selectorSummary {
         list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--black);
+        color: var(--white);
+        padding: 1rem;
     }
 
     > .selectorSummary::-webkit-details-marker {
         display: none;
     }
 
+    &[open] {
+        .selectorSummary svg {
+            transform: rotate(180deg);
+        }
+    }
+
     .selectorContent {
         ul {
             overflow-y: auto;
-            max-height: 7.5em;
+            max-height: 10em;
             position: relative;
 
             li {
@@ -27,9 +39,4 @@
     }    
 }
 
-@media (min-width: 1024px) {
-    .selectorSummary {
-        display: none;
-    }
-}
 

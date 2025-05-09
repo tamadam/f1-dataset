@@ -11,7 +11,6 @@ const ConstructorResultsTable = ({
   year,
   data,
 }: ConstructorResultsTableProps) => {
-  console.log(data);
   const constructor = data?.[0].Results[0].Constructor;
 
   return (

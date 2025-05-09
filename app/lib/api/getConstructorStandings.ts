@@ -6,7 +6,7 @@ import { generateCacheKey } from "./api-client";
 export const getConstructorStandings = async( year: string ): Promise<RawConstructorStandings | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_CONSTRUCTOR_STANDINGS_URL}/`;
-        const cacheSubFolder = "constructor-standings";
+        const cacheSubFolder = ["constructor-standings"];
         const cacheKey = generateCacheKey("constructor-standings", year);
         const currentYear = new Date().getFullYear().toString();
         const isCurrentSeason = year === currentYear;

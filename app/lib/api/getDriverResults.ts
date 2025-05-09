@@ -6,8 +6,8 @@ import { RawDriverResults } from "@/app/types/driverResults";
 export const getDriverResults = async( year: string, driverId: string ): Promise<RawDriverResults | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/drivers/${driverId}/results/`;
-        const cacheSubFolder = "driver-results";
-        const cacheKey = generateCacheKey(`driver-results-${driverId}`, year);
+        const cacheSubFolder = ["driver-results", `${year}`];
+        const cacheKey = generateCacheKey(`driver-result-${driverId}`, year);
         const currentYear = new Date().getFullYear().toString();
         const isCurrentSeason = year === currentYear;
     

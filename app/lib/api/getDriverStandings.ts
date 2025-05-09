@@ -6,7 +6,7 @@ import { generateCacheKey } from "./api-client";
 export const getDriverStandings = async( year: string ): Promise<RawDriverStandings | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/`;
-        const cacheSubFolder = "driver-standings";
+        const cacheSubFolder = ["driver-standings"];
         const cacheKey = generateCacheKey("driver-standings", year);
         const currentYear = new Date().getFullYear().toString();
         const isCurrentSeason = year === currentYear;

@@ -26,7 +26,7 @@ export const fetchWithRateLimit = async <T>(
 
 export const fetchWithCacheAndRateLimit = async <T>(
     endpoint: string,
-    cacheSubFolder: string,
+    cacheSubFolder: string[],
     cacheKey: string,
     skipCustomCache: boolean,
     isValidResponse: (data: T) => boolean,

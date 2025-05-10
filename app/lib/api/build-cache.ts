@@ -21,6 +21,7 @@ export const isCachedResponseAvailable = async( subDirs: string[], key: string )
 
 // Save JSON response to the file system
 export const setCachedResponse = async <T>( subDirs: string[], key: string, data: T ): Promise<void> => {
+    if (process.env.PREVENT_DISK_WRITE === "1") return;
     const dir = getCacheDir(subDirs);
     await fs.mkdir(dir, { recursive: true });
     const filePath = path.join(dir, `${key}.json`);

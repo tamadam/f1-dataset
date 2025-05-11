@@ -84,9 +84,11 @@ export class RateLimiter {
     }
   
     private getBackoffDelay(attempt: number): number {
-       const backoffDelay = Math.min(10000, Math.pow(2, attempt) * 1000);
-      console.log(`Using backoff delay of ${backoffDelay} ms.`);
-      return backoffDelay;
+        const baseDelay = Math.min(10000, Math.pow(2, attempt) * 1000);
+        const jitter = Math.floor(Math.random() * 300); // random 0–300ms
+        const backoffDelay = baseDelay + jitter;
+        console.log(`Using backoff delay of ${backoffDelay} ms (base ${baseDelay} + jitter ${jitter})`);
+        return backoffDelay;
     }
   
     private delay(ms: number) {

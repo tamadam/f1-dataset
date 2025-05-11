@@ -7,11 +7,10 @@ import {
 import { notFound } from "next/navigation";
 import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
 import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
-// import { getAllF1Years } from "@/app/lib/year-utils";
+import { getAllF1Years } from "@/app/lib/year-utils";
 
 export async function generateStaticParams() {
-  // const historicalYears = getAllF1Years()
-  const historicalYears = ["2023", "2022"];
+  const historicalYears = getAllF1Years({ excludeCurrent: true });
   const staticParams: {
     locale: string;
     year: string;

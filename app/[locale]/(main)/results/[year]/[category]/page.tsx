@@ -8,7 +8,7 @@ import {
 } from "./components/CategoryPageHandler";
 
 export async function generateStaticParams() {
-  const historicalYears = getAllF1Years();
+  const historicalYears = getAllF1Years({ excludeCurrent: true });
 
   return routing.locales.flatMap((locale) =>
     historicalYears.flatMap((year) =>

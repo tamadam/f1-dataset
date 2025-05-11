@@ -13,24 +13,23 @@ export const fetchWithRateLimit = async <T>(
     url: string,
     options?: RequestInit
 ): Promise<T | null> => {
-  return limiter.enqueue(async () => {
-    return await limiter.enqueue<T>(async () => {
-        const response = await fetch(url, options);
-        
-        if (response.status === 429) {
-            const error: any = new Error(`Rate limited - ${response.statusText}`);
-            error.status = 429;
-            error.headers = response.headers;
-            throw error;
-        }
-        
-        if (!response.ok) {
-            throw new Error(`Request failed - ${response.status}`);
-        }
-        
-        return response.json();
-    });  
-  });
+  return await limiter.enqueue<T>(async () => {
+      const response = await fetch(url, options);
+      
+      if (response.status === 429) {
+          const error: any = new Error(`Rate limited - ${response.statusText}`);
+          error.status = 429;
+          error.headers = response.headers;
+          throw error;
+      }
+      
+      if (!response.ok) {
+          throw new Error(`Request failed - ${response.status}`);
+      }
+      
+      return response.json();
+  });  
+
 }
 
 export const fetchWithCacheAndRateLimit = async <T>(

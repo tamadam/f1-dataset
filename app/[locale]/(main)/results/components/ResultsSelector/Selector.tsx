@@ -83,6 +83,7 @@ const Selector = ({ title, elements, urlKey }: SelectorProps) => {
                   [styles.active]: !params["subcategory"],
                 })}
                 scroll={false}
+                prefetch={false}
               >
                 All
               </Link>
@@ -107,6 +108,7 @@ const Selector = ({ title, elements, urlKey }: SelectorProps) => {
                     [styles.active]: params[urlKey] === elementId,
                   })}
                   scroll={false}
+                  prefetch={false}
                 >
                   {elementName}
                 </Link>

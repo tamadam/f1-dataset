@@ -1,26 +1,35 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCachedResponse, setCachedResponse } from './build-cache';
 import { RateLimiter } from "./rate-limiter";
 
 
 const DEFAULT_REVALIDATE_TIME = 3600; // 1 hour
-const RATE_LIMIT_CONFIG = { maxRequests: 4, intervalMs: 1000 }; // 4 req/sec
 
-const limiter = new RateLimiter(RATE_LIMIT_CONFIG.maxRequests, RATE_LIMIT_CONFIG.intervalMs);
+const limiter = new RateLimiter();
 
-// Track active requests to prevent duplicates
 const cacheLocks = new Map<string, Promise<unknown>>();
 
 export const fetchWithRateLimit = async <T>(
     url: string,
     options?: RequestInit
-): Promise<T> => {
+): Promise<T | null> => {
   return limiter.enqueue(async () => {
-    const response = await fetch(url, options);
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`);
-    }
-    
-    return response.json();
+    return await limiter.enqueue<T>(async () => {
+        const response = await fetch(url, options);
+        
+        if (response.status === 429) {
+            const error: any = new Error(`Rate limited - ${response.statusText}`);
+            error.status = 429;
+            error.headers = response.headers;
+            throw error;
+        }
+        
+        if (!response.ok) {
+            throw new Error(`Request failed - ${response.status}`);
+        }
+        
+        return response.json();
+    });  
   });
 }
 
@@ -48,7 +57,12 @@ export const fetchWithCacheAndRateLimit = async <T>(
   if (!cacheLocks.has(cacheKey)) {
     const fetchDataPromise = (async () => {
       try {
-        const data: T = await fetchWithRateLimit<T>(endpoint);
+        const data: T | null = await fetchWithRateLimit<T>(endpoint);
+
+        // Request was skipped due to rate limits
+        if (data === null) {
+          return null;
+      }
 
         if (!isValidResponse(data)) {
           throw new Error("Invalid API response structure.");
@@ -59,11 +73,8 @@ export const fetchWithCacheAndRateLimit = async <T>(
         return data;
         
       } catch (error) {
-        if (error instanceof Error) {
-          throw new Error(`Fetch failed in api-client: ${error.message}`);
-        } else {
-          throw new Error("Unknown error happened during fetching.");
-        }
+        console.log(error)
+        throw new Error(`Fetch failed in api-client: ${(error as Error).message}`);
       } finally {
         cacheLocks.delete(cacheKey);
       }

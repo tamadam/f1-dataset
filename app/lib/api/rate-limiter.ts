@@ -1,52 +1,91 @@
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class RateLimiter {
-    // Array that holds pending requests as functions 
-    private queue: (() => Promise<void>)[] = [];
+    private queue: Array<{
+        fn: () => Promise<any>,
+        resolve: (value: any) => void,
+        reject: (reason?: any) => void,
+        attempt: number
+    }> = [];
+    
+    // Short-term tracking (4req/sec)
+    private shortTermTimestamps: number[] = [];
+    private readonly shortTermInterval = 1000;
+    private readonly shortTermLimit = 4;
 
-    // Requests that are currently in progress
-    private activeRequests = 0;
+    
+    // State flags
+    private coolingDown = false;
+    private limitReached = false;
 
-    // Maximum concurrent requests allowed
-    private readonly maxConcurrentRequests: number;
+    constructor(private maxRetries = 3) {}
 
-    // Time (ms) to wait between batches of requests
-    private readonly interval: number;
-
-    constructor(maxConcurrentRequests: number, interval: number) {
-        this.maxConcurrentRequests = maxConcurrentRequests;
-        this.interval = interval;
-    }
-
-    // Method to add function to the queue
     async enqueue<T>(fn: () => Promise<T>): Promise<T> {
         return new Promise((resolve, reject) => {
-            // Function that will actually run the queued task
-            const execute = async () => {
-                this.activeRequests++;
-                try {                  
-                    const result = await fn();
-                    resolve(result);
-                } catch (error) {
-                    reject(error);
-                } finally {
-                    this.activeRequests--;
-                    this.processQueue();
-                }
-            };
-
-            this.queue.push(execute);
+            this.queue.push({
+                fn,
+                resolve,
+                reject,
+                attempt: 0
+            });
             this.processQueue();
         });
     }
 
-  private processQueue() {
-    // Checks if we can run more requests: concurrency limit && are there any requests waiting?
-    if (this.activeRequests < this.maxConcurrentRequests && this.queue.length > 0) {
-      const execute = this.queue.shift()!;
-      execute();
+    private processQueue() {
+        if (this.queue.length === 0 || this.coolingDown || this.limitReached) return;
 
-      // Waits the specified interval before checking the queue again
-      setTimeout(() => this.processQueue(), this.interval);
+        // Check short-term limit
+        const now = Date.now();
+        this.cleanOldTimestamps(now);
+        
+        if (this.shortTermTimestamps.length >= this.shortTermLimit) {
+            const nextAvailable = this.shortTermTimestamps[0] + this.shortTermInterval;
+            setTimeout(() => this.processQueue(), nextAvailable - now);
+            return;
+        }
+
+        // Execute request
+        this.shortTermTimestamps.push(now);
+        
+        const item = this.queue.shift()!;
+        this.executeRequest(item);
     }
-  }
-}
 
+    private cleanOldTimestamps(now: number) {
+        this.shortTermTimestamps = this.shortTermTimestamps.filter(
+            ts => now - ts < this.shortTermInterval
+        );
+    }
+
+    private async executeRequest(item: any) {
+        try {
+            const result = await item.fn();
+            item.resolve(result);
+        } catch (error) {
+            if (this.shouldRetry(error, item.attempt)) {
+                item.attempt++;
+                this.queue.unshift(item);
+                this.coolingDown = true;
+                setTimeout(() => {
+                    this.coolingDown = false;
+                    this.processQueue();
+                }, this.getBackoffDelay(error, item.attempt));
+                return;
+            }
+            item.reject(error);
+        }
+        this.processQueue();
+    }
+
+    private shouldRetry(error: any, attempt: number): boolean {
+        if (attempt >= this.maxRetries) return false;
+        return error?.status === 429 || error?.status >= 500;
+    }
+
+    private getBackoffDelay(error: any, attempt: number): number {
+        const retryAfter = error?.headers?.get('Retry-After');
+        if (retryAfter) return parseInt(retryAfter) * 1000;
+        return Math.min(10000, Math.pow(2, attempt) * 1000);
+    }
+}

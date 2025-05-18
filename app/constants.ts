@@ -7,3 +7,5 @@ export const F1_FIRST_YEAR = 1950;
 
 export const F1_LOGO_ORIGINAL_WIDTH = 1024;
 export const F1_LOGO_ORIGINAL_HEIGHT = 373;
+
+export const CATEGORIES =  ["drivers", "constructors"] as const;

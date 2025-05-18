@@ -1,0 +1,18 @@
+.categoryLayoutPageWrapper {
+    padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    background: var(--white);
+
+    .categoryLayoutSelectorWrapper {
+        display: grid;
+        align-items: center;
+        gap: 1rem;
+        padding-block: 2rem;
+    
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+

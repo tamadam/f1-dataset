@@ -6,8 +6,6 @@ import { DriverStandings, RawDriverStandings } from "@/app/types/driverStandings
 import { JSX } from "react";
 import { ConstructorStandings, RawConstructorStandings } from "@/app/types/constructorStandings";
 
-export const categories = ["drivers", "constructors"] as const;
-
 export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
 
 type CategoryMap = {
@@ -58,3 +56,10 @@ export const CATEGORY_HANDLERS: {
     },
 };
   
+
+export function getCategory<K extends CategoryKey>(category: K) {
+  return CATEGORY_HANDLERS[category] as CategoryHandler<
+    CategoryMap[K]['Item'],
+    CategoryMap[K]['Raw']
+  >;
+}

@@ -27,7 +27,7 @@ export default function LandingPageLayout({
   return (
     <>
       <HeaderSimple />
-      <main>{children}</main>
+      <div>{children}</div>
     </>
   );
 }

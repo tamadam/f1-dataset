@@ -1,0 +1,97 @@
+.yearSelectorWrapper {
+    background: var(--black);
+    overflow: hidden;
+    
+    
+    .selectorBackground {
+        position: relative;
+        margin-inline: auto;
+        max-width: var(--content-max-width);    
+        margin-block-end: 1rem;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("/images/all-time-drivers.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: none;
+        }
+    
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--black);          
+        }
+
+        .selectorContent {
+          
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            text-align: center;
+            background: var(--black);          
+            padding-block: 1rem;
+            padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+
+
+
+            .selectorTitle {
+                font-size: var(--font-size-ml);
+                font-family: "Formula1_Wide";
+                text-transform: uppercase;
+                color: var(--white);
+                margin-block-end: 1rem;
+                
+            }
+    
+            .selectorItems {
+                position: relative;
+                max-height: 10rem;
+                font-size: var(--font-size-m);
+                scrollbar-width: none;
+                overflow-y: auto;
+                color: var(--white);
+            }
+        }
+
+    }   
+
+    @media (min-width: 360px) {
+        .selectorBackground {
+            --top-cut: 65%;
+            --bottom-cut: 55%;
+
+            &::before {
+                display: block;
+            }
+
+            &::after {
+                clip-path: polygon(0 0, var(--top-cut) 0, var(--bottom-cut) 100%, 0 100%);          
+            }
+
+            .selectorContent {
+                max-width: var(--bottom-cut);
+                padding-inline-end: 0;
+            }
+    
+        }
+    }
+
+    @media (min-width: 420px) {
+        .selectorBackground {
+            --top-cut: 55%;
+            --bottom-cut: 45%;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .selectorBackground {
+            --top-cut: 32%;
+            --bottom-cut: 24%;
+        }
+    }
+}

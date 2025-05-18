@@ -1,0 +1,113 @@
+.selectorWrapper {
+    --top-bottom-cut: 60%;
+    --center-cut: 70%;
+    --max-content-width: 100%;
+    padding: 1rem;
+    position: relative;
+    max-width: 850px;
+    min-height: 200px;
+    background: none;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    display: flex;
+    width: 100%;
+    container-type: inline-size;
+
+
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--white);
+        z-index: 0;
+      }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;       
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top center;
+        clip-path: polygon(100% 0, 100% 50%, 100% 100%, var(--top-bottom-cut) 100%, var(--center-cut) 50%, var(--top-bottom-cut) 0);
+        z-index: 1;
+        display: none;
+    }
+
+    &.driverBackground::after {
+        background-image: url("/images/f1-results-driver.avif");
+    }
+
+    &.carBackground::after {
+        background-image: url("/images/car-background-selector.jpg");
+    }
+
+    .selectorContent {
+        z-index: 2;
+        width: 100%;
+        
+        .selectorTitle {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            column-gap: 0.4rem;
+            max-width: var(--max-content-width);
+            font-family: "Formula1_Wide";
+            text-transform: uppercase;
+            margin-block-end: 1rem;
+            overflow: hidden;
+        }
+
+        .selectorItems {
+            overflow-y: auto;
+            max-height: 10em;
+            scrollbar-width: none;
+
+            > ul {
+                max-width: var(--max-content-width);
+            }
+        }
+    }
+
+    @container (min-width: 380px) {
+        .selectorContent {
+            --max-content-width: 60%;
+        }       
+    
+        &::after {
+          display: block;
+        }
+    }
+
+    @container (min-width: 580px) {
+        &::after {
+            --top-bottom-cut: 50%;
+            --center-cut: 60%;
+
+        }
+
+        .selectorContent {
+            --max-content-width: 50%;
+        }       
+    }
+      
+
+/*     @container (width > 380px) {
+        &::after {
+            display: block;
+        }
+        & {
+
+            --max-content-width: 45%;
+        }
+    }
+
+    @container (min-width: 700px) {
+        --top-bottom-cut: 32%;
+        --center-cut: 45%;
+    } */
+}
+
+/*polygon(100% 0, 100% 50%, 100% 100%, 32% 100%, 45% 50%, 32% 0)*/
+
+

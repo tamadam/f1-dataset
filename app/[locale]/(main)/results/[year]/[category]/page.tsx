@@ -1,18 +1,15 @@
 import { notFound } from "next/navigation";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
-import {
-  categories,
-  CATEGORY_HANDLERS,
-  CategoryKey,
-} from "./components/CategoryPageHandler";
+import { CategoryKey, getCategory } from "./components/CategoryPageHandler";
+import { CATEGORIES } from "@/app/constants";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
 
   return routing.locales.flatMap((locale) =>
     historicalYears.flatMap((year) =>
-      categories.map((category) => ({
+      CATEGORIES.map((category) => ({
         locale,
         year: year.toString(),
         category,
@@ -28,23 +25,12 @@ export default async function ResultsCategoryPage({
 }) {
   const { year, category } = await params;
 
-  if (!(category in CATEGORY_HANDLERS)) {
-    return notFound();
-  }
+  if (!CATEGORIES.includes(category as CategoryKey)) return notFound();
 
-  const validatedCategory = category as CategoryKey;
+  const handler = getCategory(category as CategoryKey);
+  const rawData = await handler.fetch(year);
+  const data = handler.extract(rawData) ?? [];
 
-  return renderCategoryPage(validatedCategory, year);
-}
-
-async function renderCategoryPage<K extends CategoryKey>(
-  category: K,
-  year: string
-) {
-  const { fetch, extract, Component } = CATEGORY_HANDLERS[category];
-
-  const rawData = await fetch(year);
-  const data = extract(rawData);
-
+  const Component = handler.Component;
   return <Component year={year} data={data} />;
 }

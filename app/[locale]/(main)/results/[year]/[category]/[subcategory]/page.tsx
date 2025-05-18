@@ -1,13 +1,10 @@
 import { routing } from "@/i18n/routing";
-import {
-  categories,
-  CATEGORY_HANDLERS,
-  CategoryKey,
-} from "./components/SubcategoryPageHandler";
+import { CategoryKey, getCategory } from "./components/SubcategoryPageHandler";
 import { notFound } from "next/navigation";
 import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
 import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
+import { CATEGORIES } from "@/app/constants";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
@@ -23,7 +20,7 @@ export async function generateStaticParams() {
 
   for (const locale of locales) {
     for (const year of years) {
-      for (const category of categories) {
+      for (const category of CATEGORIES) {
         if (category === "drivers") {
           const drivers = await getAllDrivers(year);
           for (const driver of drivers) {
@@ -64,24 +61,12 @@ export default async function ResultsSubcategoryPage({
 }) {
   const { year, category, subcategory } = await params;
 
-  if (!(category in CATEGORY_HANDLERS)) {
-    return notFound();
-  }
+  if (!CATEGORIES.includes(category as CategoryKey)) return notFound();
 
-  const validatedCategory = category as CategoryKey;
+  const handler = getCategory(category as CategoryKey);
+  const rawData = await handler.fetch(year, subcategory);
+  const data = handler.extract(rawData) ?? [];
 
-  return renderCategoryPage(validatedCategory, subcategory, year);
-}
-
-async function renderCategoryPage<K extends CategoryKey>(
-  category: K,
-  subcategory: string,
-  year: string
-) {
-  const { fetch, extract, Component } = CATEGORY_HANDLERS[category];
-
-  const rawData = await fetch(year, subcategory);
-  const data = extract(rawData);
-
+  const Component = handler.Component;
   return <Component year={year} data={data} />;
 }

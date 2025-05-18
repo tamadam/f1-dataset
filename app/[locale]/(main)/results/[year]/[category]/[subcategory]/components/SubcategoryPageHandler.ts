@@ -7,9 +7,7 @@ import ConstructorResultsTable from "./ConstructorResultsTable";
 import DriverResultsTable from "./DriverResultsTable";
 import { getConstructorResults } from "@/app/lib/api/getConstructorResults";
 
-export const categories = ["drivers", "constructors"] as const;
-
-export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
+export type CategoryKey = keyof typeof SUBCATEGORY_HANDLERS;
 
 type CategoryMap = {
     drivers: {
@@ -37,7 +35,7 @@ type CategoryHandler<T, R> = {
     Component: (props: { year: string; data: T[] }) => JSX.Element;
 };
   
-export const CATEGORY_HANDLERS: {
+export const SUBCATEGORY_HANDLERS: {
     [K in keyof CategoryMap]: CategoryHandler<
       CategoryMap[K]["Item"],
       CategoryMap[K]["Raw"]
@@ -59,3 +57,10 @@ export const CATEGORY_HANDLERS: {
     },
 };
   
+
+export function getCategory<K extends CategoryKey>(category: K) {
+  return SUBCATEGORY_HANDLERS[category] as CategoryHandler<
+    CategoryMap[K]['Item'],
+    CategoryMap[K]['Raw']
+  >;
+}

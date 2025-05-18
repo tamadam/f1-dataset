@@ -18,6 +18,16 @@
   src: url('/fonts/Formula1_Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Formula1_Bold';
+  src: url('/fonts/Formula1-Bold.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Formula1_Wide';
+  src: url('/fonts/Formula1-Wide.otf') format('truetype');
+}
+
 :root {
   --red: #ee0000;
   --red-light: #ff0000;
@@ -40,6 +50,12 @@
   --landing-page-block-padding: 4.5rem;
   --landing-page-title-size: clamp(1.8rem, 1.5rem + 2vw, 2.8rem);
   --landing-page-description-size: clamp(1.125rem, 0.6rem + 1vw, 1.4rem);
+
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
+  --font-size-s: 1rem; 
+  --font-size-m: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+  --font-size-ml: clamp(1.125rem, 1rem + 0.75vw, 2rem);
+  --font-size-l: clamp(1.5rem, 1.25rem + 1vw, 2rem);
 }
 
 *,

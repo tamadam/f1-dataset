@@ -1,36 +1,27 @@
-"use client";
-
+import React from "react";
+import Selector from "../Selector/Selector";
 import { getAllF1YearsReverse } from "@/app/lib/year-utils";
-import { usePathname } from "next/navigation";
-import { useRouter, useParams } from "next/navigation";
-import { ChangeEvent } from "react";
+import styles from "./YearSelector.module.scss";
 
-type YearSelectorProps = {
-  selectedYear: string;
-};
-
-const YearSelector = ({ selectedYear }: YearSelectorProps) => {
-  const router = useRouter();
-  const params = useParams();
-  const pathname = usePathname();
-
-  const years = getAllF1YearsReverse();
-
-  const handleYearChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const newYear = event.target.value;
-    const updatedPath = pathname.replace(`/${params.year}/`, `/${newYear}/`);
-
-    router.push(updatedPath);
-  };
-
+const YearSelector = () => {
+  const elements = getAllF1YearsReverse();
   return (
-    <select value={selectedYear} onChange={handleYearChange}>
-      {years.map((year) => (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      ))}
-    </select>
+    <div className={styles.yearSelectorWrapper}>
+      <div className={styles.selectorBackground}>
+        <div className={styles.selectorContent}>
+          <div className={styles.selectorTitle}>
+            <span>Season</span>
+          </div>
+          <div className={styles.selectorItems}>
+            <Selector
+              elements={elements}
+              urlKey="year"
+              styleOptions={{ highlightSelectedItem: true }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

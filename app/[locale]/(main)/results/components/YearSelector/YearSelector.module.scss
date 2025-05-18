@@ -2,7 +2,6 @@
     background: var(--black);
     overflow: hidden;
     
-    
     .selectorBackground {
         position: relative;
         margin-inline: auto;
@@ -28,7 +27,6 @@
         }
 
         .selectorContent {
-          
             position: relative;
             z-index: 1;
             width: 100%;
@@ -37,15 +35,12 @@
             padding-block: 1rem;
             padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
 
-
-
             .selectorTitle {
                 font-size: var(--font-size-ml);
                 font-family: "Formula1_Wide";
                 text-transform: uppercase;
                 color: var(--white);
                 margin-block-end: 1rem;
-                
             }
     
             .selectorItems {

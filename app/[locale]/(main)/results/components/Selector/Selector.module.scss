@@ -2,22 +2,17 @@
     font-family: "Formula1_Regular";
 
     li {
-        padding-block: 1rem;
-
-
-     
-    }   
-
+        padding-block: 1rem;     
+    }
 
     li > a.active {
         text-decoration: underline;
         text-decoration-color: var(--red-medium);
         text-underline-offset: 4px;
         font-weight: 600;
-      }
+    }
       
-      li > a.highlightSelectedItem {
-        font-size: 2rem;
-      }
-      
+    li > a.highlightSelectedItem {
+      font-size: 2rem;
+    }      
 }

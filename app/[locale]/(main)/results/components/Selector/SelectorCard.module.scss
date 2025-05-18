@@ -12,8 +12,6 @@
     width: 100%;
     container-type: inline-size;
 
-
-
     &::before {
         content: "";
         position: absolute;
@@ -83,31 +81,12 @@
         &::after {
             --top-bottom-cut: 50%;
             --center-cut: 60%;
-
         }
 
         .selectorContent {
             --max-content-width: 50%;
         }       
     }
-      
-
-/*     @container (width > 380px) {
-        &::after {
-            display: block;
-        }
-        & {
-
-            --max-content-width: 45%;
-        }
-    }
-
-    @container (min-width: 700px) {
-        --top-bottom-cut: 32%;
-        --center-cut: 45%;
-    } */
 }
-
-/*polygon(100% 0, 100% 50%, 100% 100%, 32% 100%, 45% 50%, 32% 0)*/
 
 

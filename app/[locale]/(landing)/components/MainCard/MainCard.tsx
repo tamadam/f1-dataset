@@ -3,8 +3,10 @@ import styles from "./MainCard.module.scss";
 import Button from "@/app/components/Button";
 import { ArrowRight } from "@/app/components/icons";
 import { useTranslations } from "next-intl";
+import { getCurrentYear } from "@/app/lib/year-utils";
 
 const MainCard = () => {
+  const year = getCurrentYear();
   const translation = useTranslations("LandingPage");
   const generalTranslation = useTranslations("General");
 
@@ -25,7 +27,10 @@ const MainCard = () => {
         </h3>
         <div className={styles.description}>
           <p>{translation("mainCard.mainDescription")}</p>
-          <Button href="/dashboard" className={styles.descriptionButton}>
+          <Button
+            href={`results/${year}/drivers`}
+            className={styles.descriptionButton}
+          >
             <span>{generalTranslation("exploreButton")}</span>
             <ArrowRight width={24} height={24} />
           </Button>

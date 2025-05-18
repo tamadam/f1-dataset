@@ -7,8 +7,10 @@ import {
 import Button from "@/app/components/Button";
 import LanguageSelector from "../../LanguageSelector/LanguageSelector";
 import { useTranslations } from "next-intl";
+import { getCurrentYear } from "@/app/lib/year-utils";
 
 const HeaderSimple = () => {
+  const year = getCurrentYear();
   const translation = useTranslations("General");
   return (
     <header className={styles.simpleHeader}>
@@ -24,7 +26,7 @@ const HeaderSimple = () => {
         <div className={styles.headerItem}>
           <LanguageSelector horizontalAlignment="right" />
           <div>
-            <Button variant="primary" href="/dashboard">
+            <Button variant="primary" href={`results/${year}/drivers`}>
               <span>{translation("exploreButton")}</span>
             </Button>
           </div>

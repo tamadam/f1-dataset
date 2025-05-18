@@ -7,21 +7,23 @@ import Image from "next/image";
 import HeaderMenu from "./HeaderMenu";
 import { MenuItem } from "@/app/types/header";
 import { Link } from "@/i18n/navigation";
+import { getCurrentYear } from "@/app/lib/year-utils";
 
 const HeaderFull = () => {
+  const year = getCurrentYear();
   const menuItemsList: MenuItem[] = [
-    { id: 1, label: "Results", href: "#s" },
-    { id: 2, label: "Statistics", href: "#s" },
-    { id: 3, label: "Future Feature", href: "#s" },
-    { id: 4, label: "Videos", href: "#s" },
-    { id: 5, label: "Power Rankings", href: "#s" },
+    { id: 1, label: "Results", href: `/results/${year}/drivers` },
+    { id: 2, label: "Statistics - TBD", href: "/" },
+    { id: 3, label: "Future Feature - TBD", href: "/" },
+    { id: 4, label: "Videos - TBD", href: "/" },
+    { id: 5, label: "Power Rankings - TBD", href: "/" },
   ];
 
   return (
     <header className={styles.fullHeader}>
       <div className={styles.headerFullWrapper}>
         <div className={styles.headerItemWrapper}>
-          <Link tabIndex={0} href="#tbd">
+          <Link tabIndex={0} href={`/`}>
             <Image
               src="/images/f1DatasetLogo.svg"
               width={F1_LOGO_ORIGINAL_WIDTH / 8}

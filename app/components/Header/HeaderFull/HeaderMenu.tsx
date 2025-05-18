@@ -69,6 +69,7 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
               key={menuItem.id}
               href={menuItem.href}
               className={styles.headerItem}
+              onClick={() => setMenuOpen(false)}
             >
               <span>{menuItem.label}</span>
               <span className={styles.headerItemIcon}>

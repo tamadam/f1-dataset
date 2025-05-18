@@ -3,6 +3,7 @@ import { RawConstructorStandings } from "@/app/types/constructorStandings";
 import { fetchWithCacheAndRateLimit } from "./api-client"
 import { generateCacheKey } from "./api-client";
 
+// Returns the constructor standings for a given year (reflects current state if the season is ongoing)
 export const getConstructorStandings = async( year: string ): Promise<RawConstructorStandings | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_CONSTRUCTOR_STANDINGS_URL}/`;

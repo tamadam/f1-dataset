@@ -4,6 +4,7 @@ import { generateCacheKey } from "./api-client";
 import { ConstructorsResponse } from "@/app/types/constructors";
 import { Constructor } from "@/app/types/baseStandings";
 
+// Returns the list of constructors for a given year (only the list, not the final standings)
 export const getAllConstructors = async (year: string): Promise<Constructor[]> => {
   try {
     const endpoint = `${F1_API_BASE_URL}/${year}/constructors.json`;

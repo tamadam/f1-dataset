@@ -3,6 +3,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client"
 import { generateCacheKey } from "./api-client";
 import { RawConstructorResults } from "@/app/types/constructorResults";
 
+// Returns the race-by-race results for a given constructor in a specific year
 export const getConstructorResults = async( year: string, constructorId: string ): Promise<RawConstructorResults | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/constructors/${constructorId}/results/`;

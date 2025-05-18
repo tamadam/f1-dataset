@@ -3,6 +3,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client"
 import { generateCacheKey } from "./api-client";
 import { RawDriverResults } from "@/app/types/driverResults";
 
+// Returns the race-by-race results for a given driver in a specific year
 export const getDriverResults = async( year: string, driverId: string ): Promise<RawDriverResults | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/drivers/${driverId}/results/`;

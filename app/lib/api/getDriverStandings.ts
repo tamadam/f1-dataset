@@ -3,6 +3,7 @@ import { RawDriverStandings } from "@/app/types/driverStandings"
 import { fetchWithCacheAndRateLimit } from "./api-client"
 import { generateCacheKey } from "./api-client";
 
+// Returns the driver standings for a given year (reflects current state if the season is ongoing)
 export const getDriverStandings = async( year: string ): Promise<RawDriverStandings | null> => {
     try {
         const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/`;

@@ -1,4 +1,5 @@
-import { Constructor, Standings } from "./baseStandings";
+import { Standings } from "./baseStandings";
+import { Constructor } from "./f1Common";
 
 export type RawConstructorStandings = Standings<ConstructorStandings>;
 

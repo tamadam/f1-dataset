@@ -2,7 +2,7 @@ import { F1_API_BASE_URL } from "@/app/constants";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { ConstructorsResponse } from "@/app/types/constructors";
-import { Constructor } from "@/app/types/baseStandings";
+import { Constructor } from "@/app/types/f1Common";
 
 // Returns the list of constructors for a given year (only the list, not the final standings)
 export const getAllConstructors = async (year: string): Promise<Constructor[]> => {

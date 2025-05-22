@@ -1,4 +1,4 @@
-import { Driver } from "./baseStandings";
+import { Driver } from "./f1Common";
 
 export interface DriversResponse {
   MRData: MRData;

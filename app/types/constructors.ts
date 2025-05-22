@@ -1,4 +1,4 @@
-import { Constructor } from "./baseStandings";
+import { Constructor } from "./f1Common";
 
 export interface ConstructorsResponse {
   MRData: MRData;

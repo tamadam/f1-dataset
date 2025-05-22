@@ -1,8 +1,8 @@
-import { Constructor, Driver, Circuit, FastestLap } from "./f1Common";
+import { Circuit, Constructor, Driver, FastestLap } from "./f1Common";
 
-export type RawConstructorResults = {
+export type RawFastestLaps = {
     MRData: {
-        RaceTable: ConstructorRaceTable;
+        RaceTable: FastestLapRaceTable;
         limit: string;
         offset: string;
         series: string;
@@ -12,13 +12,13 @@ export type RawConstructorResults = {
     };
 }
 
-type ConstructorRaceTable = {
+export type FastestLapRaceTable = {
     season: string;
-    constructorId: string;
-    Races: ConstructorRace[];
+    fastest: string;
+    Races: FastestLapRace[]
 }
 
-export type ConstructorRace = {
+export type FastestLapRace = {
     season: string;
     round: string;
     url: string;
@@ -26,10 +26,10 @@ export type ConstructorRace = {
     Circuit: Circuit;
     date: string;
     time: string;
-    Results: ConstructorRaceResult[];
+    Results: FastestLapRaceResult[];
 }
 
-type ConstructorRaceResult = {
+export type FastestLapRaceResult = {
     number: string;
     position: string;
     positionText: string;
@@ -42,6 +42,6 @@ type ConstructorRaceResult = {
     Time: {
         millis: string;
         time: string;
-    },
-    FastestLap: FastestLap;
+    }
+    FastestLap: FastestLap
 }

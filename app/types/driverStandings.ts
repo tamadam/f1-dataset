@@ -1,4 +1,5 @@
-import { Constructor, Driver, Standings } from "./baseStandings";
+import { Standings } from "./baseStandings";
+import { Constructor, Driver } from "./f1Common";
 
 export type RawDriverStandings = Standings<DriverStandings>;
 

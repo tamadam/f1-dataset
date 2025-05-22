@@ -1,5 +1,4 @@
-import { Constructor, Driver } from "./baseStandings";
-import { Circuit, FastestLap } from "./f1Common";
+import {  Constructor, Driver, Circuit, FastestLap } from "./f1Common";
 
 export type RawDriverResults = {
     MRData: {

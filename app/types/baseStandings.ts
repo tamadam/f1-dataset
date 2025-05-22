@@ -34,22 +34,4 @@ export type StandingsList<T> = {
 } & {
     [K in StandingKey<T>]: T[];
 };
-
-export type Driver = {
-    code: string;
-    dateOfBirth: string;
-    driverId: string;
-    familyName: string;
-    givenName: string;
-    nationality: string;
-    permanentNumber: string;
-    url: string;
-};
-
-export type Constructor = {
-    constructorId: string;
-    name: string;
-    nationality: string;
-    url: string;
-};
   

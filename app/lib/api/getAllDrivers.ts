@@ -2,7 +2,7 @@ import { F1_API_BASE_URL } from "@/app/constants";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { DriversResponse } from "@/app/types/drivers";
-import { Driver } from "@/app/types/baseStandings";
+import { Driver } from "@/app/types/f1Common";
 
 // Returns the list of drivers for a given year (only the list, not the final standings)
 export const getAllDrivers = async (year: string): Promise<Driver[]> => {

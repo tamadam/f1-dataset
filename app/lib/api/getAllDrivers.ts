@@ -8,7 +8,7 @@ import { Driver } from "@/app/types/f1Common";
 export const getAllDrivers = async (year: string): Promise<Driver[]> => {
   try {
     const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json`;
-    const cacheSubFolder = ["drivers", `${year}`];
+    const cacheSubFolder = ["drivers"];
     const cacheKey = generateCacheKey("drivers", year);
     
     const response = await fetchWithCacheAndRateLimit<DriversResponse>(

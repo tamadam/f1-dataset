@@ -8,7 +8,7 @@ import { Constructor } from "@/app/types/f1Common";
 export const getAllConstructors = async (year: string): Promise<Constructor[]> => {
   try {
     const endpoint = `${F1_API_BASE_URL}/${year}/constructors.json`;
-    const cacheSubFolder = ["constructors", `${year}`];
+    const cacheSubFolder = ["constructors"];
     const cacheKey = generateCacheKey("constructors", year);
     
     const response = await fetchWithCacheAndRateLimit<ConstructorsResponse>(

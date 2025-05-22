@@ -20,7 +20,6 @@ export const getConstructorResults = async( year: string, constructorId: string 
             cacheKey,
             skipCustomCache,
             (data) => Boolean(data?.MRData?.RaceTable?.Races),
-            3600 * 24 // 1 day
         );
     } catch (error) {
         throw new Error(`Failed to fetch constructor results for ${year} for constructor ${constructorId}: ${error instanceof Error ? error.message : "Unknown error"}`);

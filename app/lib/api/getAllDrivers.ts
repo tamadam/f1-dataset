@@ -17,7 +17,6 @@ export const getAllDrivers = async (year: string): Promise<Driver[]> => {
       cacheKey,
       false,
       (data) => Boolean(data?.MRData?.DriverTable?.Drivers),
-      3600 * 24 // 1 day
     );
 
     return response?.MRData?.DriverTable?.Drivers || [];

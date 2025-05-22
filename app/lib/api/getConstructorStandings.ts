@@ -20,7 +20,6 @@ export const getConstructorStandings = async( year: string ): Promise<RawConstru
             cacheKey,
             skipCustomCache,
             (data) => Boolean(data?.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings),
-            3600 * 24 // 1 day
         );
     } catch (error) {
         throw new Error(`Failed to fetch constructor standings for ${year}: ${error instanceof Error ? error.message : "Unknown error"}`);

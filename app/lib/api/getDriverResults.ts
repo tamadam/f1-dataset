@@ -20,7 +20,6 @@ export const getDriverResults = async( year: string, driverId: string ): Promise
             cacheKey,
             skipCustomCache,
             (data) => Boolean(data?.MRData?.RaceTable?.Races),
-            3600 * 24 // 1 day
         );
     } catch (error) {
         throw new Error(`Failed to fetch driver results for ${year} for driver ${driverId}: ${error instanceof Error ? error.message : "Unknown error"}`);

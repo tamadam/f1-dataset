@@ -20,7 +20,6 @@ export const getDriverStandings = async( year: string ): Promise<RawDriverStandi
             cacheKey,
             skipCustomCache,
             (data) => Boolean(data?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings),
-            3600 * 24 // 1 day
         );
     } catch (error) {
         throw new Error(`Failed to fetch driver standings for ${year}: ${error instanceof Error ? error.message : "Unknown error"}`);

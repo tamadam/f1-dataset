@@ -17,7 +17,6 @@ export const getAllConstructors = async (year: string): Promise<Constructor[]> =
       cacheKey,
       false,
       (data) => Boolean(data?.MRData?.ConstructorTable?.Constructors),
-      3600 * 24 // 1 day
     );
 
     return response?.MRData?.ConstructorTable?.Constructors || []

@@ -14,13 +14,9 @@ export default async function ResultsPageCategoryLayout({
   const handler = getCategory(category);
   const rawData = await handler.fetch(year);
   const data = handler.extract(rawData);
-  const elements = data.map(handler.selectorMap);
+  const elements = handler.selectorMap ? data.map(handler.selectorMap) : [];
 
-  const categories = [
-    ...CATEGORIES.map((category) => category),
-    "fastest-laps",
-    "races",
-  ];
+  const categories = CATEGORIES.map((category) => category);
 
   return (
     <>
@@ -33,12 +29,14 @@ export default async function ResultsPageCategoryLayout({
             backgroundType="car"
           />
 
-          <SelectorCard
-            elements={elements}
-            urlKey="subcategory"
-            title="Results"
-            includeAllOption
-          />
+          {elements.length > 0 && (
+            <SelectorCard
+              elements={elements}
+              urlKey="subcategory"
+              title="Results"
+              includeAllOption
+            />
+          )}
         </div>
         {children}
       </div>

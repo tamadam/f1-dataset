@@ -5,6 +5,9 @@ import ConstructorStandingsTable from "./ConstructorStandingsTable";
 import { DriverStandings, RawDriverStandings } from "@/app/types/driverStandings";
 import { JSX } from "react";
 import { ConstructorStandings, RawConstructorStandings } from "@/app/types/constructorStandings";
+import { FastestLapRace, RawFastestLaps } from "@/app/types/fastestLaps";
+import { getFastestLaps } from "@/app/lib/api/getFastestLaps";
+import FastestLapsTable from "./FastestLapsTable";
 
 export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
 
@@ -25,12 +28,20 @@ type CategoryMap = {
         data: ConstructorStandings[];
       }) => JSX.Element;
     };
+    "fastest-laps": {
+      Raw: RawFastestLaps;
+      Item: FastestLapRace;
+      Component: (props: {
+        year: string;
+        data: FastestLapRace[];
+      }) => JSX.Element;
+    };
 };
   
 type CategoryHandler<T, R> = {
     fetch: (year: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
-    selectorMap: (entry: T) => string | { id: string, name: string };
+    selectorMap?: (entry: T) => string | { id: string, name: string };
     Component: (props: { year: string; data: T[] }) => JSX.Element;
 };
   
@@ -54,6 +65,11 @@ export const CATEGORY_HANDLERS: {
       selectorMap: (entry) => ( { id: entry.Constructor.constructorId, name: `${entry.Constructor.name}`}),
       Component: ConstructorStandingsTable,
     },
+    "fastest-laps": {
+      fetch: getFastestLaps,
+      extract: (res) => res?.MRData.RaceTable.Races ?? [],
+      Component: FastestLapsTable
+    }
 };
   
 

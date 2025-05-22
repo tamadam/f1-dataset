@@ -31,7 +31,7 @@ type CategoryMap = {
 type CategoryHandler<T, R> = {
     fetch: (year: string, id: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
-    selectorMap: (entry: T) => string | { id: string, name: string };
+    selectorMap?: (entry: T) => string | { id: string, name: string };
     Component: (props: { year: string; data: T[] }) => JSX.Element;
 };
   
@@ -45,14 +45,12 @@ export const SUBCATEGORY_HANDLERS: {
       fetch: getDriverResults,
       extract: (res) =>
         res?.MRData.RaceTable.Races ?? [],
-      selectorMap: (entry) => (entry.raceName),
       Component: DriverResultsTable,
     },
     constructors: {
       fetch: getConstructorResults,
       extract: (res) =>
         res?.MRData.RaceTable.Races ?? [],
-      selectorMap: (entry) => ( entry.raceName ),
       Component: ConstructorResultsTable,
     },
 };

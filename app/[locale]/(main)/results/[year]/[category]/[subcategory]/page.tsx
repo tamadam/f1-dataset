@@ -73,6 +73,10 @@ export default async function ResultsSubcategoryPage({
   if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 
+  if (!data || data.length === 0) {
+    return notFound();
+  }
+
   const Component = handler.Component;
   return <Component year={year} data={data} />;
 }

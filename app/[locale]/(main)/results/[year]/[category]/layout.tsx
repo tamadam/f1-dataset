@@ -1,7 +1,12 @@
-import { CategoryKey, getCategory } from "./components/CategoryPageHandler";
+import {
+  CategoryKey,
+  getCategory,
+  getCategoryData,
+} from "./components/CategoryPageHandler";
 import styles from "./layout.module.scss";
 import SelectorCard from "../../components/Selector/SelectorCard";
 import { CATEGORIES } from "@/app/constants";
+import { notFound } from "next/navigation";
 
 export default async function ResultsPageCategoryLayout({
   params,
@@ -11,8 +16,13 @@ export default async function ResultsPageCategoryLayout({
   params: Promise<{ locale: string; year: string; category: CategoryKey }>;
 }>) {
   const { year, category } = await params;
+  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+    return notFound();
+
   const handler = getCategory(category);
-  const rawData = await handler.fetch(year);
+  const rawData = await getCategoryData(handler, year);
+  if (!rawData) return notFound();
+
   const data = handler.extract(rawData);
   const elements = handler.selectorMap ? data.map(handler.selectorMap) : [];
 

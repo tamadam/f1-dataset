@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
-import { CategoryKey, getCategory } from "./components/CategoryPageHandler";
+import {
+  CategoryKey,
+  getCategory,
+  getCategoryData,
+} from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
 
 export async function generateStaticParams() {
@@ -24,11 +28,12 @@ export default async function ResultsCategoryPage({
   params: Promise<{ locale: string; year: string; category: string }>;
 }) {
   const { year, category } = await params;
-
-  if (!CATEGORIES.includes(category as CategoryKey)) return notFound();
-
+  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+    return notFound();
   const handler = getCategory(category as CategoryKey);
-  const rawData = await handler.fetch(year);
+  const rawData = await getCategoryData(handler, year);
+  if (!rawData) return notFound();
+
   const data = handler.extract(rawData) ?? [];
 
   const Component = handler.Component;

@@ -1,5 +1,9 @@
 import { routing } from "@/i18n/routing";
-import { CategoryKey, getCategory } from "./components/SubcategoryPageHandler";
+import {
+  CategoryKey,
+  getCategory,
+  getSubCategoryData,
+} from "./components/SubcategoryPageHandler";
 import { notFound } from "next/navigation";
 import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
 import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
@@ -61,10 +65,12 @@ export default async function ResultsSubcategoryPage({
 }) {
   const { year, category, subcategory } = await params;
 
-  if (!CATEGORIES.includes(category as CategoryKey)) return notFound();
+  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+    return notFound();
 
   const handler = getCategory(category as CategoryKey);
-  const rawData = await handler.fetch(year, subcategory);
+  const rawData = await getSubCategoryData(handler, year, subcategory);
+  if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 
   const Component = handler.Component;

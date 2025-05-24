@@ -79,3 +79,15 @@ export function getCategory<K extends CategoryKey>(category: K) {
     CategoryMap[K]['Raw']
   >;
 }
+
+export async function getCategoryData<T, R>(
+  handler: CategoryHandler<T, R>,
+  year: string
+): Promise<R | null> {
+  try {
+    return await handler.fetch(year);
+  } catch (error) {
+    console.error(`Error fetching data for ${year}`, error);
+    return null;
+  }
+}

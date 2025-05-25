@@ -16,7 +16,7 @@ export class RateLimiter {
     constructor(private maxRetries = 3) {}
   
     async enqueue<T>(fn: () => Promise<T>): Promise<T> {
-      console.log('Adding request to the queue');
+      // console.log('Adding request to the queue');
       return new Promise((resolve, reject) => {
         this.queue.push({ fn, resolve, reject, attempt: 0 });
         this.processQueue();
@@ -32,15 +32,15 @@ export class RateLimiter {
   
       if (this.shortTermTimestamps.length >= this.shortTermLimit) {
         const nextAvailable = this.shortTermTimestamps[0] + this.shortTermInterval;
-        console.log(`Rate limit reached. Waiting until ${new Date(nextAvailable)}`);
+        // console.log(`Rate limit reached. Waiting until ${new Date(nextAvailable)}`);
         await this.delay(nextAvailable - now);
       }
   
-      console.log(`Executing request. Current queue length: ${this.queue.length}`);
+      // console.log(`Executing request. Current queue length: ${this.queue.length}`);
       // Execute request
       const item = this.queue.shift()!;
       if (!item) {
-        console.log("Queue was emptied while waiting — skipping.");
+        // console.log("Queue was emptied while waiting — skipping.");
         return;
       }
       this.shortTermTimestamps.push(now);
@@ -55,18 +55,18 @@ export class RateLimiter {
   
     private async executeRequest(item: any) {
       try {
-        console.log(`Attempting request, attempt #${item.attempt + 1}`);
+        // console.log(`Attempting request, attempt #${item.attempt + 1}`);
         const result = await item.fn();
         console.log("Request successful");
         item.resolve(result);
       } catch (error) {
         console.log(`Request failed with error:`, error);
         if (this.shouldRetry(error, item.attempt)) {
-          console.log(`Retrying request, attempt #${item.attempt + 1}`);
+          // console.log(`Retrying request, attempt #${item.attempt + 1}`);
           item.attempt++;
           this.queue.unshift(item);
           const delayTime = this.getBackoffDelay(item.attempt);
-          console.log(`Backing off for ${delayTime} ms before retrying.`);
+          // console.log(`Backing off for ${delayTime} ms before retrying.`);
           await this.delay(delayTime);
           this.processQueue();
         } else {
@@ -87,7 +87,7 @@ export class RateLimiter {
         const baseDelay = Math.min(10000, Math.pow(2, attempt) * 1000);
         const jitter = Math.floor(Math.random() * 300); // random 0–300ms
         const backoffDelay = baseDelay + jitter;
-        console.log(`Using backoff delay of ${backoffDelay} ms (base ${baseDelay} + jitter ${jitter})`);
+        // console.log(`Using backoff delay of ${backoffDelay} ms (base ${baseDelay} + jitter ${jitter})`);
         return backoffDelay;
     }
   

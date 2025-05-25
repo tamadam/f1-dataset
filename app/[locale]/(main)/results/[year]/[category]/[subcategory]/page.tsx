@@ -47,7 +47,10 @@ export async function generateStaticParams() {
               subcategory: constructor.constructorId,
             });
           }
-        } else if (category === "races") {
+        } else if (
+          process.env.NODE_ENV === "production" &&
+          category === "races"
+        ) {
           const racesData = await getAllRaces(year);
           const races = racesData?.MRData.RaceTable.Races ?? [];
           for (const race of races) {

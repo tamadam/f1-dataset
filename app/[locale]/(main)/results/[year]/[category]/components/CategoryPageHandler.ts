@@ -8,10 +8,21 @@ import { ConstructorStandings, RawConstructorStandings } from "@/app/types/const
 import { FastestLapRace, RawFastestLaps } from "@/app/types/fastestLaps";
 import { getFastestLaps } from "@/app/lib/api/getFastestLaps";
 import FastestLapsTable from "./FastestLapsTable";
+import { Race, RawRaces } from "@/app/types/races";
+import RacesTable from "./RacesTable";
+import { getAllRaces } from "@/app/lib/api/getAllRaces";
 
 export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
 
 type CategoryMap = {
+    races: {
+      Raw: RawRaces;
+      Item: Race;
+      Component: (props: {
+        year: string;
+        data: Race[];
+      }) => JSX.Element;
+    },
     drivers: {
       Raw: RawDriverStandings;
       Item: DriverStandings;
@@ -41,7 +52,7 @@ type CategoryMap = {
 type CategoryHandler<T, R> = {
     fetch: (year: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
-    selectorMap?: (entry: T) => string | { id: string, name: string };
+    selectorMap?: (entry: T) => string | { id: string, name: string, round?: string };
     Component: (props: { year: string; data: T[] }) => JSX.Element;
 };
   
@@ -51,6 +62,12 @@ export const CATEGORY_HANDLERS: {
       CategoryMap[K]["Raw"]
     >;
 } = {
+    races: {
+      fetch: getAllRaces,
+      extract: (res) => res?.MRData.RaceTable.Races ?? [],
+      selectorMap: (entry) => ({ id: entry.Circuit.circuitId, name: entry.raceName, round: entry.round }),
+      Component: RacesTable,
+    },
     drivers: {
       fetch: getDriverStandings,
       extract: (res) =>
@@ -68,7 +85,7 @@ export const CATEGORY_HANDLERS: {
     "fastest-laps": {
       fetch: getFastestLaps,
       extract: (res) => res?.MRData.RaceTable.Races ?? [],
-      Component: FastestLapsTable
+      Component: FastestLapsTable,
     }
 };
   

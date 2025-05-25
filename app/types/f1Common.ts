@@ -37,3 +37,20 @@ export type FastestLap = {
         time: string;
     };
 }
+
+export type SessionResults = {
+    number: string;
+    position: string;
+    positionText: string;
+    points: string;
+    Driver: Driver;
+    Constructor: Constructor;
+    grid: string;
+    laps: string;
+    status: string;
+    Time: {
+        millis: string;
+        time: string;
+    }
+    FastestLap: FastestLap
+}

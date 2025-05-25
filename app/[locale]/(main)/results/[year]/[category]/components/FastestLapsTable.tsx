@@ -3,13 +3,11 @@
 import { FastestLapRace } from "@/app/types/fastestLaps";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 
-interface FastestLapsTableTableProps {
+interface FastestLapsTableProps {
   year: string;
   data: FastestLapRace[] | undefined;
 }
-const FastestLapsTable = ({ year, data }: FastestLapsTableTableProps) => {
-  console.log(data);
-
+const FastestLapsTable = ({ year, data }: FastestLapsTableProps) => {
   return (
     <ResultsTable<FastestLapRace>
       caption={`${year} Fastest Laps`}

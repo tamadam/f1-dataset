@@ -1,4 +1,4 @@
-import { Circuit, Constructor, Driver, FastestLap } from "./f1Common";
+import { Circuit, SessionResults } from "./f1Common";
 
 export type RawFastestLaps = {
     MRData: {
@@ -26,22 +26,5 @@ export type FastestLapRace = {
     Circuit: Circuit;
     date: string;
     time: string;
-    Results: FastestLapRaceResult[];
-}
-
-export type FastestLapRaceResult = {
-    number: string;
-    position: string;
-    positionText: string;
-    points: string;
-    Driver: Driver;
-    Constructor: Constructor;
-    grid: string;
-    laps: string;
-    status: string;
-    Time: {
-        millis: string;
-        time: string;
-    }
-    FastestLap: FastestLap
+    Results: SessionResults[];
 }

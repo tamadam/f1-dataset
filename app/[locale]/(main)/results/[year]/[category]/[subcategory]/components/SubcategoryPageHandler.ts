@@ -6,10 +6,22 @@ import { ConstructorRace, RawConstructorResults } from "@/app/types/constructorR
 import ConstructorResultsTable from "./ConstructorResultsTable";
 import DriverResultsTable from "./DriverResultsTable";
 import { getConstructorResults } from "@/app/lib/api/getConstructorResults";
+import { RawRaceResults, Race } from "@/app/types/raceResults";
+import { getRaceResults } from "@/app/lib/api/getRaceResults";
+import RaceResultsTable from "./RaceResultsTable";
+import { getCategory as getMainCategory } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
 
 export type CategoryKey = keyof typeof SUBCATEGORY_HANDLERS;
 
 type CategoryMap = {
+    races: {
+      Raw: RawRaceResults;
+      Item: Race;
+      Component: (props: {
+        year: string;
+        data: DriverRace[];
+      }) => JSX.Element;
+    },
     drivers: {
       Raw: RawDriverResults;
       Item: DriverRace;
@@ -41,6 +53,11 @@ export const SUBCATEGORY_HANDLERS: {
       CategoryMap[K]["Raw"]
     >;
 } = {
+    races: {
+      fetch: getRaceResults,
+      extract: (res) => res?.MRData.RaceTable.Races ?? [],
+      Component: RaceResultsTable,
+    },
     drivers: {
       fetch: getDriverResults,
       extract: (res) =>
@@ -74,4 +91,36 @@ export async function getSubCategoryData<T, R>(
     console.error(`Error fetching data for ${year}`, error);
     return null;
   }
+}
+
+type RaceFetchResult = {
+  id: string;
+};
+
+export async function getRaceToFetch(
+  category: string,
+  subcategory: string,
+  year: string
+): Promise<RaceFetchResult | null> {
+  if (category === "races") {
+    const categoryHandler = getMainCategory(category as CategoryKey);
+    const allRacesRaw = await categoryHandler.fetch(year);
+    const allRaces = categoryHandler.extract(allRacesRaw);
+
+    const mapped = allRaces.map(categoryHandler.selectorMap!);
+
+    const match = mapped.find(
+      (entry) => typeof entry !== "string" && entry.id === subcategory
+    );
+  
+    if (!match || typeof match === "string" || !match.round) {
+      return null;
+    }
+  
+    return {
+      id: match.round,
+    };
+  }
+
+  return { id: subcategory };
 }

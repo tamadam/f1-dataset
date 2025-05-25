@@ -2,6 +2,7 @@ import { routing } from "@/i18n/routing";
 import {
   CategoryKey,
   getCategory,
+  getRaceToFetch,
   getSubCategoryData,
 } from "./components/SubcategoryPageHandler";
 import { notFound } from "next/navigation";
@@ -9,6 +10,7 @@ import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
 import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
+import { getAllRaces } from "@/app/lib/api/getAllRaces";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
@@ -45,6 +47,17 @@ export async function generateStaticParams() {
               subcategory: constructor.constructorId,
             });
           }
+        } else if (category === "races") {
+          const racesData = await getAllRaces(year);
+          const races = racesData?.MRData.RaceTable.Races ?? [];
+          for (const race of races) {
+            staticParams.push({
+              locale,
+              year,
+              category,
+              subcategory: race.Circuit.circuitId,
+            });
+          }
         }
       }
     }
@@ -69,11 +82,19 @@ export default async function ResultsSubcategoryPage({
     return notFound();
 
   const handler = getCategory(category as CategoryKey);
-  const rawData = await getSubCategoryData(handler, year, subcategory);
+
+  // If the category is "races", find the round based on circuitId
+  const raceToFetch = await getRaceToFetch(category, subcategory, year);
+  if (!raceToFetch) return notFound();
+
+  const { id } = raceToFetch;
+
+  const rawData = await getSubCategoryData(handler, year, id);
   if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 
-  if (!data || data.length === 0) {
+  // In case of races we want to handle if the user clicks on a race which has no result yet
+  if (category !== "races" && (!data || data.length === 0)) {
     return notFound();
   }
 

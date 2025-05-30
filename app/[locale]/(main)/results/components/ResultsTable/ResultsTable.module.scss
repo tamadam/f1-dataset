@@ -26,15 +26,15 @@
 
 .resultsWrapper {
     display: grid;
+}
 
-    &.multiTable {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+.multiTable {
+    grid-template-columns: 1fr;
+    gap: 1rem;
 
-        @media (min-width: 768px) {
-            grid-template-columns: (25% auto);
-        } 
-    }
+    @media (min-width: 768px) {
+        grid-template-columns: (25% auto);
+    } 
 }
 
 .detailSelectorList {

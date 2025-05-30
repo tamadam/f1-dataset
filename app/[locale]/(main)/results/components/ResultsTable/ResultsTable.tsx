@@ -82,7 +82,7 @@ const ResultsTable = <T,>({
       )}
       <div
         className={clsx(styles.resultsWrapper, {
-          [styles.multiTable]: detailList?.length !== 0,
+          [styles.multiTable]: Boolean(detailList),
         })}
       >
         {detailList && (

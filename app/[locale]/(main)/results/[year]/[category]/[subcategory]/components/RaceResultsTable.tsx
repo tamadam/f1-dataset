@@ -2,6 +2,7 @@
 
 import { Race, RaceResultRow } from "@/app/types/raceResults";
 import ResultsTable from "../../../../components/ResultsTable/ResultsTable";
+import { DETAILS } from "@/app/constants";
 
 interface RaceResultsTableProps {
   year: string;
@@ -22,11 +23,20 @@ const RaceResultsTable = ({ year, data }: RaceResultsTableProps) => {
       points: res.points,
     }))
   );
+
+  const raceInfo = [data?.[0].date, data?.[0].Circuit.circuitName]
+    .filter(Boolean)
+    .join(" - ");
+
+  const raceDetails = ["Race Result", ...DETAILS.map((detail) => detail)];
+  console.log(raceDetails);
   return (
     <ResultsTable<RaceResultRow>
       caption={`${year} ${data?.[0]?.raceName || ""} Race Results`}
+      captionDescription={raceInfo}
       noDataText="Results for this session aren't available yet"
       data={rows}
+      detailList={raceDetails}
       columns={[
         { field: "position", header: "Pos", styles: { columnSize: "0.2fr" } },
         {

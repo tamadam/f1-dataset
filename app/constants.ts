@@ -9,3 +9,5 @@ export const F1_LOGO_ORIGINAL_WIDTH = 1024;
 export const F1_LOGO_ORIGINAL_HEIGHT = 373;
 
 export const CATEGORIES =  ["races", "drivers", "constructors", "fastest-laps"] as const;
+
+export const DETAILS = ["qualifying", "practice3", "practice2", "practice1"] as const;

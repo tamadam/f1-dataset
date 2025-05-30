@@ -3,6 +3,7 @@
 import { CSSProperties } from "react";
 import styles from "./ResultsTable.module.scss";
 import { useRef, useEffect, useState } from "react";
+import clsx from "clsx";
 
 export type ColumnDefinition<T> = {
   field: keyof T;
@@ -16,16 +17,20 @@ export type ColumnDefinition<T> = {
 
 interface ResultsTableProps<T> {
   caption: string;
+  captionDescription?: string;
   noDataText?: string;
   data: T[] | undefined;
+  detailList?: string[];
   columns: ColumnDefinition<T>[];
   tableInlineStyles?: CSSProperties;
 }
 
 const ResultsTable = <T,>({
   caption,
+  captionDescription,
   noDataText = "No data available",
   data,
+  detailList,
   columns,
   tableInlineStyles = {},
 }: ResultsTableProps<T>) => {
@@ -68,52 +73,72 @@ const ResultsTable = <T,>({
   });
 
   return (
-    <div>
+    <div className={styles.resultsWrapperTable}>
       <div className={styles.tableCaption}>{caption}</div>
-      <div className={styles.resultsTableOuterWrapper}>
-        <div
-          className={styles.shadowLeft}
-          style={{ opacity: showLeftShadow ? 1 : 0 }}
-        />
-        <div
-          className={styles.shadowRight}
-          style={{ opacity: showRightShadow ? 1 : 0 }}
-        />
+      {captionDescription && (
+        <div className={styles.tableCaptionDescription}>
+          {captionDescription}
+        </div>
+      )}
+      <div
+        className={clsx(styles.resultsWrapper, {
+          [styles.multiTable]: detailList?.length !== 0,
+        })}
+      >
+        {detailList && (
+          <ul className={styles.detailSelectorList}>
+            {detailList.map((detail) => (
+              <li key={detail} className={styles.detailElement}>
+                {detail}
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className={styles.resultsTableOuterWrapper}>
+          <div
+            className={styles.shadowLeft}
+            style={{ opacity: showLeftShadow ? 1 : 0 }}
+          />
+          <div
+            className={styles.shadowRight}
+            style={{ opacity: showRightShadow ? 1 : 0 }}
+          />
 
-        <div ref={contentRef} className={styles.resultsTableWrapper}>
-          <table className={styles.resultsTable} style={tableInlineStyles}>
-            <thead className={styles.tableHeaderWrapper}>
-              <tr style={columnStyle}>
-                {columns.map((column) => (
-                  <th key={column.header} style={getCellStyles(column)}>
-                    {column.header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className={styles.tableBodyWrapper}>
-              {noDataAvailable ? (
-                <tr>
-                  <td colSpan={columns.length}>{noDataText}</td>
+          <div ref={contentRef} className={styles.resultsTableWrapper}>
+            <table className={styles.resultsTable} style={tableInlineStyles}>
+              <thead className={styles.tableHeaderWrapper}>
+                <tr style={columnStyle}>
+                  {columns.map((column) => (
+                    <th key={column.header} style={getCellStyles(column)}>
+                      {column.header}
+                    </th>
+                  ))}
                 </tr>
-              ) : (
-                data.map((item, index) => (
-                  <tr key={index} style={columnStyle}>
-                    {columns.map((column) => {
-                      const value = item[column.field];
-                      return (
-                        <td key={column.header} style={getCellStyles(column)}>
-                          {column.renderCell
-                            ? column.renderCell(item)
-                            : String(value)}
-                        </td>
-                      );
-                    })}
+              </thead>
+              <tbody className={styles.tableBodyWrapper}>
+                {noDataAvailable ? (
+                  <tr>
+                    <td colSpan={columns.length}>{noDataText}</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  data.map((item, index) => (
+                    <tr key={index} style={columnStyle}>
+                      {columns.map((column) => {
+                        const value = item[column.field];
+                        return (
+                          <td key={column.header} style={getCellStyles(column)}>
+                            {column.renderCell
+                              ? column.renderCell(item)
+                              : String(value)}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

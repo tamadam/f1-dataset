@@ -1,4 +1,4 @@
-import { Circuit } from "./f1Common";
+import { Circuit, DateTime } from "./f1Common";
 
 export type RawRaces = {
     MRData: {
@@ -25,32 +25,11 @@ export type Race = {
     Circuit: Circuit;
     date: string;
     time?: string;
-    FirstPractice?: {
-        date: string;
-        time: string;
-    },
-    SecondPractice?: {
-        date: string;
-        time: string;
-    },
-    ThirdPractice?: {
-        date: string;
-        time: string;
-    },
-    Qualifying?: {
-        date: string;
-        time: string;
-    },
-    Sprint?: {
-        date: string;
-        time: string;
-    },
-    SprintQualifying?: {
-        date: string;
-        time: string;
-    },
-    SprintShootout?: {
-        date: string;
-        time: string;
-    }
+    FirstPractice?: DateTime,
+    SecondPractice?: DateTime,
+    ThirdPractice?:DateTime,
+    Qualifying?: DateTime,
+    Sprint?: DateTime,
+    SprintQualifying?: DateTime,
+    SprintShootout?: DateTime
 }

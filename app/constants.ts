@@ -10,4 +10,25 @@ export const F1_LOGO_ORIGINAL_HEIGHT = 373;
 
 export const CATEGORIES =  ["races", "drivers", "constructors", "fastest-laps"] as const;
 
-export const DETAILS = ["qualifying", "practice3", "practice2", "practice1"] as const;
+export enum DETAILS {
+    FirstPractice = "FirstPractice",
+    SecondPractice = "SecondPractice",
+    ThirdPractice = "ThirdPractice",
+    Qualifying = "Qualifying",
+    Sprint = "Sprint",
+    SprintQualifying = "SprintQualifying",
+    SprintShootout = "SprintShootout",
+    Race = "Race Result",
+}
+
+export enum DETAILS_URLS {
+    FirstPractice = "practice1",
+    SecondPractice = "practice2",
+    ThirdPractice = "practice3",
+    Qualifying = "qualifying",
+    Sprint = "sprint",
+    SprintQualifying = "sprintqualifying",
+    Race = "",
+}
+  
+  

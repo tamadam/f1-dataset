@@ -4,6 +4,19 @@ import { CSSProperties } from "react";
 import styles from "./ResultsTable.module.scss";
 import { useRef, useEffect, useState } from "react";
 import clsx from "clsx";
+import { DateTime } from "@/app/types/f1Common";
+import { useParams } from "next/navigation";
+import { DETAILS_URLS } from "@/app/constants";
+import { Link, usePathname } from "@/i18n/navigation";
+import { formatDate } from "@/app/lib/date-utils";
+
+export type DetailItem = {
+  label: string;
+  date?: DateTime;
+  disabled: boolean;
+  order: number;
+  urlKey: DETAILS_URLS | null;
+};
 
 export type ColumnDefinition<T> = {
   field: keyof T;
@@ -20,7 +33,7 @@ interface ResultsTableProps<T> {
   captionDescription?: string;
   noDataText?: string;
   data: T[] | undefined;
-  detailList?: string[];
+  detailList?: DetailItem[];
   columns: ColumnDefinition<T>[];
   tableInlineStyles?: CSSProperties;
 }
@@ -37,6 +50,10 @@ const ResultsTable = <T,>({
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
+  const { year, category, subcategory } = useParams();
+  const pathname = usePathname();
+
+  const basePath = `/results/${year}/${category}/${subcategory}`;
 
   useEffect(() => {
     const content = contentRef.current;
@@ -87,11 +104,60 @@ const ResultsTable = <T,>({
       >
         {detailList && (
           <ul className={styles.detailSelectorList}>
-            {detailList.map((detail) => (
-              <li key={detail} className={styles.detailElement}>
-                {detail}
-              </li>
-            ))}
+            {detailList.map((detail) => {
+              const href = detail.urlKey
+                ? `${basePath}/${detail.urlKey}`
+                : basePath;
+              const isActive = pathname === href;
+              const isClickable = !detail.disabled;
+
+              return (
+                <li
+                  key={detail.label}
+                  className={clsx(styles.detailElement, {
+                    [styles.elementActive]: isActive,
+                    [styles.clickableElement]: isClickable,
+                  })}
+                >
+                  {isClickable ? (
+                    <Link
+                      href={
+                        detail.urlKey
+                          ? `${basePath}/${detail.urlKey}`
+                          : basePath
+                      }
+                    >
+                      <div className={styles.detailElementLabel}>
+                        <span className={styles.elementLabel}>
+                          {detail.label}
+                        </span>
+                        {detail.date && (
+                          <span className={styles.elementDate}>
+                            {formatDate(detail.date.date)}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  ) : (
+                    <div
+                      className={clsx(
+                        styles.detailElementLabel,
+                        styles.nonClickableElement
+                      )}
+                    >
+                      <span className={styles.elementLabel}>
+                        {detail.label}
+                      </span>
+                      {detail.date && (
+                        <span className={styles.elementDate}>
+                          {formatDate(detail.date.date)}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
         <div className={styles.resultsTableOuterWrapper}>

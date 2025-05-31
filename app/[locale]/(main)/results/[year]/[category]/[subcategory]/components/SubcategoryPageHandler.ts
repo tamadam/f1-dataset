@@ -7,9 +7,12 @@ import ConstructorResultsTable from "./ConstructorResultsTable";
 import DriverResultsTable from "./DriverResultsTable";
 import { getConstructorResults } from "@/app/lib/api/getConstructorResults";
 import { RawRaceResults, Race } from "@/app/types/raceResults";
+import { Race as RawRace } from "@/app/types/races";
 import { getRaceResults } from "@/app/lib/api/getRaceResults";
 import RaceResultsTable from "./RaceResultsTable";
-import { getCategory as getMainCategory } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
+import { getAllRaces } from "@/app/lib/api/getAllRaces";
+import { DateTime } from "@/app/types/f1Common";
+import { DETAILS, DETAILS_URLS } from "@/app/constants";
 
 export type CategoryKey = keyof typeof SUBCATEGORY_HANDLERS;
 
@@ -17,14 +20,17 @@ type CategoryMap = {
     races: {
       Raw: RawRaceResults;
       Item: Race;
+      Detail: RaceFetchResult;
       Component: (props: {
         year: string;
         data: DriverRace[];
+        detail?: RaceFetchResult;
       }) => JSX.Element;
     },
     drivers: {
       Raw: RawDriverResults;
       Item: DriverRace;
+      Detail: null;
       Component: (props: {
         year: string;
         data: DriverRace[];
@@ -33,6 +39,7 @@ type CategoryMap = {
     constructors: {
       Raw: RawConstructorResults;
       Item: ConstructorRace;
+      Detail: null;
       Component: (props: {
         year: string;
         data: ConstructorRace[];
@@ -40,17 +47,18 @@ type CategoryMap = {
     };
 };
   
-type CategoryHandler<T, R> = {
+type CategoryHandler<T, R, D> = {
     fetch: (year: string, id: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
     selectorMap?: (entry: T) => string | { id: string, name: string };
-    Component: (props: { year: string; data: T[] }) => JSX.Element;
+    Component: (props: { year: string; data: T[]; detail?: D; }) => JSX.Element;
 };
   
 export const SUBCATEGORY_HANDLERS: {
     [K in keyof CategoryMap]: CategoryHandler<
       CategoryMap[K]["Item"],
-      CategoryMap[K]["Raw"]
+      CategoryMap[K]["Raw"],
+      CategoryMap[K]["Detail"]
     >;
 } = {
     races: {
@@ -76,12 +84,13 @@ export const SUBCATEGORY_HANDLERS: {
 export function getCategory<K extends CategoryKey>(category: K) {
   return SUBCATEGORY_HANDLERS[category] as CategoryHandler<
     CategoryMap[K]['Item'],
-    CategoryMap[K]['Raw']
+    CategoryMap[K]['Raw'],
+    CategoryMap[K]["Detail"]
   >;
 }
 
-export async function getSubCategoryData<T, R>(
-  handler: CategoryHandler<T, R>,
+export async function getSubCategoryData<T, R, D>(
+  handler: CategoryHandler<T, R, D>,
   year: string,
   id: string
 ): Promise<R | null> {
@@ -93,34 +102,35 @@ export async function getSubCategoryData<T, R>(
   }
 }
 
-type RaceFetchResult = {
+export type RaceFetchResult = {
   id: string;
+  raceName: string;
+  circuitName: string;
+} & {
+  [K in keyof typeof DETAILS]: { label: string; date?: DateTime; disabled: boolean, order: number, urlKey: DETAILS_URLS | null };
 };
 
 export async function getRaceToFetch(
-  category: string,
   subcategory: string,
   year: string
 ): Promise<RaceFetchResult | null> {
-  if (category === "races") {
-    const categoryHandler = getMainCategory(category as CategoryKey);
-    const allRacesRaw = await categoryHandler.fetch(year);
-    const allRaces = categoryHandler.extract(allRacesRaw);
+  const allRacesRaw = await getAllRaces(year);
+  const allRaces = allRacesRaw?.MRData.RaceTable.Races as RawRace[];
 
-    const mapped = allRaces.map(categoryHandler.selectorMap!);
+  const race = allRaces.find(r => r.Circuit.circuitId === subcategory);
+  if (!race) return null;
 
-    const match = mapped.find(
-      (entry) => typeof entry !== "string" && entry.id === subcategory
-    );
-  
-    if (!match || typeof match === "string" || !match.round) {
-      return null;
-    }
-  
-    return {
-      id: match.round,
-    };
-  }
-
-  return { id: subcategory };
+  return {
+    id: String(race.round),
+    raceName: race.raceName,
+    circuitName: race.Circuit.circuitName,
+    FirstPractice: { label: DETAILS.FirstPractice, date: race.FirstPractice, disabled: true, order: 0, urlKey: DETAILS_URLS.FirstPractice },
+    SecondPractice: { label: DETAILS.SecondPractice, date: race.SecondPractice, disabled: true, order: 1, urlKey: DETAILS_URLS.SecondPractice },
+    ThirdPractice: { label: DETAILS.ThirdPractice, date: race.ThirdPractice, disabled: true, order: 2, urlKey: DETAILS_URLS.ThirdPractice },
+    Qualifying: { label: DETAILS.Qualifying, date: race.Qualifying, disabled: false, order: 10, urlKey: DETAILS_URLS.Qualifying },
+    Sprint: { label: DETAILS.Sprint, date: race.Sprint, disabled: false, order: 15, urlKey: DETAILS_URLS.Sprint },
+    SprintQualifying: { label: DETAILS.SprintQualifying, date: race.SprintQualifying, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
+    SprintShootout: { label: DETAILS.SprintShootout, date: race.SprintShootout, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
+    Race: { label: DETAILS.Race, date: { date: race.date, time: race.time || "" }, disabled: false, order: 20, urlKey: DETAILS_URLS.Race }
+  };
 }

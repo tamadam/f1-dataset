@@ -40,6 +40,8 @@
   --black-transparent: #00000080;
   --grey-dark: #272727;
   --grey-dark-transparent: #27272766;
+  --grey-light: #9d9da3;
+  --grey-light-transparent: #9d9da32a;
 
   --header-height: 5rem;
 
@@ -51,6 +53,7 @@
   --landing-page-title-size: clamp(1.8rem, 1.5rem + 2vw, 2.8rem);
   --landing-page-description-size: clamp(1.125rem, 0.6rem + 1vw, 1.4rem);
 
+  --font-size-xxs: 0.7rem;
   --font-size-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
   --font-size-s: 1rem; 
   --font-size-m: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);

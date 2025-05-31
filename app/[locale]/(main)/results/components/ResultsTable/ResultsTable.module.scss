@@ -26,6 +26,7 @@
 
 .resultsWrapper {
     display: grid;
+    margin-block-end: 2rem;
 }
 
 .multiTable {
@@ -43,11 +44,41 @@
     gap: 0.2rem;
     
     .detailElement {
-        padding: 1rem;
         border-width: 0;
         border: 0 solid transparent;
         border-left-width: 0.365rem;
-        border-color: var(--red-medium);
+        border-color: var(--grey-light);
+
+        a:hover {
+            color: unset;
+        }
+
+        &.clickableElement {
+            &:hover {
+                background-color: var(--grey-light-transparent);
+            }
+        }
+    
+        &.elementActive {
+            border-color: var(--red-medium);
+        }
+
+        & .detailElementLabel {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+    
+            .elementDate {
+                font-size: var(--font-size-xxs);
+                color: var(--grey-light);
+            }
+
+            &.nonClickableElement {
+                color: var(--grey-light);
+                cursor: default;
+            }
+        }
     }
 }
 
@@ -58,6 +89,8 @@
 }
 
 .tableCaption,
+.tableCaptionDescription,
+.detailSelectorList,
 .resultsTableOuterWrapper {
     font-family: "Formula1_Regular";
 }

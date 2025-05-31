@@ -4,6 +4,7 @@ import {
   getCategory,
   getRaceToFetch,
   getSubCategoryData,
+  RaceFetchResult,
 } from "./components/SubcategoryPageHandler";
 import { notFound } from "next/navigation";
 import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
@@ -86,11 +87,15 @@ export default async function ResultsSubcategoryPage({
 
   const handler = getCategory(category as CategoryKey);
 
+  let id = subcategory;
+  let raceToFetch: RaceFetchResult | null = null;
   // If the category is "races", find the round based on circuitId
-  const raceToFetch = await getRaceToFetch(category, subcategory, year);
-  if (!raceToFetch) return notFound();
+  if (category === "races") {
+    raceToFetch = await getRaceToFetch(subcategory, year);
+    if (!raceToFetch) return notFound();
 
-  const { id } = raceToFetch;
+    id = raceToFetch.id;
+  }
 
   const rawData = await getSubCategoryData(handler, year, id);
   if (!rawData) return notFound();
@@ -102,5 +107,5 @@ export default async function ResultsSubcategoryPage({
   }
 
   const Component = handler.Component;
-  return <Component year={year} data={data} />;
+  return <Component year={year} data={data} detail={raceToFetch} />;
 }

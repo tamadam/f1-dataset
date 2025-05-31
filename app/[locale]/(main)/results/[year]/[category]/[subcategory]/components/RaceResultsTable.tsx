@@ -1,15 +1,19 @@
 "use client";
 
 import { Race, RaceResultRow } from "@/app/types/raceResults";
-import ResultsTable from "../../../../components/ResultsTable/ResultsTable";
+import ResultsTable, {
+  DetailItem,
+} from "../../../../components/ResultsTable/ResultsTable";
 import { DETAILS } from "@/app/constants";
+import { RaceFetchResult } from "./SubcategoryPageHandler";
+import { formatDate } from "@/app/lib/date-utils";
 
 interface RaceResultsTableProps {
   year: string;
   data: Race[] | undefined;
+  detail?: RaceFetchResult;
 }
-const RaceResultsTable = ({ year, data }: RaceResultsTableProps) => {
-  console.log(data);
+const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
   const rows: RaceResultRow[] = (data || []).flatMap((race) =>
     race.Results.map((res) => ({
       round: race.round,
@@ -24,15 +28,34 @@ const RaceResultsTable = ({ year, data }: RaceResultsTableProps) => {
     }))
   );
 
-  const raceInfo = [data?.[0].date, data?.[0].Circuit.circuitName]
+  const raceDate = data?.[0]?.date || detail?.Race?.date?.date;
+
+  const raceInfo = [
+    raceDate && formatDate(raceDate),
+    data?.[0]?.Circuit.circuitName || detail?.circuitName,
+  ]
     .filter(Boolean)
     .join(" - ");
 
-  const raceDetails = ["Race Result", ...DETAILS.map((detail) => detail)];
-  console.log(raceDetails);
+  let detailsList: DetailItem[] = [];
+
+  if (detail) {
+    const availableDetails = (Object.keys(DETAILS) as (keyof typeof DETAILS)[])
+      .map((session) => detail[session])
+      .filter((session) => Boolean(session?.date));
+
+    detailsList = [...availableDetails];
+  }
+
+  const raceDetails: DetailItem[] = [...detailsList].sort(
+    (a, b) => b.order - a.order
+  );
+
   return (
     <ResultsTable<RaceResultRow>
-      caption={`${year} ${data?.[0]?.raceName || ""} Race Results`}
+      caption={`${year} ${
+        data?.[0]?.raceName || detail?.raceName || ""
+      } Race Results`}
       captionDescription={raceInfo}
       noDataText="Results for this session aren't available yet"
       data={rows}

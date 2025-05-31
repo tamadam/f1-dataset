@@ -54,3 +54,8 @@ export type SessionResults = {
     }
     FastestLap: FastestLap
 }
+
+export type DateTime = {
+    date: string;
+    time: string;
+}

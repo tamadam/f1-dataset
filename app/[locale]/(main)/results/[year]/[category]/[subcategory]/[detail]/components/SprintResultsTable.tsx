@@ -75,7 +75,9 @@ const SprintResultsTable = ({
           field: "Time",
           header: "Time/Retired",
           renderCell: (value) =>
-            value.Time ? value.Time.time : `Retired: ${value.status}`,
+            value.Time.time ?? value.positionText === "R"
+              ? "Retired"
+              : ` ${value.status}`,
           styles: { columnSize: "0.6fr", textAlign: "center" },
         },
         {

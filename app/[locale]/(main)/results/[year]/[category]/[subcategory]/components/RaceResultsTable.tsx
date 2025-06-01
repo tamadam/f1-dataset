@@ -24,7 +24,8 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
       driverName: `${res.Driver.givenName} ${res.Driver.familyName}`,
       constructorName: res.Constructor.name,
       laps: res.laps,
-      timeOrStatus: res.Time?.time ?? res.status,
+      timeOrStatus:
+        res.Time?.time ?? res.positionText === "R" ? "Retired" : res.status,
       points: res.points,
     }))
   );

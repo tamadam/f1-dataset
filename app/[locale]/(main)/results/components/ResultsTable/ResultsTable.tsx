@@ -87,7 +87,6 @@ const ResultsTable = <T,>({
 
   const getCellStyles = (column: ColumnDefinition<T>) => ({
     justifySelf: column.styles?.textAlign || "left",
-    "text-align": "center",
   });
 
   return (

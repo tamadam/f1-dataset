@@ -1,24 +1,24 @@
 "use client";
 
-import { SessionResults } from "@/app/types/f1Common";
-import { RaceFetchResult } from "../components/SubcategoryPageHandler";
+import { QualifyingResult } from "@/app/types/qualifyingResults";
 import ResultsTable, {
   DetailItem,
-} from "../../../../components/ResultsTable/ResultsTable";
+} from "../../../../../components/ResultsTable/ResultsTable";
 import { formatDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
+import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 
-interface SprintResultsTableProps {
+interface QualifyingResultsTableProps {
   year: string;
-  data: SessionResults[] | undefined;
+  data: QualifyingResult[] | undefined;
   detail?: RaceFetchResult;
 }
 
-const SprintResultsTable = ({
+const QualifyingResultsTable = ({
   year,
   data,
   detail,
-}: SprintResultsTableProps) => {
+}: QualifyingResultsTableProps) => {
   const raceDate = detail?.Race?.date?.date;
 
   const raceInfo = [raceDate && formatDate(raceDate), detail?.circuitName]
@@ -38,10 +38,9 @@ const SprintResultsTable = ({
   const raceDetails: DetailItem[] = [...detailsList].sort(
     (a, b) => b.order - a.order
   );
-
   return (
-    <ResultsTable<SessionResults>
-      caption={`${year} ${detail?.raceName || ""} Sprint Race Results`}
+    <ResultsTable<QualifyingResult>
+      caption={`${year} ${detail?.raceName || ""} Qualifying Results`}
       captionDescription={raceInfo}
       noDataText="Results for this session aren't available yet"
       data={data}
@@ -49,43 +48,34 @@ const SprintResultsTable = ({
       columns={[
         { field: "position", header: "Pos", styles: { columnSize: "0.2fr" } },
         {
-          field: "number",
-          header: "NO",
-          styles: { columnSize: "0.2fr" },
-        },
-        {
           field: "Driver",
           header: "Driver",
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
-          styles: { columnSize: "1fr" },
         },
         {
           field: "Constructor",
           header: "Constructor",
           renderCell: (value) => `${value.Constructor.name}`,
-          styles: { columnSize: "0.6fr" },
         },
         {
-          field: "laps",
-          header: "Laps",
-          styles: { columnSize: "0.4fr", textAlign: "center" },
+          field: "Q1",
+          header: "Q1",
+          renderCell: (value) => `${value.Q1 || ""}`,
         },
         {
-          field: "Time",
-          header: "Time/Retired",
-          renderCell: (value) =>
-            value.Time ? value.Time.time : `Retired: ${value.status}`,
-          styles: { columnSize: "0.6fr", textAlign: "center" },
+          field: "Q2",
+          header: "Q2",
+          renderCell: (value) => `${value.Q2 || ""}`,
         },
         {
-          field: "points",
-          header: "Pts",
-          styles: { columnSize: "0.2fr", textAlign: "right" },
+          field: "Q3",
+          header: "Q3",
+          renderCell: (value) => `${value.Q3 || ""}`,
         },
       ]}
     />
   );
 };
 
-export default SprintResultsTable;
+export default QualifyingResultsTable;

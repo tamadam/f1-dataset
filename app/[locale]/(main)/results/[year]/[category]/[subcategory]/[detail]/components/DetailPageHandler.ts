@@ -2,7 +2,7 @@ import { JSX } from "react";
 import { getQualifyingResults } from "@/app/lib/api/getQualifyingResults";
 import { QualifyingResult, RawQualifyingResults } from "@/app/types/qualifyingResults";
 import QualifyingResultsTable from "./QualifyingResultsTable";
-import { RaceFetchResult } from "../components/SubcategoryPageHandler";
+import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 import { RawSprintResults } from "@/app/types/sprintResults";
 import { getSprintResults } from "@/app/lib/api/getSprintResults";
 import SprintResultsTable from "./SprintResultsTable";

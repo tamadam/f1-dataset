@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CategoryKey, getCategory } from "./DetailPageHandler";
+import { CategoryKey, getCategory } from "./components/DetailPageHandler";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import { DETAILS, DETAILS_URLS } from "@/app/constants";

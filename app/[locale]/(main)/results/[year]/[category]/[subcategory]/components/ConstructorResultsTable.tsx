@@ -2,6 +2,7 @@
 
 import ResultsTable from "@/app/[locale]/(main)/results/components/ResultsTable/ResultsTable";
 import { ConstructorRace } from "@/app/types/constructorResults";
+import { useTranslations } from "next-intl";
 
 interface ConstructorResultsTableProps {
   year: string;
@@ -11,15 +12,19 @@ const ConstructorResultsTable = ({
   year,
   data,
 }: ConstructorResultsTableProps) => {
+  const translate = useTranslations("General");
+
   const constructor = data?.[0].Results[0].Constructor;
 
   return (
     <ResultsTable<ConstructorRace>
-      caption={`${year} Constructor Standings: ${constructor?.name}`}
+      caption={`${year} ${translate("constructorStandings")}: ${
+        constructor?.name
+      }`}
       columns={[
         {
           field: "Circuit",
-          header: "Grand prix",
+          header: translate("grandPrix"),
           renderCell: (value) => `${value.Circuit.circuitName}`,
           styles: {
             columnSize: "1.4fr",
@@ -28,7 +33,7 @@ const ConstructorResultsTable = ({
         },
         {
           field: "date",
-          header: "Date",
+          header: translate("date"),
           styles: {
             columnSize: "0.8fr",
             textAlign: "left",
@@ -36,7 +41,7 @@ const ConstructorResultsTable = ({
         },
         {
           field: "Results",
-          header: "Points",
+          header: translate("points"),
           renderCell: (value) =>
             `${value.Results.reduce((acc, currVal) => {
               const value = Number(currVal.points);

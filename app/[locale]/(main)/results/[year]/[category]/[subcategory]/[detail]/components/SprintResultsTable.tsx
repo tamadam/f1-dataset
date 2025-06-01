@@ -7,6 +7,7 @@ import ResultsTable, {
 } from "../../../../../components/ResultsTable/ResultsTable";
 import { formatDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
+import { useTranslations } from "next-intl";
 
 interface SprintResultsTableProps {
   year: string;
@@ -19,6 +20,8 @@ const SprintResultsTable = ({
   data,
   detail,
 }: SprintResultsTableProps) => {
+  const translate = useTranslations("General");
+
   const raceDate = detail?.Race?.date?.date;
 
   const raceInfo = [raceDate && formatDate(raceDate), detail?.circuitName]
@@ -41,13 +44,17 @@ const SprintResultsTable = ({
 
   return (
     <ResultsTable<SessionResults>
-      caption={`${year} ${detail?.raceName || ""} Sprint Race Results`}
+      caption={`${year} ${detail?.raceName || ""} ${translate("sprint")}`}
       captionDescription={raceInfo}
-      noDataText="Results for this session aren't available yet"
+      noDataText={translate("noResults")}
       data={data}
       detailList={raceDetails}
       columns={[
-        { field: "position", header: "Pos", styles: { columnSize: "0.2fr" } },
+        {
+          field: "position",
+          header: translate("pos"),
+          styles: { columnSize: "0.2fr" },
+        },
         {
           field: "number",
           header: "NO",
@@ -55,34 +62,36 @@ const SprintResultsTable = ({
         },
         {
           field: "Driver",
-          header: "Driver",
+          header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
           styles: { columnSize: "1fr" },
         },
         {
           field: "Constructor",
-          header: "Constructor",
+          header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
           styles: { columnSize: "0.6fr" },
         },
         {
           field: "laps",
-          header: "Laps",
+          header: translate("laps"),
           styles: { columnSize: "0.4fr", textAlign: "center" },
         },
         {
           field: "Time",
-          header: "Time/Retired",
+          header: translate("time-retired"),
           renderCell: (value) =>
-            value.Time.time ?? value.positionText === "R"
+            value.Time.time
+              ? value.Time.time
+              : value.positionText === "R"
               ? "Retired"
-              : ` ${value.status}`,
+              : `${value.status}`,
           styles: { columnSize: "0.6fr", textAlign: "center" },
         },
         {
           field: "points",
-          header: "Pts",
+          header: translate("points"),
           styles: { columnSize: "0.2fr", textAlign: "right" },
         },
       ]}

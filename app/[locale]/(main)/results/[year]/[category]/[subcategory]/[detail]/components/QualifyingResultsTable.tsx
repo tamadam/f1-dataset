@@ -7,6 +7,7 @@ import ResultsTable, {
 import { formatDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
+import { useTranslations } from "next-intl";
 
 interface QualifyingResultsTableProps {
   year: string;
@@ -19,6 +20,8 @@ const QualifyingResultsTable = ({
   data,
   detail,
 }: QualifyingResultsTableProps) => {
+  const translate = useTranslations("General");
+
   const raceDate = detail?.Race?.date?.date;
 
   const raceInfo = [raceDate && formatDate(raceDate), detail?.circuitName]
@@ -40,22 +43,28 @@ const QualifyingResultsTable = ({
   );
   return (
     <ResultsTable<QualifyingResult>
-      caption={`${year} ${detail?.raceName || ""} Qualifying Results`}
+      caption={`${year} ${detail?.raceName || ""} ${translate(
+        "qualifyingResults"
+      )}`}
       captionDescription={raceInfo}
-      noDataText="Results for this session aren't available yet"
+      noDataText={translate("noResults")}
       data={data}
       detailList={raceDetails}
       columns={[
-        { field: "position", header: "Pos", styles: { columnSize: "0.2fr" } },
+        {
+          field: "position",
+          header: translate("pos"),
+          styles: { columnSize: "0.2fr" },
+        },
         {
           field: "Driver",
-          header: "Driver",
+          header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
         },
         {
           field: "Constructor",
-          header: "Constructor",
+          header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
         },
         {

@@ -1,58 +1,95 @@
 {
-    "General": {
-      "f1DatasetLogoAltText": "F1 Dataset logo",
-      "footer": {
-        "account": "Account",
-        "contactUs": "Contact Us",
-        "aboutUs": "About Us",
-        "customerService": "Customer Service",
-        "warningMessage": "This site was created for the purpose of gaining experience in both frontend and backend development using React and Node.js technologies. The site provides users with information and data related to Formula 1. These data come from publicly available sources.",
-        "warningMessageImportant": "The site was not created for commercial or financial gain.",
-        "copyRightText": "F1 Dataset Hungary."
-      },
-      "languageSelector": {
-        "languageHungarian": "Magyar",
-        "languageEnglish": "English",
-        "ariaLabel": "Choose language"
-      },
-      "exploreButton": "Explore"
+  "General": {
+    "f1DatasetLogoAltText": "F1 Dataset logo",
+    "footer": {
+      "account": "Account",
+      "contactUs": "Contact Us",
+      "aboutUs": "About Us",
+      "customerService": "Customer Service",
+      "warningMessage": "This site was created for the purpose of gaining experience in both frontend and backend development using React and Node.js technologies. The site provides users with information and data related to Formula 1. These data come from publicly available sources.",
+      "warningMessageImportant": "The site was not created for commercial or financial gain.",
+      "copyRightText": "F1 Dataset Hungary."
     },
-    "LandingPage": {
-      "metadata": {
-        "title": "Formula 1 Statistics and Insights",
-        "description": "Explore the world of Formula 1 with in-depth statistics, driver rankings, and customizable data analysis. Track current standings and dive into historical F1 data with ease."
+    "languageSelector": {
+      "languageHungarian": "Magyar",
+      "languageEnglish": "English",
+      "ariaLabel": "Choose language"
+    },
+    "exploreButton": "Explore",
+    "season": "Season",
+    "all": "All",
+    "results": "Results",
+    "statistics": "Statistics",
+    "powerRankings": "Power Rankings",
+    "noResults": "Results for this session aren't available yet",
+    "noData": "No data available",
+    "category": "Category",
+    "races": "Races",
+    "race": "Race",
+    "raceResult": "Race Results",
+    "qualifying": "Qualifying",
+    "qualifyingResults": "Qualifying Results",
+    "practice1": "Practice 1",
+    "practice2": "Practice 2",
+    "practice3": "Practice 3",
+    "sprint": "Sprint",
+    "sprintQualifying": "Sprint Qualifying",
+    "sprintShootout": "Sprint Shootout",
+    "drivers": "Drivers",
+    "driver": "Driver",
+    "driverStandings": "Driver Standings",
+    "constructors": "Teams",
+    "constructor": "Team",
+    "constructorStandings": "Team Standings",
+    "fastest-laps": "Fastest Laps",
+    "round": "Round",
+    "date": "Date",
+    "grandPrix": "Grand Prix",
+    "pos": "Pos",
+    "position": "Position",
+    "nationality": "Nationality",
+    "car": "Car",
+    "points": "Points",
+    "time": "Time",
+    "laps": "Laps",
+    "time-retired": "Time/Retired"
+  },
+  "LandingPage": {
+    "metadata": {
+      "title": "Formula 1 Statistics and Insights",
+      "description": "Explore the world of Formula 1 with in-depth statistics, driver rankings, and customizable data analysis. Track current standings and dive into historical F1 data with ease."
+    },
+    "mainCard": {
+      "mainTitle": "Unlimited supply of Formula 1 data and analysis.",
+      "mainSubtitle": "Watch anywhere. Anytime.",
+      "mainDescription": "Lights out and away we go! Are you ready?",
+      "imageAltText": "Racing F1 cars"
+    },
+    "storyCards": {
+      "cardVideo": {
+        "storyTitle": "Don't miss the essentials.",
+        "storyDescription": "Watch our short race summaries in Hungarian to make sure you catch all the key moments."
       },
-      "mainCard": {
-        "mainTitle": "Unlimited supply of Formula 1 data and analysis.",
-        "mainSubtitle": "Watch anywhere. Anytime.",
-        "mainDescription": "Lights out and away we go! Are you ready?",
-        "imageAltText": "Racing F1 cars"
+      "cardAnimation": {
+        "storyTitle": "Power rankings. Where only the driver matters.",
+        "storyDescription": "This ranking orders drivers based on factors like current performance and consistency, fully disregarding the performance of the car they drive."
       },
-      "storyCards": {
-        "cardVideo": {
-          "storyTitle": "Don't miss the essentials.",
-          "storyDescription": "Watch our short race summaries in Hungarian to make sure you catch all the key moments."
-        },
-        "cardAnimation": {
-          "storyTitle": "Power rankings. Where only the driver matters.",
-          "storyDescription": "This ranking orders drivers based on factors like current performance and consistency, fully disregarding the performance of the car they drive."
-        },
-        "cardStatistics": {
-          "storyTitle": "Customizable statistics",
-          "storyDescription": "An unlimited amount of data is available to you. From this data, you can build any kind of statistics you want!"
-        }
-      },
-      "faq": {
-        "faqTitle": "Frequently Asked Questions",
-        "question1": "What kind of statistics and data are available on the site?",
-        "question1Answer": "The site provides a wide range of statistics and data related to Formula 1. This includes the current standings, information about drivers and teams, and other F1-related news.###LINEBREAK###The data is available from the very first F1 race. You can also apply custom filters to tailor your search and easily find the most relevant data for you.",
-        "question2": "How often are these statistics and data updated?",
-        "question2Answer": "The data is provided by the Ergast Developer API. Usually, a few hours after the current race is enough for the data to be updated. After that, the site reflects the latest statistics and data immediately.",
-        "question3": "Can I set it to show information only about a specific driver or team?",
-        "question3Answer": "Yes, filter functions are available that allow you to narrow down the data to a specific driver or team.",
-        "question4": "Is there a schedule showing upcoming races and events?",
-        "question4Answer": "Although we plan to introduce a similar feature in the future, it's currently not a top priority. However, we are always working on improvements and new features, so stay tuned for future updates."
+      "cardStatistics": {
+        "storyTitle": "Customizable statistics",
+        "storyDescription": "An unlimited amount of data is available to you. From this data, you can build any kind of statistics you want!"
       }
+    },
+    "faq": {
+      "faqTitle": "Frequently Asked Questions",
+      "question1": "What kind of statistics and data are available on the site?",
+      "question1Answer": "The site provides a wide range of statistics and data related to Formula 1. This includes the current standings, information about drivers and teams, and other F1-related news.###LINEBREAK###The data is available from the very first F1 race. You can also apply custom filters to tailor your search and easily find the most relevant data for you.",
+      "question2": "How often are these statistics and data updated?",
+      "question2Answer": "The data is provided by the Ergast Developer API. Usually, a few hours after the current race is enough for the data to be updated. After that, the site reflects the latest statistics and data immediately.",
+      "question3": "Can I set it to show information only about a specific driver or team?",
+      "question3Answer": "Yes, filter functions are available that allow you to narrow down the data to a specific driver or team.",
+      "question4": "Is there a schedule showing upcoming races and events?",
+      "question4Answer": "Although we plan to introduce a similar feature in the future, it's currently not a top priority. However, we are always working on improvements and new features, so stay tuned for future updates."
     }
   }
+}
   

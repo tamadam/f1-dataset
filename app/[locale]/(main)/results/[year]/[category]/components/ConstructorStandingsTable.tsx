@@ -3,6 +3,7 @@
 import { ConstructorStandings } from "@/app/types/constructorStandings";
 import React from "react";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
+import { useTranslations } from "next-intl";
 
 interface ConstructorStandingsTableProps {
   year: string;
@@ -13,13 +14,15 @@ const ConstructorStandingsTable = ({
   year,
   data,
 }: ConstructorStandingsTableProps) => {
+  const translate = useTranslations("General");
+
   return (
     <ResultsTable<ConstructorStandings>
-      caption={`${year} Constructor Standings`}
+      caption={`${year} ${translate("constructorStandings")}`}
       columns={[
         {
           field: "positionText",
-          header: "Pos",
+          header: translate("pos"),
           styles: {
             columnSize: "0.4fr",
             textAlign: "left",
@@ -27,7 +30,7 @@ const ConstructorStandingsTable = ({
         },
         {
           field: "Constructor",
-          header: "Team",
+          header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
           styles: {
             columnSize: "3fr",
@@ -36,8 +39,7 @@ const ConstructorStandingsTable = ({
         },
         {
           field: "points",
-          header: "Points",
-
+          header: translate("points"),
           styles: {
             columnSize: "1fr",
             textAlign: "center",

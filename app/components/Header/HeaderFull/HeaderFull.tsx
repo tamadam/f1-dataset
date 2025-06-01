@@ -8,15 +8,16 @@ import HeaderMenu from "./HeaderMenu";
 import { MenuItem } from "@/app/types/header";
 import { Link } from "@/i18n/navigation";
 import { getCurrentYear } from "@/app/lib/year-utils";
+import { useTranslations } from "next-intl";
 
 const HeaderFull = () => {
   const year = getCurrentYear();
+  const translate = useTranslations("General");
+
   const menuItemsList: MenuItem[] = [
-    { id: 1, label: "Results", href: `/results/${year}/drivers` },
-    { id: 2, label: "Statistics - TBD", href: "/" },
-    { id: 3, label: "Future Feature - TBD", href: "/" },
-    { id: 4, label: "Videos - TBD", href: "/" },
-    { id: 5, label: "Power Rankings - TBD", href: "/" },
+    { id: 1, label: translate("results"), href: `/results/${year}/drivers` },
+    { id: 2, label: `${translate("statistics")} - TBD`, href: "/" },
+    { id: 3, label: `${translate("powerRankings")} - TBD`, href: "/" },
   ];
 
   return (

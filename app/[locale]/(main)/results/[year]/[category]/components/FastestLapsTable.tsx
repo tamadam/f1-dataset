@@ -2,34 +2,37 @@
 
 import { FastestLapRace } from "@/app/types/fastestLaps";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
+import { useTranslations } from "next-intl";
 
 interface FastestLapsTableProps {
   year: string;
   data: FastestLapRace[] | undefined;
 }
 const FastestLapsTable = ({ year, data }: FastestLapsTableProps) => {
+  const translate = useTranslations("General");
+
   return (
     <ResultsTable<FastestLapRace>
-      caption={`${year} Fastest Laps`}
+      caption={`${year} ${translate("fastest-laps")}`}
       columns={[
         {
           field: "raceName",
-          header: "Grand Prix",
+          header: translate("grandPrix"),
         },
         {
           field: "Results",
-          header: "Driver",
+          header: translate("driver"),
           renderCell: (value) =>
             `${value.Results[0].Driver.givenName} ${value.Results[0].Driver.familyName}`,
         },
         {
           field: "Results",
-          header: "Car",
+          header: translate("car"),
           renderCell: (value) => `${value.Results[0].Constructor.name}`,
         },
         {
           field: "Results",
-          header: "Time",
+          header: translate("time"),
           renderCell: (value) => value.Results[0].FastestLap.Time.time,
         },
       ]}

@@ -7,6 +7,7 @@ import ResultsTable, {
 import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "./SubcategoryPageHandler";
 import { formatDate } from "@/app/lib/date-utils";
+import { useTranslations } from "next-intl";
 
 interface RaceResultsTableProps {
   year: string;
@@ -15,6 +16,8 @@ interface RaceResultsTableProps {
 }
 
 const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
+  const translate = useTranslations("General");
+
   const rows: RaceResultRow[] = (data || []).flatMap((race) =>
     race.Results.map((res) => ({
       round: race.round,
@@ -24,8 +27,11 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
       driverName: `${res.Driver.givenName} ${res.Driver.familyName}`,
       constructorName: res.Constructor.name,
       laps: res.laps,
-      timeOrStatus:
-        res.Time?.time ?? res.positionText === "R" ? "Retired" : res.status,
+      timeOrStatus: res.Time
+        ? res.Time.time
+        : res.positionText === "R"
+        ? "Retired"
+        : res.status,
       points: res.points,
     }))
   );
@@ -57,13 +63,17 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
     <ResultsTable<RaceResultRow>
       caption={`${year} ${
         data?.[0]?.raceName || detail?.raceName || ""
-      } Race Results`}
+      } ${translate("results")}`}
       captionDescription={raceInfo}
-      noDataText="Results for this session aren't available yet"
+      noDataText={translate("noResults")}
       data={rows}
       detailList={raceDetails}
       columns={[
-        { field: "position", header: "Pos", styles: { columnSize: "0.2fr" } },
+        {
+          field: "position",
+          header: translate("pos"),
+          styles: { columnSize: "0.2fr" },
+        },
         {
           field: "number",
           header: "NO",
@@ -71,27 +81,27 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
         },
         {
           field: "driverName",
-          header: "Driver",
+          header: translate("driver"),
           styles: { columnSize: "1fr" },
         },
         {
           field: "constructorName",
-          header: "Car",
+          header: translate("car"),
           styles: { columnSize: "0.6fr" },
         },
         {
           field: "laps",
-          header: "Laps",
+          header: translate("laps"),
           styles: { columnSize: "0.4fr", textAlign: "center" },
         },
         {
           field: "timeOrStatus",
-          header: "Time/Retired",
+          header: translate("time-retired"),
           styles: { columnSize: "0.6fr", textAlign: "center" },
         },
         {
           field: "points",
-          header: "Pts",
+          header: translate("points"),
           styles: { columnSize: "0.2fr", textAlign: "right" },
         },
       ]}

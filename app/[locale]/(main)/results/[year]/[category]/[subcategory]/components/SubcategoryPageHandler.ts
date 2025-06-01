@@ -13,6 +13,7 @@ import RaceResultsTable from "./RaceResultsTable";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { DateTime } from "@/app/types/f1Common";
 import { DETAILS, DETAILS_URLS } from "@/app/constants";
+import { getTranslations } from "next-intl/server";
 
 export type CategoryKey = keyof typeof SUBCATEGORY_HANDLERS;
 
@@ -120,17 +121,19 @@ export async function getRaceToFetch(
   const race = allRaces.find(r => r.Circuit.circuitId === subcategory);
   if (!race) return null;
 
+  const translate = await getTranslations("General");
+
   return {
     id: String(race.round),
     raceName: race.raceName,
     circuitName: race.Circuit.circuitName,
-    FirstPractice: { label: DETAILS.FirstPractice, date: race.FirstPractice, disabled: true, order: 0, urlKey: DETAILS_URLS.FirstPractice },
-    SecondPractice: { label: DETAILS.SecondPractice, date: race.SecondPractice, disabled: true, order: 1, urlKey: DETAILS_URLS.SecondPractice },
-    ThirdPractice: { label: DETAILS.ThirdPractice, date: race.ThirdPractice, disabled: true, order: 2, urlKey: DETAILS_URLS.ThirdPractice },
-    Qualifying: { label: DETAILS.Qualifying, date: race.Qualifying, disabled: false, order: 10, urlKey: DETAILS_URLS.Qualifying },
-    Sprint: { label: DETAILS.Sprint, date: race.Sprint, disabled: false, order: 15, urlKey: DETAILS_URLS.Sprint },
-    SprintQualifying: { label: DETAILS.SprintQualifying, date: race.SprintQualifying, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
-    SprintShootout: { label: DETAILS.SprintShootout, date: race.SprintShootout, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
-    Race: { label: DETAILS.Race, date: { date: race.date, time: race.time || "" }, disabled: false, order: 20, urlKey: DETAILS_URLS.Race }
+    FirstPractice: { label: translate("practice1"), date: race.FirstPractice, disabled: true, order: 0, urlKey: DETAILS_URLS.FirstPractice },
+    SecondPractice: { label: translate("practice2"), date: race.SecondPractice, disabled: true, order: 1, urlKey: DETAILS_URLS.SecondPractice },
+    ThirdPractice: { label: translate("practice3"), date: race.ThirdPractice, disabled: true, order: 2, urlKey: DETAILS_URLS.ThirdPractice },
+    Qualifying: { label: translate("qualifying"), date: race.Qualifying, disabled: false, order: 10, urlKey: DETAILS_URLS.Qualifying },
+    Sprint: { label: translate("sprint"), date: race.Sprint, disabled: false, order: 15, urlKey: DETAILS_URLS.Sprint },
+    SprintQualifying: { label: translate("sprintQualifying"), date: race.SprintQualifying, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
+    SprintShootout: { label: translate("sprintShootout"), date: race.SprintShootout, disabled: true, order: 9, urlKey: DETAILS_URLS.SprintQualifying },
+    Race: { label: translate("race"), date: { date: race.date, time: race.time || "" }, disabled: false, order: 20, urlKey: DETAILS_URLS.Race }
   };
 }

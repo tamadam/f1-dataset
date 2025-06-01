@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import styles from "./Selector.module.scss";
+import { useTranslations } from "next-intl";
 
 export type SelectorElementType =
   | string
@@ -29,6 +30,7 @@ const Selector = ({
   const params = useParams();
   const pathname = usePathname();
   const itemsRef = useRef<Record<string, HTMLLIElement | null>>({});
+  const translate = useTranslations("General");
 
   useEffect(() => {
     const activeValue = params[urlKey] ? String(params[urlKey]) : "all";
@@ -87,7 +89,7 @@ const Selector = ({
             scroll={false}
             prefetch={false}
           >
-            All
+            {translate("all")}
           </Link>
         </li>
       )}

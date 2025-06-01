@@ -7,6 +7,7 @@ import styles from "./layout.module.scss";
 import SelectorCard from "../../components/Selector/SelectorCard";
 import { CATEGORIES } from "@/app/constants";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 export default async function ResultsPageCategoryLayout({
   params,
@@ -19,6 +20,8 @@ export default async function ResultsPageCategoryLayout({
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
 
+  const translate = await getTranslations("General");
+
   const handler = getCategory(category);
   const rawData = await getCategoryData(handler, year);
   if (!rawData) return notFound();
@@ -26,7 +29,10 @@ export default async function ResultsPageCategoryLayout({
   const data = handler.extract(rawData);
   const elements = handler.selectorMap ? data.map(handler.selectorMap) : [];
 
-  const categories = CATEGORIES.map((category) => category);
+  const categories = CATEGORIES.map((category) => ({
+    id: category,
+    name: translate(category),
+  }));
 
   return (
     <>
@@ -35,7 +41,7 @@ export default async function ResultsPageCategoryLayout({
           <SelectorCard
             elements={categories}
             urlKey="category"
-            title="Category"
+            title={translate("category")}
             backgroundType="car"
           />
 
@@ -43,7 +49,7 @@ export default async function ResultsPageCategoryLayout({
             <SelectorCard
               elements={elements}
               urlKey="subcategory"
-              title="Results"
+              title={translate("results")}
               includeAllOption
             />
           )}

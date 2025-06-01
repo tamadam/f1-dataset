@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { DETAILS_URLS } from "@/app/constants";
 import { Link, usePathname } from "@/i18n/navigation";
 import { formatDate } from "@/app/lib/date-utils";
+import { useTranslations } from "next-intl";
 
 export type DetailItem = {
   label: string;
@@ -41,12 +42,13 @@ interface ResultsTableProps<T> {
 const ResultsTable = <T,>({
   caption,
   captionDescription,
-  noDataText = "No data available",
+  noDataText,
   data,
   detailList,
   columns,
   tableInlineStyles = {},
 }: ResultsTableProps<T>) => {
+  const translate = useTranslations("General");
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
@@ -184,7 +186,9 @@ const ResultsTable = <T,>({
               <tbody className={styles.tableBodyWrapper}>
                 {noDataAvailable ? (
                   <tr>
-                    <td colSpan={columns.length}>{noDataText}</td>
+                    <td colSpan={columns.length}>
+                      {noDataText ?? translate("noData")}
+                    </td>
                   </tr>
                 ) : (
                   data.map((item, index) => (

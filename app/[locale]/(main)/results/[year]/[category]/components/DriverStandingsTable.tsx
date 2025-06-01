@@ -2,6 +2,7 @@
 
 import { DriverStandings } from "@/app/types/driverStandings";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
+import { useTranslations } from "next-intl";
 
 interface DriverStandingsTableProps {
   year: string;
@@ -9,13 +10,15 @@ interface DriverStandingsTableProps {
 }
 
 const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
+  const translate = useTranslations("General");
+
   return (
     <ResultsTable<DriverStandings>
-      caption={`${year} Driver Standings`}
+      caption={`${year} ${translate("driverStandings")}`}
       columns={[
         {
           field: "positionText",
-          header: "Pos",
+          header: translate("pos"),
           styles: {
             columnSize: "0.4fr",
             textAlign: "left",
@@ -23,7 +26,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
         },
         {
           field: "Driver",
-          header: "Driver",
+          header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
           styles: {
@@ -33,7 +36,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
         },
         {
           field: "Driver",
-          header: "Nationality",
+          header: translate("nationality"),
           renderCell: (value) => `${value.Driver.nationality}`,
           styles: {
             columnSize: "1fr",
@@ -42,7 +45,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
         },
         {
           field: "Constructors",
-          header: "Car",
+          header: translate("car"),
           renderCell: (value) => value.Constructors[0].name,
           styles: {
             columnSize: "1fr",
@@ -51,7 +54,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
         },
         {
           field: "points",
-          header: "Points",
+          header: translate("points"),
           styles: {
             columnSize: "0.4fr",
             textAlign: "right",

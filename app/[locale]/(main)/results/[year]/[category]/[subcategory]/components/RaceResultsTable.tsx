@@ -13,6 +13,7 @@ interface RaceResultsTableProps {
   data: Race[] | undefined;
   detail?: RaceFetchResult;
 }
+
 const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
   const rows: RaceResultRow[] = (data || []).flatMap((race) =>
     race.Results.map((res) => ({

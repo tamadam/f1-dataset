@@ -26,7 +26,7 @@ const DriverResultsTable = ({ year, data }: DriverResultsTableProps) => {
           header: translate("grandPrix"),
           renderCell: (value) => `${value.Circuit.circuitName}`,
           styles: {
-            columnSize: "1.4fr",
+            columnSize: "2fr",
             textAlign: "left",
           },
         },
@@ -34,7 +34,7 @@ const DriverResultsTable = ({ year, data }: DriverResultsTableProps) => {
           field: "date",
           header: translate("date"),
           styles: {
-            columnSize: "0.8fr",
+            columnSize: "2fr",
             textAlign: "left",
           },
         },
@@ -43,7 +43,7 @@ const DriverResultsTable = ({ year, data }: DriverResultsTableProps) => {
           header: translate("car"),
           renderCell: (value) => `${value.Results[0].Constructor.name}`,
           styles: {
-            columnSize: "1fr",
+            columnSize: "2fr",
             textAlign: "left",
           },
         },
@@ -52,7 +52,7 @@ const DriverResultsTable = ({ year, data }: DriverResultsTableProps) => {
           header: translate("position"),
           renderCell: (value) => value.Results[0].position,
           styles: {
-            columnSize: "0.6fr",
+            columnSize: "1fr",
             textAlign: "center",
           },
         },
@@ -61,7 +61,7 @@ const DriverResultsTable = ({ year, data }: DriverResultsTableProps) => {
           header: translate("points"),
           renderCell: (value) => `${value.Results[0].points}`,
           styles: {
-            columnSize: "0.6fr",
+            columnSize: "1fr",
             textAlign: "right",
           },
         },

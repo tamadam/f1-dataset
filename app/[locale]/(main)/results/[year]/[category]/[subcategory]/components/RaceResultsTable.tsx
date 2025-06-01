@@ -72,37 +72,37 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
         {
           field: "position",
           header: translate("pos"),
-          styles: { columnSize: "0.2fr" },
+          styles: { columnSize: "1fr" },
         },
         {
           field: "number",
           header: "NO",
-          styles: { columnSize: "0.2fr" },
+          styles: { columnSize: "1fr" },
         },
         {
           field: "driverName",
           header: translate("driver"),
-          styles: { columnSize: "1fr" },
+          styles: { columnSize: "3fr" },
         },
         {
           field: "constructorName",
           header: translate("car"),
-          styles: { columnSize: "0.6fr" },
+          styles: { columnSize: "3fr" },
         },
         {
           field: "laps",
           header: translate("laps"),
-          styles: { columnSize: "0.4fr", textAlign: "center" },
+          styles: { columnSize: "2fr", textAlign: "center" },
         },
         {
           field: "timeOrStatus",
           header: translate("time-retired"),
-          styles: { columnSize: "0.6fr", textAlign: "center" },
+          styles: { columnSize: "2fr", textAlign: "center" },
         },
         {
           field: "points",
           header: translate("points"),
-          styles: { columnSize: "0.2fr", textAlign: "right" },
+          styles: { columnSize: "2fr", textAlign: "right" },
         },
       ]}
     />

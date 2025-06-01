@@ -24,7 +24,7 @@ const ConstructorStandingsTable = ({
           field: "positionText",
           header: translate("pos"),
           styles: {
-            columnSize: "0.4fr",
+            columnSize: "1fr",
             textAlign: "left",
           },
         },
@@ -33,7 +33,7 @@ const ConstructorStandingsTable = ({
           header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
           styles: {
-            columnSize: "3fr",
+            columnSize: "6fr",
             textAlign: "left",
           },
         },

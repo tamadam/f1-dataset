@@ -27,7 +27,7 @@ const ConstructorResultsTable = ({
           header: translate("grandPrix"),
           renderCell: (value) => `${value.Circuit.circuitName}`,
           styles: {
-            columnSize: "1.4fr",
+            columnSize: "2fr",
             textAlign: "left",
           },
         },
@@ -35,7 +35,7 @@ const ConstructorResultsTable = ({
           field: "date",
           header: translate("date"),
           styles: {
-            columnSize: "0.8fr",
+            columnSize: "1fr",
             textAlign: "left",
           },
         },
@@ -48,7 +48,7 @@ const ConstructorResultsTable = ({
               return isNaN(value) ? acc + 0 : acc + value;
             }, 0)}`,
           styles: {
-            columnSize: "0.6fr",
+            columnSize: "1fr",
             textAlign: "right",
           },
         },

@@ -29,11 +29,13 @@ const FastestLapsTable = ({ year, data }: FastestLapsTableProps) => {
           field: "Results",
           header: translate("car"),
           renderCell: (value) => `${value.Results[0].Constructor.name}`,
+          styles: { textAlign: "center" },
         },
         {
           field: "Results",
           header: translate("time"),
           renderCell: (value) => value.Results[0].FastestLap.Time.time,
+          styles: { textAlign: "right" },
         },
       ]}
       data={data}

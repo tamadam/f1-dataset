@@ -53,30 +53,30 @@ const SprintResultsTable = ({
         {
           field: "position",
           header: translate("pos"),
-          styles: { columnSize: "0.2fr" },
+          styles: { columnSize: "1fr" },
         },
         {
           field: "number",
           header: "NO",
-          styles: { columnSize: "0.2fr" },
+          styles: { columnSize: "1fr" },
         },
         {
           field: "Driver",
           header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
-          styles: { columnSize: "1fr" },
+          styles: { columnSize: "3fr" },
         },
         {
           field: "Constructor",
           header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
-          styles: { columnSize: "0.6fr" },
+          styles: { columnSize: "3fr" },
         },
         {
           field: "laps",
           header: translate("laps"),
-          styles: { columnSize: "0.4fr", textAlign: "center" },
+          styles: { columnSize: "2fr", textAlign: "center" },
         },
         {
           field: "Time",
@@ -87,12 +87,12 @@ const SprintResultsTable = ({
               : value.positionText === "R"
               ? "Retired"
               : `${value.status}`,
-          styles: { columnSize: "0.6fr", textAlign: "center" },
+          styles: { columnSize: "2fr", textAlign: "center" },
         },
         {
           field: "points",
           header: translate("points"),
-          styles: { columnSize: "0.2fr", textAlign: "right" },
+          styles: { columnSize: "2fr", textAlign: "right" },
         },
       ]}
     />

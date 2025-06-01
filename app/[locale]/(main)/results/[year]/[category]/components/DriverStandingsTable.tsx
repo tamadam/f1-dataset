@@ -20,7 +20,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           field: "positionText",
           header: translate("pos"),
           styles: {
-            columnSize: "0.4fr",
+            columnSize: "1fr",
             textAlign: "left",
           },
         },
@@ -30,7 +30,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
           styles: {
-            columnSize: "1fr",
+            columnSize: "2fr",
             textAlign: "left",
           },
         },
@@ -39,7 +39,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           header: translate("nationality"),
           renderCell: (value) => `${value.Driver.nationality}`,
           styles: {
-            columnSize: "1fr",
+            columnSize: "2fr",
             textAlign: "center",
           },
         },
@@ -48,7 +48,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           header: translate("car"),
           renderCell: (value) => value.Constructors[0].name,
           styles: {
-            columnSize: "1fr",
+            columnSize: "2fr",
             textAlign: "center",
           },
         },
@@ -56,7 +56,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           field: "points",
           header: translate("points"),
           styles: {
-            columnSize: "0.4fr",
+            columnSize: "1fr",
             textAlign: "right",
           },
         },

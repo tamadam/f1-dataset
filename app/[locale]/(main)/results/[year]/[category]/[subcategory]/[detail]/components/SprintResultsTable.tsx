@@ -5,18 +5,20 @@ import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 import ResultsTable, {
   DetailItem,
 } from "../../../../../components/ResultsTable/ResultsTable";
-import { formatDate } from "@/app/lib/date-utils";
+import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
 import { useTranslations } from "next-intl";
 
 interface SprintResultsTableProps {
   year: string;
+  locale?: string;
   data: SessionResults[] | undefined;
   detail?: RaceFetchResult;
 }
 
 const SprintResultsTable = ({
   year,
+  locale,
   data,
   detail,
 }: SprintResultsTableProps) => {
@@ -24,7 +26,10 @@ const SprintResultsTable = ({
 
   const raceDate = detail?.Race?.date?.date;
 
-  const raceInfo = [raceDate && formatDate(raceDate), detail?.circuitName]
+  const raceInfo = [
+    raceDate && formatDate(raceDate, getValidLocaleForDate(locale)),
+    detail?.circuitName,
+  ]
     .filter(Boolean)
     .join(" - ");
 

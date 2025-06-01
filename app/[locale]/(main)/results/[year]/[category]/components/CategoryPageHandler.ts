@@ -20,6 +20,7 @@ type CategoryMap = {
       Item: Race;
       Component: (props: {
         year: string;
+        locale?: string;
         data: Race[];
       }) => JSX.Element;
     },
@@ -53,7 +54,7 @@ type CategoryHandler<T, R> = {
     fetch: (year: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
     selectorMap?: (entry: T) => string | { id: string, name: string, round?: string };
-    Component: (props: { year: string; data: T[] }) => JSX.Element;
+    Component: (props: { year: string; locale?: string; data: T[] }) => JSX.Element;
 };
   
 export const CATEGORY_HANDLERS: {

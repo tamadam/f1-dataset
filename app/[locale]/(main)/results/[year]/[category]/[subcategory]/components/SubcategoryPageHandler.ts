@@ -24,6 +24,7 @@ type CategoryMap = {
       Detail: RaceFetchResult;
       Component: (props: {
         year: string;
+        locale?: string;
         data: DriverRace[];
         detail?: RaceFetchResult;
       }) => JSX.Element;
@@ -52,7 +53,7 @@ type CategoryHandler<T, R, D> = {
     fetch: (year: string, id: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
     selectorMap?: (entry: T) => string | { id: string, name: string };
-    Component: (props: { year: string; data: T[]; detail?: D; }) => JSX.Element;
+    Component: (props: { year: string; locale?: string; data: T[]; detail?: D; }) => JSX.Element;
 };
   
 export const SUBCATEGORY_HANDLERS: {

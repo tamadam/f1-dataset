@@ -6,16 +6,22 @@ import ResultsTable, {
 } from "../../../../components/ResultsTable/ResultsTable";
 import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "./SubcategoryPageHandler";
-import { formatDate } from "@/app/lib/date-utils";
+import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
 
 interface RaceResultsTableProps {
   year: string;
+  locale?: string;
   data: Race[] | undefined;
   detail?: RaceFetchResult;
 }
 
-const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
+const RaceResultsTable = ({
+  year,
+  locale,
+  data,
+  detail,
+}: RaceResultsTableProps) => {
   const translate = useTranslations("General");
 
   const rows: RaceResultRow[] = (data || []).flatMap((race) =>
@@ -39,7 +45,7 @@ const RaceResultsTable = ({ year, data, detail }: RaceResultsTableProps) => {
   const raceDate = data?.[0]?.date || detail?.Race?.date?.date;
 
   const raceInfo = [
-    raceDate && formatDate(raceDate),
+    raceDate && formatDate(raceDate, getValidLocaleForDate(locale)),
     data?.[0]?.Circuit.circuitName || detail?.circuitName,
   ]
     .filter(Boolean)

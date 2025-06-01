@@ -3,13 +3,14 @@
 import { Race } from "@/app/types/races";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
-import { formatDate } from "@/app/lib/date-utils";
+import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 
 interface RacesTableProps {
   year: string;
+  locale?: string;
   data: Race[] | undefined;
 }
-const RacesTable = ({ year, data }: RacesTableProps) => {
+const RacesTable = ({ year, locale, data }: RacesTableProps) => {
   const translate = useTranslations("General");
 
   return (
@@ -28,7 +29,8 @@ const RacesTable = ({ year, data }: RacesTableProps) => {
         {
           field: "date",
           header: translate("date"),
-          renderCell: (value) => formatDate(value.date),
+          renderCell: (value) =>
+            formatDate(value.date, getValidLocaleForDate(locale)),
           styles: { textAlign: "center" },
         },
       ]}

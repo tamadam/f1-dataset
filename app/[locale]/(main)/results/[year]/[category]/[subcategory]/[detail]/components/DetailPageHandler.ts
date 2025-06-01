@@ -17,6 +17,7 @@ type CategoryMap = {
       Detail: RaceFetchResult;
       Component: (props: {
         year: string;
+        locale?: string;
         data: QualifyingResult[];
         detail?: RaceFetchResult;
       }) => JSX.Element;
@@ -27,6 +28,7 @@ type CategoryMap = {
       Detail: RaceFetchResult;
       Component: (props: {
         year: string;
+        locale?: string;
         data: SessionResults[];
         detail?: RaceFetchResult;
       }) => JSX.Element;
@@ -36,7 +38,7 @@ type CategoryMap = {
 type CategoryHandler<T, R, D> = {
     fetch: (year: string, id: string) => Promise<R | null>;
     extract: (raw: R | null) => T[];
-    Component: (props: { year: string; data: T[]; detail?: D; }) => JSX.Element;
+    Component: (props: { year: string; locale?: string; data: T[]; detail?: D; }) => JSX.Element;
 };
   
 export const DETAIL_HANDLERS: {

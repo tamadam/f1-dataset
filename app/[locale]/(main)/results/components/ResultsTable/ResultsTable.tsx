@@ -8,7 +8,7 @@ import { DateTime } from "@/app/types/f1Common";
 import { useParams } from "next/navigation";
 import { DETAILS_URLS } from "@/app/constants";
 import { Link, usePathname } from "@/i18n/navigation";
-import { formatDate } from "@/app/lib/date-utils";
+import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
 
 export type DetailItem = {
@@ -52,7 +52,7 @@ const ResultsTable = <T,>({
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
-  const { year, category, subcategory } = useParams();
+  const { locale, year, category, subcategory } = useParams();
   const pathname = usePathname();
 
   const basePath = `/results/${year}/${category}/${subcategory}`;
@@ -78,6 +78,8 @@ const ResultsTable = <T,>({
       resizeObserver.disconnect();
     };
   }, []);
+
+  const safeLocal: "hu" | "en" = getValidLocaleForDate(locale);
 
   const noDataAvailable = !data || data.length === 0;
 
@@ -135,7 +137,7 @@ const ResultsTable = <T,>({
                         </span>
                         {detail.date && (
                           <span className={styles.elementDate}>
-                            {formatDate(detail.date.date)}
+                            {formatDate(detail.date.date, safeLocal)}
                           </span>
                         )}
                       </div>
@@ -152,7 +154,7 @@ const ResultsTable = <T,>({
                       </span>
                       {detail.date && (
                         <span className={styles.elementDate}>
-                          {formatDate(detail.date.date)}
+                          {formatDate(detail.date.date, safeLocal)}
                         </span>
                       )}
                     </div>

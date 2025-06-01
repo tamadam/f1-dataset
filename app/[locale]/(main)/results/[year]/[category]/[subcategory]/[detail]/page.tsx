@@ -70,7 +70,7 @@ export default async function ResultsDetailPage({
     detail: string;
   }>;
 }) {
-  const { year, category, subcategory, detail } = await params;
+  const { locale, year, category, subcategory, detail } = await params;
   if (isNaN(Number(year)) || category !== "races") return notFound();
 
   const handler = getCategory(detail as CategoryKey);
@@ -93,5 +93,7 @@ export default async function ResultsDetailPage({
   }
 
   const Component = handler.Component;
-  return <Component year={year} data={data} detail={raceToFetch} />;
+  return (
+    <Component year={year} locale={locale} data={data} detail={raceToFetch} />
+  );
 }

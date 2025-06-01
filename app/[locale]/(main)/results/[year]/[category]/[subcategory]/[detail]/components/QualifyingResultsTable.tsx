@@ -4,19 +4,21 @@ import { QualifyingResult } from "@/app/types/qualifyingResults";
 import ResultsTable, {
   DetailItem,
 } from "../../../../../components/ResultsTable/ResultsTable";
-import { formatDate } from "@/app/lib/date-utils";
+import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 import { useTranslations } from "next-intl";
 
 interface QualifyingResultsTableProps {
   year: string;
+  locale?: string;
   data: QualifyingResult[] | undefined;
   detail?: RaceFetchResult;
 }
 
 const QualifyingResultsTable = ({
   year,
+  locale,
   data,
   detail,
 }: QualifyingResultsTableProps) => {
@@ -24,7 +26,10 @@ const QualifyingResultsTable = ({
 
   const raceDate = detail?.Race?.date?.date;
 
-  const raceInfo = [raceDate && formatDate(raceDate), detail?.circuitName]
+  const raceInfo = [
+    raceDate && formatDate(raceDate, getValidLocaleForDate(locale)),
+    detail?.circuitName,
+  ]
     .filter(Boolean)
     .join(" - ");
 

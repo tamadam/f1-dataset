@@ -27,7 +27,7 @@ export default async function ResultsCategoryPage({
 }: {
   params: Promise<{ locale: string; year: string; category: string }>;
 }) {
-  const { year, category } = await params;
+  const { locale, year, category } = await params;
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
   const handler = getCategory(category as CategoryKey);
@@ -37,5 +37,5 @@ export default async function ResultsCategoryPage({
   const data = handler.extract(rawData) ?? [];
 
   const Component = handler.Component;
-  return <Component year={year} data={data} />;
+  return <Component year={year} data={data} locale={locale} />;
 }

@@ -80,7 +80,7 @@ export default async function ResultsSubcategoryPage({
     subcategory: string;
   }>;
 }) {
-  const { year, category, subcategory } = await params;
+  const { locale, year, category, subcategory } = await params;
 
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
@@ -107,5 +107,7 @@ export default async function ResultsSubcategoryPage({
   }
 
   const Component = handler.Component;
-  return <Component year={year} data={data} detail={raceToFetch} />;
+  return (
+    <Component year={year} data={data} locale={locale} detail={raceToFetch} />
+  );
 }

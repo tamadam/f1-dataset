@@ -48,12 +48,12 @@ export const DETAIL_HANDLERS: {
 } = {
     qualifying: {
       fetch: getQualifyingResults,
-      extract: (res) => res?.MRData.RaceTable.Races[0].QualifyingResults ?? [],
+      extract: (res) => res?.MRData.RaceTable.Races[0]?.QualifyingResults ?? [],
       Component: QualifyingResultsTable,
     },
     sprint: {
       fetch: getSprintResults,
-      extract: (res) => res?.MRData.RaceTable.Races[0].SprintResults ?? [],
+      extract: (res) => res?.MRData.RaceTable.Races[0]?.SprintResults ?? [],
       Component: SprintResultsTable,
     }
 };

@@ -82,7 +82,7 @@ const SprintResultsTable = ({
           field: "Time",
           header: translate("time-retired"),
           renderCell: (value) =>
-            value.Time.time
+            value?.Time?.time
               ? value.Time.time
               : value.positionText === "R"
               ? "Retired"

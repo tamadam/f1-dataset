@@ -59,7 +59,7 @@ export async function generateStaticParams() {
   return staticParams;
 }
 
-export default async function ResultsSubcategoryPage({
+export default async function ResultsDetailPage({
   params,
 }: {
   params: Promise<{
@@ -88,7 +88,7 @@ export default async function ResultsSubcategoryPage({
   if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 
-  if (!data || data.length === 0) {
+  if (!data) {
     return notFound();
   }
 

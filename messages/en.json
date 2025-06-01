@@ -6,8 +6,7 @@
       "contactUs": "Contact Us",
       "aboutUs": "About Us",
       "customerService": "Customer Service",
-      "warningMessage": "This site was created for the purpose of gaining experience in both frontend and backend development using React and Node.js technologies. The site provides users with information and data related to Formula 1. These data come from publicly available sources.",
-      "warningMessageImportant": "The site was not created for commercial or financial gain.",
+      "warningMessage": "The Formula 1 data displayed on this site is provided by the Jolpica F1 API.\nThere may be discrepancies or missing information in the data.\nIf you experience any issues with the data or the site, please report them by creating a ##GitHub issue##",
       "copyRightText": "F1 Dataset Hungary."
     },
     "languageSelector": {

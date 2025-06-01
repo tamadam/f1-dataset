@@ -31,11 +31,11 @@
 
     .footerDescription {
         text-align: center;
+        margin-block: 1rem;
+        line-height: 1.4;
 
-        .dangerous {
-            color: var(--red-medium);
-            font-family: "NetflixMedium";
-            margin-block: 1rem;
+        a {
+            text-decoration: underline;     
         }
     }
 

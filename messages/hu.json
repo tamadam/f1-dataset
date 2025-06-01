@@ -6,8 +6,7 @@
             "contactUs": "Kapcsolat",
             "aboutUs": "Rólunk",
             "customerService": "Ügyfélszolgálat",
-            "warningMessage": "Ez az oldal azért készült, hogy tapasztalatot szerezzek mind frontend, mind backend környezetben történő fejlesztésben a React és Node.js technológiákat alkalmazva. Az oldal Forma 1-el kapcsolatos információkat illetve adatokat bocsájt a felhasználó rendelkezésére. Ezen adatok nyilvánosan elérhető forrásokból származnak.",
-            "warningMessageImportant": "Az oldal nem kereskedelmi vagy pénzbeli haszonszerzés céljából jött létre.",
+            "warningMessage": "Az oldalon megjelenített Forma-1 adatok a Jolpica F1 API-t használják.\nElőfordulhatnak eltérések vagy hiányosságok az adatokban.\nHa bármilyen problémát tapasztalsz az adatokkal vagy az oldallal kapcsolatban, kérlek jelezd egy ##GitHub issue## formájában",
             "copyRightText": "F1 Dataset Hungary."
         },
         "languageSelector": {

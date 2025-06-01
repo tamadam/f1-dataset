@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 const Footer = () => {
   const translation = useTranslations("General");
   const currentYear = new Date().getFullYear();
+
   return (
     <footer>
       <div className={styles.footerWrapper}>
@@ -21,17 +22,22 @@ const Footer = () => {
             alt={translation("f1DatasetLogoAltText")}
           />
         </div>
-        <div className={styles.footerLinks}>
+        {/* <div className={styles.footerLinks}>
           <a href="#">{translation("footer.account")}</a>
           <a href="#">{translation("footer.aboutUs")}</a>
           <a href="#">{translation("footer.contactUs")}</a>
           <a href="#">{translation("footer.customerService")}</a>
-        </div>
+        </div> */}
         <div className={styles.footerDescription}>
-          <span>{translation("footer.warningMessage")}</span>
-          <p className={styles.dangerous}>
-            {translation("footer.warningMessageImportant")}
-          </p>
+          {translation("footer.warningMessage")
+            .replace(
+              "##GitHub issue##",
+              "<a href='https://github.com/tamadam/f1-dataset/issues'>GitHub issue</a>"
+            )
+            .split("\n")
+            .map((line, idx) => (
+              <p key={idx} dangerouslySetInnerHTML={{ __html: line }} />
+            ))}
         </div>
         <div className={styles.footerLanguageSelectorWrapper}>
           <LanguageSelector />

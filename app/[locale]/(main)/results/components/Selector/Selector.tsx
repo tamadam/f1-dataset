@@ -57,14 +57,15 @@ const Selector = ({
 
     if (urlKey === "subcategory") {
       if (params.subcategory) {
-        return pathname.replace(
-          `/${params.subcategory}`,
-          value === "all" ? "" : `/${value}`
-        );
+        return pathname
+          .replace(`/${params.subcategory}`, value === "all" ? "" : `/${value}`)
+          .replace(`/${params.detail}`, "");
       }
     } else {
       if (params.subcategory) {
-        basePath = pathname.replace(`/${params.subcategory}`, "");
+        basePath = pathname
+          .replace(`/${params.subcategory}`, "")
+          .replace(`/${params.detail}`, "");
       }
     }
 

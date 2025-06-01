@@ -18,7 +18,7 @@ type QualifyingRaceTable = {
     Races: QualifyingRace[];
 }
 
-export type QualifyingRace = {
+type QualifyingRace = {
     season: string;
     round: string;
     url?: string;

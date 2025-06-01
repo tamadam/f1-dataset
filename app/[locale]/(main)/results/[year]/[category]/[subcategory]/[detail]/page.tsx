@@ -31,6 +31,7 @@ export async function generateStaticParams() {
         const races = allRacesRaw?.MRData.RaceTable.Races ?? [];
 
         for (const race of races) {
+          // currently the API only supports the quali and sprint results
           if (DETAILS.Qualifying in race) {
             staticParams.push({
               locale,
@@ -38,6 +39,16 @@ export async function generateStaticParams() {
               category,
               subcategory: race.Circuit.circuitId,
               detail: DETAILS_URLS.Qualifying,
+            });
+          }
+
+          if (DETAILS.Sprint in race) {
+            staticParams.push({
+              locale,
+              year,
+              category,
+              subcategory: race.Circuit.circuitId,
+              detail: DETAILS_URLS.Sprint,
             });
           }
         }

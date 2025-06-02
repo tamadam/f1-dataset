@@ -25,6 +25,8 @@ const RacesTable = ({ year, locale, data }: RacesTableProps) => {
         {
           field: "raceName",
           header: translate("grandPrix"),
+          urlHref: (value) =>
+            `/results/${year}/races/${value.Circuit.circuitId}`,
         },
         {
           field: "date",

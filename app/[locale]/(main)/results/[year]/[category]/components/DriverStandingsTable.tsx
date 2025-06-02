@@ -29,6 +29,8 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
+          urlHref: (value) =>
+            `/results/${year}/drivers/${value.Driver.driverId}`,
           styles: {
             columnSize: "2fr",
             textAlign: "left",
@@ -47,6 +49,8 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
           field: "Constructors",
           header: translate("car"),
           renderCell: (value) => value.Constructors[0].name,
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.Constructors[0].constructorId}`,
           styles: {
             columnSize: "2fr",
             textAlign: "center",

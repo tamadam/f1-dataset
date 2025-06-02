@@ -35,6 +35,7 @@ type CategoryMap = {
       Detail: null;
       Component: (props: {
         year: string;
+        locale?: string;
         data: DriverRace[];
       }) => JSX.Element;
     };
@@ -44,6 +45,7 @@ type CategoryMap = {
       Detail: null;
       Component: (props: {
         year: string;
+        locale?: string;
         data: ConstructorRace[];
       }) => JSX.Element;
     };

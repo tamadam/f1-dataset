@@ -31,7 +31,9 @@ const RaceResultsTable = ({
       position: res.position,
       number: res.number,
       driverName: `${res.Driver.givenName} ${res.Driver.familyName}`,
+      driverId: res.Driver.driverId,
       constructorName: res.Constructor.name,
+      constructorId: res.Constructor.constructorId,
       laps: res.laps,
       timeOrStatus: res.Time
         ? res.Time.time
@@ -87,11 +89,14 @@ const RaceResultsTable = ({
         },
         {
           field: "driverName",
+          urlHref: (value) => `/results/${year}/drivers/${value.driverId}`,
           header: translate("driver"),
           styles: { columnSize: "3fr" },
         },
         {
           field: "constructorName",
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.constructorId}`,
           header: translate("car"),
           styles: { columnSize: "3fr" },
         },

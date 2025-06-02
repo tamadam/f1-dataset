@@ -23,6 +23,7 @@ export type ColumnDefinition<T> = {
   field: keyof T;
   header: string;
   renderCell?: (value: T) => string;
+  urlHref?: (value: T) => string;
   styles?: {
     columnSize?: string;
     textAlign?: "left" | "center" | "right";
@@ -199,9 +200,22 @@ const ResultsTable = <T,>({
                         const value = item[column.field];
                         return (
                           <td key={column.header} style={getCellStyles(column)}>
-                            {column.renderCell
-                              ? column.renderCell(item)
-                              : String(value)}
+                            {(() => {
+                              const rawContent = column.renderCell
+                                ? column.renderCell(item)
+                                : String(value);
+
+                              return column.urlHref ? (
+                                <Link
+                                  href={column.urlHref(item)}
+                                  className={styles.resultsTableLink}
+                                >
+                                  {rawContent}
+                                </Link>
+                              ) : (
+                                rawContent
+                              );
+                            })()}
                           </td>
                         );
                       })}

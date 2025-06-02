@@ -35,7 +35,9 @@ export type RaceResultRow = {
     position: string;
     number: string;
     driverName: string;
+    driverId: string;
     constructorName: string;
+    constructorId: string;
     laps: string;
     timeOrStatus: string;
     points: string;

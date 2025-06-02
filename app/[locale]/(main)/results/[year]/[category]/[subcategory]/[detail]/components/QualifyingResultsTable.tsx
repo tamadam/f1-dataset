@@ -66,11 +66,15 @@ const QualifyingResultsTable = ({
           header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
+          urlHref: (value) =>
+            `/results/${year}/drivers/${value.Driver.driverId}`,
         },
         {
           field: "Constructor",
           header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.Constructor.constructorId}`,
         },
         {
           field: "Q1",

@@ -70,12 +70,16 @@ const SprintResultsTable = ({
           header: translate("driver"),
           renderCell: (value) =>
             `${value.Driver.givenName} ${value.Driver.familyName}`,
+          urlHref: (value) =>
+            `/results/${year}/drivers/${value.Driver.driverId}`,
           styles: { columnSize: "3fr" },
         },
         {
           field: "Constructor",
           header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.Constructor.constructorId}`,
           styles: { columnSize: "3fr" },
         },
         {

@@ -18,17 +18,23 @@ const FastestLapsTable = ({ year, data }: FastestLapsTableProps) => {
         {
           field: "raceName",
           header: translate("grandPrix"),
+          urlHref: (value) =>
+            `/results/${year}/races/${value.Circuit.circuitId}`,
         },
         {
           field: "Results",
           header: translate("driver"),
           renderCell: (value) =>
             `${value.Results[0].Driver.givenName} ${value.Results[0].Driver.familyName}`,
+          urlHref: (value) =>
+            `/results/${year}/drivers/${value.Results[0].Driver.driverId}`,
         },
         {
           field: "Results",
           header: translate("car"),
           renderCell: (value) => `${value.Results[0].Constructor.name}`,
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.Results[0].Constructor.constructorId}`,
           styles: { textAlign: "center" },
         },
         {

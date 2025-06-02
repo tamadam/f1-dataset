@@ -32,6 +32,8 @@ const ConstructorStandingsTable = ({
           field: "Constructor",
           header: translate("constructor"),
           renderCell: (value) => `${value.Constructor.name}`,
+          urlHref: (value) =>
+            `/results/${year}/constructors/${value.Constructor.constructorId}`,
           styles: {
             columnSize: "6fr",
             textAlign: "left",

@@ -147,6 +147,11 @@
                     &:nth-child(2n) {
                         background: #f3f3f3
                     }
+
+                    a {
+                        text-decoration: underline dotted var(--red-medium);
+                        text-underline-offset: 4px;
+                    }
                 }
             }
         }

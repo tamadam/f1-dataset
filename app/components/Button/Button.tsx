@@ -1,6 +1,10 @@
+"use client";
+
 import clsx from "clsx";
 import styles from "./Button.module.scss";
-import { Link } from "@/i18n/navigation";
+
+import { useParams } from "next/navigation";
+import Link from "next/link";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -15,10 +19,12 @@ const Button = ({
   className,
   ...props
 }: ButtonProps) => {
+  const params = useParams();
+  const locale = params.locale || "en";
   if (href) {
     return (
       <Link
-        href={href}
+        href={`${locale}/${href}`}
         className={clsx(styles.link, styles[variant], className)}
       >
         {children}

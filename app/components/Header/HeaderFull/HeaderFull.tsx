@@ -15,7 +15,7 @@ const HeaderFull = () => {
   const translate = useTranslations("General");
 
   const menuItemsList: MenuItem[] = [
-    { id: 1, label: translate("results"), href: `/results/${year}/drivers` },
+    { id: 1, label: translate("results"), href: `/results/${year}/races` },
     { id: 2, label: `${translate("statistics")} - TBD`, href: "/" },
     { id: 3, label: `${translate("powerRankings")} - TBD`, href: "/" },
   ];

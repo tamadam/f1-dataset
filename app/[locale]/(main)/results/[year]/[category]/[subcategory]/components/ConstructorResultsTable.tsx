@@ -28,7 +28,7 @@ const ConstructorResultsTable = ({
         {
           field: "Circuit",
           header: translate("grandPrix"),
-          renderCell: (value) => `${value.Circuit.circuitName}`,
+          renderCell: (value) => `${value.raceName}`,
           urlHref: (value) =>
             `/results/${year}/races/${value.Circuit.circuitId}`,
           styles: {

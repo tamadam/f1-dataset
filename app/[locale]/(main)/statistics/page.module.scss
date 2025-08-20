@@ -1,0 +1,11 @@
+.statisticsPageWrapper {
+    background: #f6f4f0;
+
+    .statisticsPageContent {
+        padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+        max-width: var(--content-max-width);
+        margin-inline: auto;
+        background: var(--white);
+        min-height: 100vh;
+    }
+}

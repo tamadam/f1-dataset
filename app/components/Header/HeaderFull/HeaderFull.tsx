@@ -16,7 +16,7 @@ const HeaderFull = () => {
 
   const menuItemsList: MenuItem[] = [
     { id: 1, label: translate("results"), href: `/results/${year}/races` },
-    { id: 2, label: `${translate("statistics")} - TBD`, href: "/" },
+    { id: 2, label: `${translate("statistics")}`, href: "/statistics" },
     { id: 3, label: `${translate("powerRankings")} - TBD`, href: "/" },
   ];
 

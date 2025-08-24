@@ -6,6 +6,7 @@ import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
 import { createAnimation } from "@/app/lib/chart-utils";
 import { Link } from "@/i18n/navigation";
+import { teamColorMap } from "@/app/lib/maps/team-color-map";
 
 interface ConstructorStandingsTableProps {
   year: string;
@@ -17,6 +18,7 @@ interface ConstructorStandingsTableProps {
 }
 
 const buildGraphData = (
+  year: string,
   allRoundsData: ConstructorStandings[][] | undefined,
   totalRounds: number | undefined,
   roundLabel: string
@@ -39,10 +41,15 @@ const buildGraphData = (
       });
     });
 
-    const constructors = Array.from(constructorsMap, ([id, name]) => ({
-      id,
-      name,
-    }));
+    const latestRound = allRoundsData[allRoundsData.length - 1] || [];
+
+    const constructors = Array.from(constructorsMap, ([id, name]) => {
+      const constructorData = latestRound.find(
+        (c) => c.Constructor.constructorId === id
+      );
+      const points = constructorData ? Number(constructorData.points) : 0;
+      return { id, name, points };
+    }).sort((a, b) => b.points - a.points);
 
     const datasets = constructors.map((constructor) => ({
       label: constructor.name,
@@ -52,7 +59,11 @@ const buildGraphData = (
         );
         return teamData ? Number(teamData.points) : null;
       }),
-      borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+
+      backgroundColor: teamColorMap?.[year]?.[constructor.id],
+      borderColor:
+        teamColorMap?.[year]?.[constructor.id] ||
+        `hsl(${Math.random() * 360}, 70%, 50%)`,
     }));
 
     return { labels, datasets };
@@ -69,6 +80,7 @@ const ConstructorStandingsTable = ({
   const translate = useTranslations("General");
 
   const graphData = buildGraphData(
+    year,
     allRoundsData?.dataArray,
     allRoundsData?.totalRounds,
     translate("grandPrixWithNumber", { number: "XXX" })

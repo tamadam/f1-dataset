@@ -18,7 +18,8 @@ interface ConstructorStandingsTableProps {
 
 const buildGraphData = (
   allRoundsData: ConstructorStandings[][] | undefined,
-  totalRounds: number | undefined
+  totalRounds: number | undefined,
+  roundLabel: string
 ) => {
   if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
     const paddedRounds = [
@@ -26,7 +27,9 @@ const buildGraphData = (
       ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),
     ];
 
-    const labels = paddedRounds.map((_, index) => `Round ${index + 1}`);
+    const labels = paddedRounds.map((_, index) =>
+      roundLabel.replace("XXX", String(index + 1))
+    );
 
     const constructorsMap = new Map<string, string>();
 
@@ -67,7 +70,8 @@ const ConstructorStandingsTable = ({
 
   const graphData = buildGraphData(
     allRoundsData?.dataArray,
-    allRoundsData?.totalRounds
+    allRoundsData?.totalRounds,
+    translate("grandPrixWithNumber", { number: "XXX" })
   );
 
   const animation = createAnimation(graphData, 400);
@@ -80,7 +84,7 @@ const ConstructorStandingsTable = ({
       plugins: {
         title: {
           display: true,
-          text: `${year} Team Standings - Round by Round`,
+          text: translate("constructorStandingsRoundByRound", { year }),
           align: "start",
           font: {
             size: 18,

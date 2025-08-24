@@ -16,7 +16,8 @@ interface DriverStandingsTableProps {
 
 const buildGraphData = (
   allRoundsData: DriverStandings[][] | undefined,
-  totalRounds: number | undefined
+  totalRounds: number | undefined,
+  roundLabel: string
 ) => {
   if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
     const paddedRounds = [
@@ -24,7 +25,9 @@ const buildGraphData = (
       ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),
     ];
 
-    const labels = paddedRounds.map((_, index) => `Round ${index + 1}`);
+    const labels = paddedRounds.map((_, index) =>
+      roundLabel.replace("XXX", String(index + 1))
+    );
 
     const driversMap = new Map<string, string>();
 
@@ -66,7 +69,8 @@ const DriverStandingsTable = ({
 
   const graphData = buildGraphData(
     allRoundsData?.dataArray,
-    allRoundsData?.totalRounds
+    allRoundsData?.totalRounds,
+    translate("grandPrixWithNumber", { number: "XXX" })
   );
 
   const animation = createAnimation(graphData, 400);
@@ -79,7 +83,7 @@ const DriverStandingsTable = ({
       plugins: {
         title: {
           display: true,
-          text: `${year} Driver Standings - Round by Round`,
+          text: translate("driverStandingsRoundByRound", { year }),
           align: "start",
           font: {
             size: 18,

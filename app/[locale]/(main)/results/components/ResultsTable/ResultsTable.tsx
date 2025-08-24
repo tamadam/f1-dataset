@@ -337,12 +337,12 @@ const ResultsTable = <T,>({
                 <div className={styles.chartToggleLabel}>
                   {allHidden ? (
                     <>
-                      <span>Show All</span>
+                      <span>{translate("showAll")}</span>
                       <Eye width={24} height={24} />
                     </>
                   ) : (
                     <>
-                      <span>Hide All</span>
+                      <span>{translate("hideAll")}</span>
                       <EyeOff width={24} height={24} />
                     </>
                   )}

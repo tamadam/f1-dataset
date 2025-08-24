@@ -5,6 +5,7 @@ import {
 import { RawConstructorStandings } from "@/app/types/constructorStandings";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
+import { getTotalRounds } from "./getTotalRounds";
 
 // Returns the constructor standings for a given year (reflects current state if the season is ongoing)
 export const getConstructorStandings = async (
@@ -52,11 +53,8 @@ export const getConstructorStandingsByRound = async (
       "constructor-standings",
       `${year}-${round}`
     );
-    const currentYear = new Date().getFullYear().toString();
-    const isCurrentSeason = year === currentYear;
 
-    const skipCustomCache =
-      process.env.NODE_ENV !== "production" || isCurrentSeason;
+    const skipCustomCache = false;
 
     return await fetchWithCacheAndRateLimit<RawConstructorStandings>(
       endpoint,
@@ -71,7 +69,7 @@ export const getConstructorStandingsByRound = async (
     );
   } catch (error) {
     throw new Error(
-      `Failed to fetch constructor standings for ${year} round ${round}: ${
+      `Failed to fetch constructor standings by round for ${year} round ${round}: ${
         error instanceof Error ? error.message : "Unknown error"
       }`
     );
@@ -80,19 +78,29 @@ export const getConstructorStandingsByRound = async (
 
 export const getConstructorStandingsAllRounds = async (
   year: string
-): Promise<RawConstructorStandings[]> => {
-  const latestStandings = await getConstructorStandings(year);
-  if (!latestStandings) return [];
+): Promise<{ totalRounds: number; results: RawConstructorStandings[] }> => {
+  try {
+    const totalRounds = await getTotalRounds(year);
+    const availableRounds = await getConstructorStandings(year);
 
-  const maxRound = Number(latestStandings.MRData.StandingsTable.round);
+    if (!availableRounds) return { totalRounds: 0, results: [] };
 
-  const results: RawConstructorStandings[] = [];
-  for (let round = 1; round <= maxRound; round++) {
-    const standings = await getConstructorStandingsByRound(year, round);
-    if (standings) {
-      results.push(standings);
+    const maxRounds = Number(availableRounds.MRData.StandingsTable.round);
+
+    const results: RawConstructorStandings[] = [];
+    for (let round = 1; round <= maxRounds; round++) {
+      const standings = await getConstructorStandingsByRound(year, round);
+      if (standings) {
+        results.push(standings);
+      }
     }
-  }
 
-  return results;
+    return { totalRounds, results };
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch constructor standings with all rounds for ${year}: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
+  }
 };

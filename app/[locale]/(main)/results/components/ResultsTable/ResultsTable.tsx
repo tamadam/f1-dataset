@@ -131,14 +131,19 @@ const ResultsTable = <T,>({
     <div className={styles.resultsWrapperTable}>
       <div className={styles.tableCaption}>
         <h1>{caption}</h1>
-        <ViewSwitcher defaultView={viewMode} onViewChange={handleViewChange} />
+        {!noDataAvailable && chartData && (
+          <ViewSwitcher
+            defaultView={viewMode}
+            onViewChange={handleViewChange}
+          />
+        )}
       </div>
       {captionDescription && (
         <div className={styles.tableCaptionDescription}>
           {captionDescription}
         </div>
       )}
-      {viewMode === "table" ? (
+      {!chartData || viewMode === "table" ? (
         <div
           className={clsx(styles.resultsWrapper, {
             [styles.multiTable]: Boolean(detailList),

@@ -3,14 +3,70 @@
 import { DriverStandings } from "@/app/types/driverStandings";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
+import { createAnimation } from "@/app/lib/chart-utils";
 
 interface DriverStandingsTableProps {
   year: string;
   data: DriverStandings[] | undefined;
+  allRoundsData?: {
+    dataArray?: DriverStandings[][];
+    totalRounds?: number;
+  };
 }
 
-const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
+const buildGraphData = (
+  allRoundsData: DriverStandings[][] | undefined,
+  totalRounds: number | undefined
+) => {
+  if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
+    const paddedRounds = [
+      ...allRoundsData,
+      ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),
+    ];
+
+    const labels = paddedRounds.map((_, index) => `Round ${index + 1}`);
+
+    const drivers = allRoundsData[0].map((d) => ({
+      id: d.Driver.driverId,
+      name: `${d.Driver.givenName[0]}. ${d.Driver.familyName}`,
+    }));
+
+    const datasets = drivers.map((driver) => ({
+      label: driver.name,
+      data: allRoundsData.map((round) => {
+        const driverData = round.find((d) => d.Driver.driverId === driver.id);
+        return driverData ? Number(driverData.points) : null;
+      }),
+      borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
+    }));
+
+    return { labels, datasets };
+  }
+
+  return { labels: [], datasets: [] };
+};
+
+const DriverStandingsTable = ({
+  year,
+  data,
+  allRoundsData,
+}: DriverStandingsTableProps) => {
   const translate = useTranslations("General");
+
+  const graphData = buildGraphData(
+    allRoundsData?.dataArray,
+    allRoundsData?.totalRounds
+  );
+
+  const animation = createAnimation(graphData, 400);
+
+  const chartData = {
+    data: graphData,
+    options: {
+      responsive: true,
+      animation,
+    },
+  };
 
   return (
     <ResultsTable<DriverStandings>
@@ -66,6 +122,7 @@ const DriverStandingsTable = ({ year, data }: DriverStandingsTableProps) => {
         },
       ]}
       data={data}
+      chartData={chartData}
     />
   );
 };

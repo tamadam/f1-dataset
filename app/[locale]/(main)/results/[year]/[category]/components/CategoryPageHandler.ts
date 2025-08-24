@@ -1,4 +1,7 @@
-import { getDriverStandings } from "@/app/lib/api/getDriverStandings";
+import {
+  getDriverStandings,
+  getDriverStandingsAllRounds,
+} from "@/app/lib/api/getDriverStandings";
 import DriverStandingsTable from "./DriverStandingsTable";
 import {
   getConstructorStandings,
@@ -39,6 +42,7 @@ type CategoryMap = {
     Component: (props: {
       year: string;
       data: DriverStandings[];
+      allRoundsData: DriverStandings[][];
     }) => JSX.Element;
   };
   constructors: {
@@ -96,8 +100,14 @@ export const CATEGORY_HANDLERS: {
   },
   drivers: {
     fetch: getDriverStandings,
+    fetchAllRounds: getDriverStandingsAllRounds,
     extract: (res) =>
       res?.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? [],
+    extractAllRounds: (res) =>
+      res?.map(
+        (item) =>
+          item.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? []
+      ) ?? [],
     selectorMap: (entry) => ({
       id: entry.Driver.driverId,
       name: `${entry.Driver.givenName} ${entry.Driver.familyName}`,

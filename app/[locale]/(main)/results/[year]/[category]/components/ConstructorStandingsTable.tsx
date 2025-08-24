@@ -19,7 +19,7 @@ const buildGraphData = (
   allRoundsData: ConstructorStandings[][] | undefined,
   totalRounds: number | undefined
 ) => {
-  if (allRoundsData && totalRounds) {
+  if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
     const paddedRounds = [
       ...allRoundsData,
       ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),

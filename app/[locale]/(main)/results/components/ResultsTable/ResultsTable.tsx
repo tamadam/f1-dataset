@@ -24,6 +24,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Button from "@/app/components/Button";
+import { Eye, EyeOff } from "@/app/components/icons";
 
 ChartJS.register(
   CategoryScale,
@@ -150,6 +151,7 @@ const ResultsTable = <T,>({
   // Add legend onClick override to track manual clicks for the toggle button
   const chartOptions = {
     ...chartData?.options,
+    maintainAspectRatio: false,
     plugins: {
       ...chartData?.options?.plugins,
       legend: {
@@ -332,7 +334,19 @@ const ResultsTable = <T,>({
                 variant="primary"
                 className={styles.chartToggle}
               >
-                <span>{allHidden ? "Show all" : "Hide all"}</span>
+                <div className={styles.chartToggleLabel}>
+                  {allHidden ? (
+                    <>
+                      <span>Show All</span>
+                      <Eye width={24} height={24} />
+                    </>
+                  ) : (
+                    <>
+                      <span>Hide All</span>
+                      <EyeOff width={24} height={24} />
+                    </>
+                  )}
+                </div>
               </Button>
               <Line
                 options={chartOptions}

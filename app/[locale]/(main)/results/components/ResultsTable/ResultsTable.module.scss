@@ -164,10 +164,17 @@
 }
 
 .chartWrapper  {
-  .chartToggle {
-    display: block;
-    margin-left: auto;
-  }
+    block-size: 56rem;
+    width: auto;
+
+    .chartToggle { 
+        .chartToggleLabel {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 
   .chart {
     margin-block: 1rem 4rem;

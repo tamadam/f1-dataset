@@ -5,6 +5,7 @@ import React from "react";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
 import { createAnimation } from "@/app/lib/chart-utils";
+import { Link } from "@/i18n/navigation";
 
 interface ConstructorStandingsTableProps {
   year: string;
@@ -27,9 +28,17 @@ const buildGraphData = (
 
     const labels = paddedRounds.map((_, index) => `Round ${index + 1}`);
 
-    const constructors = allRoundsData[0].map((c) => ({
-      id: c.Constructor.constructorId,
-      name: c.Constructor.name,
+    const constructorsMap = new Map<string, string>();
+
+    allRoundsData.forEach((round) => {
+      round.forEach((c) => {
+        constructorsMap.set(c.Constructor.constructorId, c.Constructor.name);
+      });
+    });
+
+    const constructors = Array.from(constructorsMap, ([id, name]) => ({
+      id,
+      name,
     }));
 
     const datasets = constructors.map((constructor) => ({
@@ -104,6 +113,15 @@ const ConstructorStandingsTable = ({
         },
       ]}
       tableInlineStyles={{ minWidth: "350px" }}
+      noDataText={
+        Number(year) < 1958
+          ? translate.rich("noDataForConstructorsBefore58", {
+              link: (chunks) => (
+                <Link href="/results/1958/constructors">{chunks}</Link>
+              ),
+            })
+          : ""
+      }
       data={data}
       chartData={chartData}
     />

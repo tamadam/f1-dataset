@@ -22,6 +22,7 @@
         "powerRankings": "Erősorrend",
         "noResults": "Az eredmények ehhez az eseményhez még nem érhetők el",
         "noData": "Nincs elérhető adat",
+        "noDataForConstructorsBefore58": "A konstruktőri bajnokságot <link>1958</link>-ban vezették be",
         "category": "Kategória",
         "races": "Futamok",
         "race": "Futam",

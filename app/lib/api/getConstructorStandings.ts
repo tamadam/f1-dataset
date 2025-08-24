@@ -12,6 +12,8 @@ export const getConstructorStandings = async (
   year: string
 ): Promise<RawConstructorStandings | null> => {
   try {
+    if (Number(year) < 1958) return null;
+
     const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_CONSTRUCTOR_STANDINGS_URL}/`;
     const cacheSubFolder = ["constructor-standings"];
     const cacheKey = generateCacheKey("constructor-standings", year);
@@ -47,6 +49,8 @@ export const getConstructorStandingsByRound = async (
   round: number
 ): Promise<RawConstructorStandings | null> => {
   try {
+    if (Number(year) < 1958) return null;
+
     const endpoint = `${F1_API_BASE_URL}/${year}/${round}/${F1_API_CONSTRUCTOR_STANDINGS_URL}/`;
     const cacheSubFolder = ["constructor-standings", year];
     const cacheKey = generateCacheKey(
@@ -80,6 +84,8 @@ export const getConstructorStandingsAllRounds = async (
   year: string
 ): Promise<{ totalRounds: number; results: RawConstructorStandings[] }> => {
   try {
+    if (Number(year) < 1958) return { totalRounds: 0, results: [] };
+
     const totalRounds = await getTotalRounds(year);
     const availableRounds = await getConstructorStandings(year);
 

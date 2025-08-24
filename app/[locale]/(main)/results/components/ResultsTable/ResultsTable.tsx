@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import styles from "./ResultsTable.module.scss";
 import { useRef, useEffect, useState } from "react";
 import clsx from "clsx";
@@ -56,7 +56,7 @@ export type ColumnDefinition<T> = {
 interface ResultsTableProps<T> {
   caption: string;
   captionDescription?: string;
-  noDataText?: string;
+  noDataText?: string | ReactNode;
   data: T[] | undefined;
   chartData?: {
     options: any;

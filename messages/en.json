@@ -22,6 +22,7 @@
     "powerRankings": "Power Rankings",
     "noResults": "Results for this session aren't available yet",
     "noData": "No data available",
+    "noDataForConstructorsBefore58": "The Constructors Championship was not awarded until <link>1958</link>",
     "category": "Category",
     "races": "Races",
     "race": "Race",

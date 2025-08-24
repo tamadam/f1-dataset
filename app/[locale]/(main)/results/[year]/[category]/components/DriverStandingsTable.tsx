@@ -26,9 +26,20 @@ const buildGraphData = (
 
     const labels = paddedRounds.map((_, index) => `Round ${index + 1}`);
 
-    const drivers = allRoundsData[0].map((d) => ({
-      id: d.Driver.driverId,
-      name: `${d.Driver.givenName[0]}. ${d.Driver.familyName}`,
+    const driversMap = new Map<string, string>();
+
+    allRoundsData.map((round) => {
+      round.forEach((d) =>
+        driversMap.set(
+          d.Driver.driverId,
+          `${d.Driver.givenName[0]}. ${d.Driver.familyName}`
+        )
+      );
+    });
+
+    const drivers = Array.from(driversMap, ([id, name]) => ({
+      id,
+      name,
     }));
 
     const datasets = drivers.map((driver) => ({

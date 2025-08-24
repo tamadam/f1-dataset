@@ -4,6 +4,7 @@ import { DriverStandings } from "@/app/types/driverStandings";
 import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
 import { createAnimation } from "@/app/lib/chart-utils";
+import { teamColorMap } from "@/app/lib/maps/team-color-map";
 
 interface DriverStandingsTableProps {
   year: string;
@@ -15,6 +16,7 @@ interface DriverStandingsTableProps {
 }
 
 const buildGraphData = (
+  year: string,
   allRoundsData: DriverStandings[][] | undefined,
   totalRounds: number | undefined,
   roundLabel: string
@@ -29,30 +31,59 @@ const buildGraphData = (
       roundLabel.replace("XXX", String(index + 1))
     );
 
-    const driversMap = new Map<string, string>();
+    const driversMap = new Map<
+      string,
+      { name: string; constructorId: string }
+    >();
 
     allRoundsData.map((round) => {
       round.forEach((d) =>
-        driversMap.set(
-          d.Driver.driverId,
-          `${d.Driver.givenName[0]}. ${d.Driver.familyName}`
-        )
+        driversMap.set(d.Driver.driverId, {
+          name: `${d.Driver.givenName[0]}. ${d.Driver.familyName}`,
+          constructorId: d.Constructors[0].constructorId,
+        })
       );
     });
 
-    const drivers = Array.from(driversMap, ([id, name]) => ({
-      id,
-      name,
-    }));
+    const latestRound = allRoundsData[allRoundsData.length - 1] || [];
 
-    const datasets = drivers.map((driver) => ({
-      label: driver.name,
-      data: allRoundsData.map((round) => {
-        const driverData = round.find((d) => d.Driver.driverId === driver.id);
-        return driverData ? Number(driverData.points) : null;
-      }),
-      borderColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
-    }));
+    const drivers = Array.from(driversMap, ([id, { name, constructorId }]) => {
+      const driverData = latestRound.find((d) => d.Driver.driverId === id);
+      const points = driverData ? Number(driverData.points) : 0;
+      return {
+        id,
+        name,
+        constructorId,
+        points,
+      };
+    }).sort((a, b) => b.points - a.points);
+
+    const constructorDriverOrder: Record<string, number> = {};
+
+    const datasets = drivers.map((driver) => {
+      const constructorId = driver.constructorId;
+      const teamColor =
+        teamColorMap[year]?.[constructorId] ??
+        `hsl(${Math.random() * 360},70%,50%)`;
+
+      const driverIndex = constructorDriverOrder[constructorId] || 0;
+      constructorDriverOrder[constructorId] = driverIndex + 1;
+
+      const isSecondDriver = driverIndex >= 1; // 0 = first, 1 or more second driver
+      const driverColor = isSecondDriver ? `${teamColor}80` : teamColor;
+
+      return {
+        label: driver.name,
+        data: allRoundsData.map((round) => {
+          const driverData = round.find((d) => d.Driver.driverId === driver.id);
+
+          return driverData ? Number(driverData.points) : null;
+        }),
+        borderColor: driverColor,
+        backgroundColor: teamColor,
+        borderDash: isSecondDriver ? [6, 4] : undefined,
+      };
+    });
 
     return { labels, datasets };
   }
@@ -68,6 +99,7 @@ const DriverStandingsTable = ({
   const translate = useTranslations("General");
 
   const graphData = buildGraphData(
+    year,
     allRoundsData?.dataArray,
     allRoundsData?.totalRounds,
     translate("grandPrixWithNumber", { number: "XXX" })

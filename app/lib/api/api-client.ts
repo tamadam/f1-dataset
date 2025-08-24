@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getCachedResponse, setCachedResponse } from './build-cache';
+import { getCachedResponse, setCachedResponse } from "./build-cache";
 import { RateLimiter } from "./rate-limiter";
-
 
 const DEFAULT_REVALIDATE_TIME = 3600; // 1 hour
 
@@ -10,41 +9,39 @@ const limiter = new RateLimiter();
 const cacheLocks = new Map<string, Promise<unknown>>();
 
 export const fetchWithRateLimit = async <T>(
-    url: string,
-    options?: RequestInit
+  url: string,
+  options?: RequestInit
 ): Promise<T | null> => {
   return await limiter.enqueue<T>(async () => {
-      const response = await fetch(url, options);
-      
-      if (response.status === 429) {
-          const error: any = new Error(`Rate limited - ${response.statusText}`);
-          error.status = 429;
-          error.headers = response.headers;
-          throw error;
-      }
-      
-      if (!response.ok) {
-          throw new Error(`Request failed - ${response.status}`);
-      }
-      
-      return response.json();
-  });  
+    const response = await fetch(url, options);
 
-}
+    if (response.status === 429) {
+      const error: any = new Error(`Rate limited - ${response.statusText}`);
+      error.status = 429;
+      error.headers = response.headers;
+      throw error;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Request failed - ${response.status}`);
+    }
+
+    return response.json();
+  });
+};
 
 export const fetchWithCacheAndRateLimit = async <T>(
-    endpoint: string,
-    cacheSubFolder: string[],
-    cacheKey: string,
-    skipCustomCache: boolean,
-    isValidResponse: (data: T) => boolean,
-    revalidateTime = DEFAULT_REVALIDATE_TIME,
+  endpoint: string,
+  cacheSubFolder: string[],
+  cacheKey: string,
+  skipCustomCache: boolean,
+  isValidResponse: (data: T) => boolean,
+  revalidateTime = DEFAULT_REVALIDATE_TIME
 ): Promise<T | null> => {
-  if(skipCustomCache) {
-    return fetchWithRateLimit<T>(
-      endpoint,
-      { next: { revalidate: revalidateTime } }
-    );
+  if (skipCustomCache) {
+    return fetchWithRateLimit<T>(endpoint, {
+      next: { revalidate: revalidateTime },
+    });
   }
 
   const cached = await getCachedResponse<T>(cacheSubFolder, cacheKey);
@@ -61,19 +58,20 @@ export const fetchWithCacheAndRateLimit = async <T>(
         // Request was skipped due to rate limits
         if (data === null) {
           return null;
-      }
+        }
 
         if (!isValidResponse(data)) {
           throw new Error("Invalid API response structure.");
-        } 
+        }
 
         await setCachedResponse(cacheSubFolder, cacheKey, data);
 
         return data;
-        
       } catch (error) {
-        console.log(error)
-        throw new Error(`Fetch failed in api-client: ${(error as Error).message}`);
+        console.log(error);
+        throw new Error(
+          `Fetch failed in api-client: ${(error as Error).message}`
+        );
       } finally {
         cacheLocks.delete(cacheKey);
       }
@@ -81,16 +79,10 @@ export const fetchWithCacheAndRateLimit = async <T>(
     cacheLocks.set(cacheKey, fetchDataPromise);
   }
 
-  return await cacheLocks.get(cacheKey) as Promise<T>;
-
- 
-}
+  return (await cacheLocks.get(cacheKey)) as Promise<T>;
+};
 
 // Construct a cache key
-export const generateCacheKey = ( tag: string, year: string ): string => {
+export const generateCacheKey = (tag: string, year: string): string => {
   return `${tag}-${year}`;
-}
-
-
-
-
+};

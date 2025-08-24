@@ -1,0 +1,29 @@
+.viewModeSwitcher {
+    display: flex;
+    justify-content: space-evenly;
+    outline: 1px solid var(--red-medium);
+    outline-offset: -1px;
+    border-radius: 0.25rem;
+    font-size: var(--font-size-s);
+    
+    
+    .viewButton {
+        padding: 0.675rem 1rem;
+        border-radius: inherit;
+        cursor: pointer;
+        transition: background-color 150ms linear;
+
+        &:hover {
+            background-color: var(--redish-light);
+        }
+
+        &.activeView {
+            background-color: var(--red-medium);
+            color: var(--white);
+        }
+
+        .viewContent{
+            height: clamp(0.8rem, .6rem + 3vw, 1.8rem);
+        }
+    }
+}

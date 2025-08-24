@@ -26,7 +26,7 @@ export default async function ResultsPageCategoryLayout({
   const rawData = await getCategoryData(handler, year);
   if (!rawData) return notFound();
 
-  const data = handler.extract(rawData);
+  const data = handler.extract(rawData.data);
   const elements = handler.selectorMap ? data.map(handler.selectorMap) : [];
 
   const categories = CATEGORIES.map((category) => ({

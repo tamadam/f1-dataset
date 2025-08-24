@@ -34,8 +34,22 @@ export default async function ResultsCategoryPage({
   const rawData = await getCategoryData(handler, year);
   if (!rawData) return notFound();
 
-  const data = handler.extract(rawData) ?? [];
+  const currentRoundData = handler.extract(rawData.data);
+  const allRoundsData = {
+    dataArray: rawData.dataArray
+      ? handler.extractAllRounds?.(rawData.dataArray)
+      : undefined,
+    totalRounds: rawData.totalRounds,
+  };
 
   const Component = handler.Component;
-  return <Component year={year} data={data} locale={locale} />;
+
+  return (
+    <Component
+      year={year}
+      data={currentRoundData}
+      allRoundsData={allRoundsData}
+      locale={locale}
+    />
+  );
 }

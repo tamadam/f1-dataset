@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { CSSProperties } from "react";
@@ -10,6 +11,28 @@ import { DETAILS_URLS } from "@/app/constants";
 import { Link, usePathname } from "@/i18n/navigation";
 import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
+import ViewSwitcher, { ViewMode } from "../ViewSwitcher/ViewSwitcher";
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export type DetailItem = {
   label: string;
@@ -35,6 +58,10 @@ interface ResultsTableProps<T> {
   captionDescription?: string;
   noDataText?: string;
   data: T[] | undefined;
+  chartData?: {
+    options: any;
+    data: any;
+  };
   detailList?: DetailItem[];
   columns: ColumnDefinition<T>[];
   tableInlineStyles?: CSSProperties;
@@ -45,6 +72,7 @@ const ResultsTable = <T,>({
   captionDescription,
   noDataText,
   data,
+  chartData,
   detailList,
   columns,
   tableInlineStyles = {},
@@ -53,6 +81,7 @@ const ResultsTable = <T,>({
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("table");
   const { locale, year, category, subcategory } = useParams();
   const pathname = usePathname();
 
@@ -94,45 +123,70 @@ const ResultsTable = <T,>({
     justifySelf: column.styles?.textAlign || "left",
   });
 
+  const handleViewChange = (view: ViewMode) => {
+    setViewMode(view);
+  };
+
   return (
     <div className={styles.resultsWrapperTable}>
-      <div className={styles.tableCaption}>{caption}</div>
+      <div className={styles.tableCaption}>
+        <h1>{caption}</h1>
+        <ViewSwitcher defaultView={viewMode} onViewChange={handleViewChange} />
+      </div>
       {captionDescription && (
         <div className={styles.tableCaptionDescription}>
           {captionDescription}
         </div>
       )}
-      <div
-        className={clsx(styles.resultsWrapper, {
-          [styles.multiTable]: Boolean(detailList),
-        })}
-      >
-        {detailList && (
-          <ul className={styles.detailSelectorList}>
-            {detailList.map((detail) => {
-              const href = detail.urlKey
-                ? `${basePath}/${detail.urlKey}`
-                : basePath;
-              const isActive = pathname === href;
-              const isClickable = !detail.disabled;
+      {viewMode === "table" ? (
+        <div
+          className={clsx(styles.resultsWrapper, {
+            [styles.multiTable]: Boolean(detailList),
+          })}
+        >
+          {detailList && (
+            <ul className={styles.detailSelectorList}>
+              {detailList.map((detail) => {
+                const href = detail.urlKey
+                  ? `${basePath}/${detail.urlKey}`
+                  : basePath;
+                const isActive = pathname === href;
+                const isClickable = !detail.disabled;
 
-              return (
-                <li
-                  key={detail.label}
-                  className={clsx(styles.detailElement, {
-                    [styles.elementActive]: isActive,
-                    [styles.clickableElement]: isClickable,
-                  })}
-                >
-                  {isClickable ? (
-                    <Link
-                      href={
-                        detail.urlKey
-                          ? `${basePath}/${detail.urlKey}`
-                          : basePath
-                      }
-                    >
-                      <div className={styles.detailElementLabel}>
+                return (
+                  <li
+                    key={detail.label}
+                    className={clsx(styles.detailElement, {
+                      [styles.elementActive]: isActive,
+                      [styles.clickableElement]: isClickable,
+                    })}
+                  >
+                    {isClickable ? (
+                      <Link
+                        href={
+                          detail.urlKey
+                            ? `${basePath}/${detail.urlKey}`
+                            : basePath
+                        }
+                      >
+                        <div className={styles.detailElementLabel}>
+                          <span className={styles.elementLabel}>
+                            {detail.label}
+                          </span>
+                          {detail.date && (
+                            <span className={styles.elementDate}>
+                              {formatDate(detail.date.date, safeLocal)}
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+                    ) : (
+                      <div
+                        className={clsx(
+                          styles.detailElementLabel,
+                          styles.nonClickableElement
+                        )}
+                      >
                         <span className={styles.elementLabel}>
                           {detail.label}
                         </span>
@@ -142,91 +196,84 @@ const ResultsTable = <T,>({
                           </span>
                         )}
                       </div>
-                    </Link>
-                  ) : (
-                    <div
-                      className={clsx(
-                        styles.detailElementLabel,
-                        styles.nonClickableElement
-                      )}
-                    >
-                      <span className={styles.elementLabel}>
-                        {detail.label}
-                      </span>
-                      {detail.date && (
-                        <span className={styles.elementDate}>
-                          {formatDate(detail.date.date, safeLocal)}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        )}
-        <div className={styles.resultsTableOuterWrapper}>
-          <div
-            className={styles.shadowLeft}
-            style={{ opacity: showLeftShadow ? 1 : 0 }}
-          />
-          <div
-            className={styles.shadowRight}
-            style={{ opacity: showRightShadow ? 1 : 0 }}
-          />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          <div className={styles.resultsTableOuterWrapper}>
+            <div
+              className={styles.shadowLeft}
+              style={{ opacity: showLeftShadow ? 1 : 0 }}
+            />
+            <div
+              className={styles.shadowRight}
+              style={{ opacity: showRightShadow ? 1 : 0 }}
+            />
 
-          <div ref={contentRef} className={styles.resultsTableWrapper}>
-            <table className={styles.resultsTable} style={tableInlineStyles}>
-              <thead className={styles.tableHeaderWrapper}>
-                <tr style={columnStyle}>
-                  {columns.map((column) => (
-                    <th key={column.header} style={getCellStyles(column)}>
-                      {column.header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className={styles.tableBodyWrapper}>
-                {noDataAvailable ? (
-                  <tr>
-                    <td colSpan={columns.length}>
-                      {noDataText ?? translate("noData")}
-                    </td>
+            <div ref={contentRef} className={styles.resultsTableWrapper}>
+              <table className={styles.resultsTable} style={tableInlineStyles}>
+                <thead className={styles.tableHeaderWrapper}>
+                  <tr style={columnStyle}>
+                    {columns.map((column) => (
+                      <th key={column.header} style={getCellStyles(column)}>
+                        {column.header}
+                      </th>
+                    ))}
                   </tr>
-                ) : (
-                  data.map((item, index) => (
-                    <tr key={index} style={columnStyle}>
-                      {columns.map((column) => {
-                        const value = item[column.field];
-                        return (
-                          <td key={column.header} style={getCellStyles(column)}>
-                            {(() => {
-                              const rawContent = column.renderCell
-                                ? column.renderCell(item)
-                                : String(value);
-
-                              return column.urlHref ? (
-                                <Link
-                                  href={column.urlHref(item)}
-                                  className={styles.resultsTableLink}
-                                >
-                                  {rawContent}
-                                </Link>
-                              ) : (
-                                rawContent
-                              );
-                            })()}
-                          </td>
-                        );
-                      })}
+                </thead>
+                <tbody className={styles.tableBodyWrapper}>
+                  {noDataAvailable ? (
+                    <tr>
+                      <td colSpan={columns.length}>
+                        {noDataText ?? translate("noData")}
+                      </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    data.map((item, index) => (
+                      <tr key={index} style={columnStyle}>
+                        {columns.map((column) => {
+                          const value = item[column.field];
+                          return (
+                            <td
+                              key={column.header}
+                              style={getCellStyles(column)}
+                            >
+                              {(() => {
+                                const rawContent = column.renderCell
+                                  ? column.renderCell(item)
+                                  : String(value);
+
+                                return column.urlHref ? (
+                                  <Link
+                                    href={column.urlHref(item)}
+                                    className={styles.resultsTableLink}
+                                  >
+                                    {rawContent}
+                                  </Link>
+                                ) : (
+                                  rawContent
+                                );
+                              })()}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          {chartData?.data && (
+            <Line options={chartData.options} data={chartData.data} />
+          )}
+        </div>
+      )}
     </div>
   );
 };

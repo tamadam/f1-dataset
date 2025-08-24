@@ -27,6 +27,11 @@
     &.primary {
         @include primary;
     }
+
+    &.ghost {
+        color: inherit;
+        background-color: inherit;
+    }
 }
 
 .link {

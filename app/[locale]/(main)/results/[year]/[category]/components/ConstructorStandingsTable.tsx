@@ -77,6 +77,21 @@ const ConstructorStandingsTable = ({
     options: {
       responsive: true,
       animation,
+      plugins: {
+        title: {
+          display: true,
+          text: `${year} Team Standings - Round by Round`,
+          align: "start",
+          font: {
+            size: 18,
+            weight: "bold",
+          },
+        },
+        legend: {
+          display: true,
+          position: "top",
+        },
+      },
     },
   };
 

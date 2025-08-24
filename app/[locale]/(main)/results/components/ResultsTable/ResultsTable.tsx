@@ -23,6 +23,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Button from "@/app/components/Button";
 
 ChartJS.register(
   CategoryScale,
@@ -85,6 +86,8 @@ const ResultsTable = <T,>({
   const { locale, year, category, subcategory } = useParams();
   const pathname = usePathname();
 
+  const chartRef = useRef(null);
+
   const basePath = `/results/${year}/${category}/${subcategory}`;
 
   useEffect(() => {
@@ -125,6 +128,54 @@ const ResultsTable = <T,>({
 
   const handleViewChange = (view: ViewMode) => {
     setViewMode(view);
+  };
+
+  const [allHidden, setAllHidden] = useState(false);
+
+  const handleToggleAllLines = () => {
+    const chart = chartRef.current as any;
+    if (!chart) return;
+
+    const chartInstance = chart.chartInstance || chart;
+
+    chartInstance.data.datasets.forEach((_: any, index: number) => {
+      const meta = chartInstance.getDatasetMeta(index);
+      meta.hidden = !allHidden;
+    });
+
+    chartInstance.update();
+    setAllHidden(!allHidden);
+  };
+
+  // Add legend onClick override to track manual clicks for the toggle button
+  const chartOptions = {
+    ...chartData?.options,
+    plugins: {
+      ...chartData?.options?.plugins,
+      legend: {
+        ...chartData?.options?.plugins?.legend,
+        onClick: (_: any, legendItem: any, legend: any) => {
+          const chart = legend.chart;
+
+          const index = legendItem.datasetIndex;
+          const meta = chart.getDatasetMeta(index);
+          meta.hidden =
+            meta.hidden === null
+              ? !chart.data.datasets[index].hidden
+              : !meta.hidden;
+          chart.update();
+
+          const allHiddenNow = chart.data.datasets.every(
+            (_: any, i: number) => {
+              const m = chart.getDatasetMeta(i);
+              return m.hidden;
+            }
+          );
+
+          setAllHidden(allHiddenNow);
+        },
+      },
+    },
   };
 
   return (
@@ -273,9 +324,23 @@ const ResultsTable = <T,>({
           </div>
         </div>
       ) : (
-        <div>
+        <div className={styles.chartWrapper}>
           {chartData?.data && (
-            <Line options={chartData.options} data={chartData.data} />
+            <>
+              <Button
+                onClick={handleToggleAllLines}
+                variant="primary"
+                className={styles.chartToggle}
+              >
+                <span>{allHidden ? "Show all" : "Hide all"}</span>
+              </Button>
+              <Line
+                options={chartOptions}
+                data={chartData.data}
+                ref={chartRef}
+                className={styles.chart}
+              />
+            </>
           )}
         </div>
       )}

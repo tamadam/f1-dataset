@@ -76,6 +76,21 @@ const DriverStandingsTable = ({
     options: {
       responsive: true,
       animation,
+      plugins: {
+        title: {
+          display: true,
+          text: `${year} Driver Standings - Round by Round`,
+          align: "start",
+          font: {
+            size: 18,
+            weight: "bold",
+          },
+        },
+        legend: {
+          display: true,
+          position: "top",
+        },
+      },
     },
   };
 

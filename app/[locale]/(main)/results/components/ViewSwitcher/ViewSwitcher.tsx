@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./ViewSwitcher.module.scss";
 import clsx from "clsx";
 import { DataTable, LineGraph } from "@/app/components/icons";
+import Button from "@/app/components/Button";
 
 export type ViewMode = "table" | "graph";
 
@@ -25,24 +26,26 @@ const ViewSwitcher = ({
 
   return (
     <div className={styles.viewModeSwitcher} role="tablist">
-      <button
+      <Button
         className={clsx(styles.viewButton, {
           [styles.activeView]: viewMode === "table",
         })}
         type="button"
+        variant="ghost"
         onClick={() => handleViewModeChange("table")}
       >
         <DataTable className={styles.viewContent} />
-      </button>
-      <button
+      </Button>
+      <Button
         className={clsx(styles.viewButton, {
           [styles.activeView]: viewMode === "graph",
         })}
         type="button"
+        variant="ghost"
         onClick={() => handleViewModeChange("graph")}
       >
         <LineGraph className={styles.viewContent} />
-      </button>
+      </Button>
     </div>
   );
 };

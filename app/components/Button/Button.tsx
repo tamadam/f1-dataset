@@ -8,7 +8,7 @@ import Link from "next/link";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: "primary" | "normal";
+  variant?: "primary" | "ghost" | "normal";
   href?: string;
 }
 

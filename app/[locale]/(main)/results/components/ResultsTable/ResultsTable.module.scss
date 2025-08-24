@@ -91,7 +91,8 @@
 .tableCaption,
 .tableCaptionDescription,
 .detailSelectorList,
-.resultsTableOuterWrapper {
+.resultsTableOuterWrapper,
+.chartWrapper {
     font-family: "Formula1_Regular";
 }
 
@@ -162,8 +163,16 @@
     }
 }
 
+.chartWrapper  {
+  .chartToggle {
+    display: block;
+    margin-left: auto;
+  }
 
-
+  .chart {
+    margin-block: 1rem 4rem;
+  }
+}
 
 
 

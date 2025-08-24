@@ -68,6 +68,7 @@ type CategoryHandler<T, R> = {
   ) => Promise<{ results: R[]; totalRounds: number }>;
   extract: (raw: R | null) => T[];
   extractAllRounds?: (raw: R[] | null) => T[][];
+  isValidResponse: (raw: R | null) => boolean;
   selectorMap?: (
     entry: T
   ) => string | { id: string; name: string; round?: string };
@@ -91,6 +92,7 @@ export const CATEGORY_HANDLERS: {
   races: {
     fetch: getAllRaces,
     extract: (res) => res?.MRData.RaceTable.Races ?? [],
+    isValidResponse: (res) => Boolean(res?.MRData?.RaceTable?.Races),
     selectorMap: (entry) => ({
       id: entry.Circuit.circuitId,
       name: entry.raceName,
@@ -108,6 +110,10 @@ export const CATEGORY_HANDLERS: {
         (item) =>
           item.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? []
       ) ?? [],
+    isValidResponse: (res) =>
+      Boolean(
+        res?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings
+      ),
     selectorMap: (entry) => ({
       id: entry.Driver.driverId,
       name: `${entry.Driver.givenName} ${entry.Driver.familyName}`,
@@ -125,6 +131,10 @@ export const CATEGORY_HANDLERS: {
           item.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ??
           []
       ) ?? [],
+    isValidResponse: (res) =>
+      Boolean(
+        res?.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings
+      ),
     selectorMap: (entry) => ({
       id: entry.Constructor.constructorId,
       name: `${entry.Constructor.name}`,
@@ -134,6 +144,7 @@ export const CATEGORY_HANDLERS: {
   "fastest-laps": {
     fetch: getFastestLaps,
     extract: (res) => res?.MRData.RaceTable.Races ?? [],
+    isValidResponse: (res) => Boolean(res?.MRData?.RaceTable?.Races),
     Component: FastestLapsTable,
   },
 };
@@ -156,18 +167,66 @@ export async function getCategoryData<T, R>(
   try {
     let dataArray: R[] | null = null;
     let totalRounds: number | undefined;
+    let data: R | null = null;
 
     if (handler.fetchAllRounds) {
       const res = await handler.fetchAllRounds(year);
       dataArray = res?.results ?? null;
       totalRounds = res?.totalRounds;
+
+      if (dataArray && dataArray.length > 0) {
+        for (let i = dataArray.length - 1; i >= 0; i--) {
+          if (handler.isValidResponse?.(dataArray[i])) {
+            data = dataArray[i];
+            break;
+          }
+        }
+      }
     }
 
-    const data = await handler.fetch(year);
+    // Fallback: call fetch if no valid round found
+    if (!data) {
+      data = await handler.fetch(year);
+    }
 
     return { data, dataArray, totalRounds };
   } catch (error) {
     console.error(`Error fetching data for ${year}`, error);
     return null;
   }
+}
+
+type CacheEntry<T> = {
+  value: T;
+  expiresAt: number;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const categoryDataCache = new Map<string, CacheEntry<any>>();
+
+// 1 hour
+const REQUEST_CACHE_TIME = 1000 * 60 * 60;
+
+export async function getCategoryDataWithRequestCached<T, R>(
+  handler: CategoryHandler<T, R>,
+  year: string
+) {
+  const cacheKey = `${handler.fetch.name}-${year}`;
+  const now = Date.now();
+  const cached = categoryDataCache.get(cacheKey);
+
+  if (cached && cached.expiresAt > now) {
+    return cached.value;
+  }
+
+  const data = await getCategoryData(handler, year);
+
+  // Cache requests for 'REQUEST_CACHE_TIME'
+  // This value is not yet stored in JSON
+  categoryDataCache.set(cacheKey, {
+    value: data,
+    expiresAt: now + REQUEST_CACHE_TIME,
+  });
+
+  return data;
 }

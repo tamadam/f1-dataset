@@ -4,7 +4,7 @@ import { routing } from "@/i18n/routing";
 import {
   CategoryKey,
   getCategory,
-  getCategoryData,
+  getCategoryDataWithRequestCached,
 } from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
 
@@ -31,7 +31,7 @@ export default async function ResultsCategoryPage({
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
   const handler = getCategory(category as CategoryKey);
-  const rawData = await getCategoryData(handler, year);
+  const rawData = await getCategoryDataWithRequestCached(handler, year);
   if (!rawData) return notFound();
 
   const currentRoundData = handler.extract(rawData.data);

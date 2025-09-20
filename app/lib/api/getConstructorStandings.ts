@@ -5,7 +5,8 @@ import {
 import { RawConstructorStandings } from "@/app/types/constructorStandings";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
-import { getTotalRounds } from "./getTotalRounds";
+import { getAllRaces } from "./getAllRaces";
+import { RoundsList } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
 
 // Returns the constructor standings for a given year (reflects current state if the season is ongoing)
 export const getConstructorStandings = async (
@@ -82,14 +83,24 @@ export const getConstructorStandingsByRound = async (
 
 export const getConstructorStandingsAllRounds = async (
   year: string
-): Promise<{ totalRounds: number; results: RawConstructorStandings[] }> => {
+): Promise<{
+  roundsList: RoundsList;
+  results: RawConstructorStandings[];
+}> => {
   try {
-    if (Number(year) < 1958) return { totalRounds: 0, results: [] };
+    if (Number(year) < 1958) return { roundsList: [], results: [] };
 
-    const totalRounds = await getTotalRounds(year);
+    const rawAllRaces = await getAllRaces(year);
+
+    const races =
+      rawAllRaces?.MRData?.RaceTable?.Races.map((race) => ({
+        roundNumber: race.round,
+        roundName: race.raceName,
+      })) || [];
+
     const availableRounds = await getConstructorStandings(year);
 
-    if (!availableRounds) return { totalRounds: 0, results: [] };
+    if (!availableRounds) return { roundsList: [], results: [] };
 
     const maxRounds = Number(availableRounds.MRData.StandingsTable.round);
 
@@ -101,7 +112,7 @@ export const getConstructorStandingsAllRounds = async (
       }
     }
 
-    return { totalRounds, results };
+    return { roundsList: races, results };
   } catch (error) {
     throw new Error(
       `Failed to fetch constructor standings with all rounds for ${year}: ${

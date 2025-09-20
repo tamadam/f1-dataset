@@ -2,7 +2,8 @@ import { F1_API_BASE_URL, F1_API_DRIVER_STANDINGS_URL } from "@/app/constants";
 import { RawDriverStandings } from "@/app/types/driverStandings";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
-import { getTotalRounds } from "./getTotalRounds";
+import { getAllRaces } from "./getAllRaces";
+import { RoundsList } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
 
 // Returns the driver standings for a given year (reflects current state if the season is ongoing)
 export const getDriverStandings = async (
@@ -70,12 +71,21 @@ export const getDriverStandingsByRound = async (
 
 export const getDriverStandingsAllRounds = async (
   year: string
-): Promise<{ totalRounds: number; results: RawDriverStandings[] }> => {
+): Promise<{
+  roundsList: RoundsList;
+  results: RawDriverStandings[];
+}> => {
   try {
-    const totalRounds = await getTotalRounds(year);
+    const rawAllRaces = await getAllRaces(year);
+    const races =
+      rawAllRaces?.MRData?.RaceTable?.Races.map((race) => ({
+        roundNumber: race.round,
+        roundName: race.raceName,
+      })) || [];
+
     const availableRounds = await getDriverStandings(year);
 
-    if (!availableRounds) return { totalRounds: 0, results: [] };
+    if (!availableRounds) return { roundsList: [], results: [] };
 
     const maxRounds = Number(availableRounds.MRData.StandingsTable.round);
 
@@ -87,7 +97,7 @@ export const getDriverStandingsAllRounds = async (
       }
     }
 
-    return { totalRounds, results };
+    return { roundsList: races, results };
   } catch (error) {
     throw new Error(
       `Failed to fetch driver standings with all rounds for ${year}: ${

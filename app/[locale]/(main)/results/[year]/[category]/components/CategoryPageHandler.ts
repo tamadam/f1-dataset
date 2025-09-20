@@ -26,6 +26,8 @@ import { getAllRaces } from "@/app/lib/api/getAllRaces";
 
 export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
 
+export type RoundsList = { roundNumber: string; roundName: string }[];
+
 type CategoryMap = {
   races: {
     Raw: RawRaces;
@@ -42,7 +44,10 @@ type CategoryMap = {
     Component: (props: {
       year: string;
       data: DriverStandings[];
-      allRoundsData: DriverStandings[][];
+      allRoundsData?: {
+        dataArray: DriverStandings[][];
+        roundsList: RoundsList;
+      };
     }) => JSX.Element;
   };
   constructors: {
@@ -51,7 +56,10 @@ type CategoryMap = {
     Component: (props: {
       year: string;
       data: ConstructorStandings[];
-      allRoundsData: ConstructorStandings[][];
+      allRoundsData?: {
+        dataArray: ConstructorStandings[][];
+        roundsList: RoundsList;
+      };
     }) => JSX.Element;
   };
   "fastest-laps": {
@@ -63,9 +71,10 @@ type CategoryMap = {
 
 type CategoryHandler<T, R> = {
   fetch: (year: string) => Promise<R | null>;
-  fetchAllRounds?: (
-    year: string
-  ) => Promise<{ results: R[]; totalRounds: number }>;
+  fetchAllRounds?: (year: string) => Promise<{
+    results: R[];
+    roundsList: RoundsList;
+  }>;
   extract: (raw: R | null) => T[];
   extractAllRounds?: (raw: R[] | null) => T[][];
   isValidResponse: (raw: R | null) => boolean;
@@ -77,8 +86,8 @@ type CategoryHandler<T, R> = {
     locale?: string;
     data: T[];
     allRoundsData?: {
-      dataArray?: T[][];
-      totalRounds?: number;
+      dataArray: T[][];
+      roundsList: RoundsList;
     };
   }) => JSX.Element;
 };
@@ -162,17 +171,17 @@ export async function getCategoryData<T, R>(
 ): Promise<{
   data: R | null;
   dataArray?: R[] | null;
-  totalRounds?: number;
+  roundsList?: RoundsList;
 } | null> {
   try {
-    let dataArray: R[] | null = null;
-    let totalRounds: number | undefined;
     let data: R | null = null;
+    let dataArray: R[] | null = null;
+    let roundsList: RoundsList = [];
 
     if (handler.fetchAllRounds) {
       const res = await handler.fetchAllRounds(year);
       dataArray = res?.results ?? null;
-      totalRounds = res?.totalRounds;
+      roundsList = res?.roundsList;
 
       if (dataArray && dataArray.length > 0) {
         for (let i = dataArray.length - 1; i >= 0; i--) {
@@ -189,7 +198,7 @@ export async function getCategoryData<T, R>(
       data = await handler.fetch(year);
     }
 
-    return { data, dataArray, totalRounds };
+    return { data, dataArray, roundsList };
   } catch (error) {
     console.error(`Error fetching data for ${year}`, error);
     return null;
@@ -210,7 +219,11 @@ const REQUEST_CACHE_TIME = 1000 * 60 * 60;
 export async function getCategoryDataWithRequestCached<T, R>(
   handler: CategoryHandler<T, R>,
   year: string
-) {
+): Promise<{
+  data: R | null;
+  dataArray?: R[] | null | undefined;
+  roundsList?: RoundsList;
+} | null> {
   const cacheKey = `${handler.fetch.name}-${year}`;
   const now = Date.now();
   const cached = categoryDataCache.get(cacheKey);

@@ -7,41 +7,60 @@ import { useTranslations } from "next-intl";
 import { createAnimation } from "@/app/lib/chart-utils";
 import { Link } from "@/i18n/navigation";
 import { teamColorMap } from "@/app/lib/maps/team-color-map";
+import { RoundsList } from "./CategoryPageHandler";
 
 interface ConstructorStandingsTableProps {
   year: string;
   data: ConstructorStandings[];
   allRoundsData?: {
-    dataArray?: ConstructorStandings[][];
-    totalRounds?: number;
+    dataArray: ConstructorStandings[][];
+    roundsList: RoundsList;
   };
 }
 
 const buildGraphData = (
   year: string,
-  allRoundsData: ConstructorStandings[][] | undefined,
-  totalRounds: number | undefined,
+  constructorStandingsRoundByRound: ConstructorStandings[][] | undefined,
+  roundsList: RoundsList | undefined,
+
   roundLabel: string
 ) => {
-  if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
+  const totalRounds = roundsList?.length || 0;
+
+  if (
+    constructorStandingsRoundByRound &&
+    constructorStandingsRoundByRound.length > 0 &&
+    totalRounds
+  ) {
     const paddedRounds = [
-      ...allRoundsData,
-      ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),
+      ...constructorStandingsRoundByRound,
+      ...Array.from(
+        { length: totalRounds - constructorStandingsRoundByRound.length },
+        () => []
+      ),
     ];
 
-    const labels = paddedRounds.map((_, index) =>
-      roundLabel.replace("XXX", String(index + 1))
-    );
+    const labels = paddedRounds.map((_, index) => {
+      const raceName = roundsList?.[index].roundName;
+      if (raceName) {
+        return `${index + 1}. ${raceName}`;
+      } else {
+        return roundLabel.replace("XXX", String(index + 1));
+      }
+    });
 
     const constructorsMap = new Map<string, string>();
 
-    allRoundsData.forEach((round) => {
+    constructorStandingsRoundByRound.forEach((round) => {
       round.forEach((c) => {
         constructorsMap.set(c.Constructor.constructorId, c.Constructor.name);
       });
     });
 
-    const latestRound = allRoundsData[allRoundsData.length - 1] || [];
+    const latestRound =
+      constructorStandingsRoundByRound[
+        constructorStandingsRoundByRound.length - 1
+      ] || [];
 
     const constructors = Array.from(constructorsMap, ([id, name]) => {
       const constructorData = latestRound.find(
@@ -53,7 +72,7 @@ const buildGraphData = (
 
     const datasets = constructors.map((constructor) => ({
       label: constructor.name,
-      data: allRoundsData.map((round) => {
+      data: constructorStandingsRoundByRound.map((round) => {
         const teamData = round.find(
           (c) => c.Constructor.constructorId === constructor.id
         );
@@ -82,7 +101,7 @@ const ConstructorStandingsTable = ({
   const graphData = buildGraphData(
     year,
     allRoundsData?.dataArray,
-    allRoundsData?.totalRounds,
+    allRoundsData?.roundsList,
     translate("grandPrixWithNumber", { number: "XXX" })
   );
 

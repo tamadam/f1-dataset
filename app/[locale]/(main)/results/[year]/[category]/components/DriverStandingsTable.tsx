@@ -5,38 +5,49 @@ import ResultsTable from "../../../components/ResultsTable/ResultsTable";
 import { useTranslations } from "next-intl";
 import { createAnimation } from "@/app/lib/chart-utils";
 import { teamColorMap } from "@/app/lib/maps/team-color-map";
+import { RoundsList } from "./CategoryPageHandler";
 
 interface DriverStandingsTableProps {
   year: string;
   data: DriverStandings[] | undefined;
   allRoundsData?: {
-    dataArray?: DriverStandings[][];
-    totalRounds?: number;
+    dataArray: DriverStandings[][];
+    roundsList: RoundsList;
   };
 }
 
 const buildGraphData = (
   year: string,
-  allRoundsData: DriverStandings[][] | undefined,
-  totalRounds: number | undefined,
+  driverStandingsRoundByRound: DriverStandings[][] | undefined,
+  roundsList: RoundsList | undefined,
   roundLabel: string
 ) => {
-  if (allRoundsData && allRoundsData.length > 0 && totalRounds) {
+  const totalRounds = roundsList?.length || 0;
+
+  if (driverStandingsRoundByRound && driverStandingsRoundByRound.length > 0) {
     const paddedRounds = [
-      ...allRoundsData,
-      ...Array.from({ length: totalRounds - allRoundsData.length }, () => []),
+      ...driverStandingsRoundByRound,
+      ...Array.from(
+        { length: totalRounds - driverStandingsRoundByRound.length },
+        () => []
+      ),
     ];
 
-    const labels = paddedRounds.map((_, index) =>
-      roundLabel.replace("XXX", String(index + 1))
-    );
+    const labels = paddedRounds.map((_, index) => {
+      const raceName = roundsList?.[index].roundName;
+      if (raceName) {
+        return `${index + 1}. ${raceName}`;
+      } else {
+        return roundLabel.replace("XXX", String(index + 1));
+      }
+    });
 
     const driversMap = new Map<
       string,
       { name: string; constructorId: string }
     >();
 
-    allRoundsData.map((round) => {
+    driverStandingsRoundByRound.map((round) => {
       round.forEach((d) =>
         driversMap.set(d.Driver.driverId, {
           name: `${d.Driver.givenName[0]}. ${d.Driver.familyName}`,
@@ -45,7 +56,8 @@ const buildGraphData = (
       );
     });
 
-    const latestRound = allRoundsData[allRoundsData.length - 1] || [];
+    const latestRound =
+      driverStandingsRoundByRound[driverStandingsRoundByRound.length - 1] || [];
 
     const drivers = Array.from(driversMap, ([id, { name, constructorId }]) => {
       const driverData = latestRound.find((d) => d.Driver.driverId === id);
@@ -74,7 +86,7 @@ const buildGraphData = (
 
       return {
         label: driver.name,
-        data: allRoundsData.map((round) => {
+        data: driverStandingsRoundByRound.map((round) => {
           const driverData = round.find((d) => d.Driver.driverId === driver.id);
 
           return driverData ? Number(driverData.points) : null;
@@ -101,7 +113,7 @@ const DriverStandingsTable = ({
   const graphData = buildGraphData(
     year,
     allRoundsData?.dataArray,
-    allRoundsData?.totalRounds,
+    allRoundsData?.roundsList,
     translate("grandPrixWithNumber", { number: "XXX" })
   );
 

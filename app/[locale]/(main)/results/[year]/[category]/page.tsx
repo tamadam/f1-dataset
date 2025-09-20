@@ -37,9 +37,9 @@ export default async function ResultsCategoryPage({
   const currentRoundData = handler.extract(rawData.data);
   const allRoundsData = {
     dataArray: rawData.dataArray
-      ? handler.extractAllRounds?.(rawData.dataArray)
-      : undefined,
-    totalRounds: rawData.totalRounds,
+      ? handler.extractAllRounds?.(rawData.dataArray) ?? []
+      : [],
+    roundsList: rawData.roundsList || [],
   };
 
   const Component = handler.Component;

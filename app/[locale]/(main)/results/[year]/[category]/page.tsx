@@ -3,8 +3,8 @@ import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import {
   CategoryKey,
-  getCategory,
-  getCategoryDataWithRequestCached,
+  getCategoryHandler,
+  getCategoryDataCached,
 } from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
 
@@ -30,11 +30,11 @@ export default async function ResultsCategoryPage({
   const { locale, year, category } = await params;
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
-  const handler = getCategory(category as CategoryKey);
-  const rawData = await getCategoryDataWithRequestCached(handler, year);
+  const handler = getCategoryHandler(category as CategoryKey);
+  const rawData = await getCategoryDataCached(handler, year);
   if (!rawData) return notFound();
 
-  const currentRoundData = handler.extract(rawData.data);
+  const latestRoundData = handler.extract(rawData.data);
   const allRoundsData = {
     dataArray: rawData.dataArray
       ? handler.extractAllRounds?.(rawData.dataArray) ?? []
@@ -47,7 +47,7 @@ export default async function ResultsCategoryPage({
   return (
     <Component
       year={year}
-      data={currentRoundData}
+      data={latestRoundData}
       allRoundsData={allRoundsData}
       locale={locale}
     />

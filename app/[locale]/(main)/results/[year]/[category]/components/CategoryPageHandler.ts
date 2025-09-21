@@ -12,7 +12,7 @@ import {
   DriverStandings,
   RawDriverStandings,
 } from "@/app/types/driverStandings";
-import { JSX } from "react";
+import { cache, JSX } from "react";
 import {
   ConstructorStandings,
   RawConstructorStandings,
@@ -24,10 +24,19 @@ import { Race, RawRaces } from "@/app/types/races";
 import RacesTable from "./RacesTable";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 
-export type CategoryKey = keyof typeof CATEGORY_HANDLERS;
-
+export type CategoryKey = keyof CategoryMap;
 export type RoundsList = { roundNumber: string; roundName: string }[];
 
+type CacheEntry<T> = {
+  value: T;
+  expiresAt: number;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const categoryDataCache = new Map<string, CacheEntry<any>>();
+const MEMORY_CACHE_TTL = 1000 * 60 * 60; // 1 hour
+
+// Describe data types for each category
 type CategoryMap = {
   races: {
     Raw: RawRaces;
@@ -69,6 +78,11 @@ type CategoryMap = {
   };
 };
 
+/*
+  Template that describes how to handle data for each category
+  T → the extracted item type (Item in CategoryMap)
+  R → the raw API response type (Raw in CategoryMap)
+*/
 type CategoryHandler<T, R> = {
   fetch: (year: string) => Promise<R | null>;
   fetchAllRounds?: (year: string) => Promise<{
@@ -92,7 +106,8 @@ type CategoryHandler<T, R> = {
   }) => JSX.Element;
 };
 
-export const CATEGORY_HANDLERS: {
+// Implements handlers for each category
+const CATEGORY_HANDLERS: {
   [K in keyof CategoryMap]: CategoryHandler<
     CategoryMap[K]["Item"],
     CategoryMap[K]["Raw"]
@@ -158,20 +173,22 @@ export const CATEGORY_HANDLERS: {
   },
 };
 
-export function getCategory<K extends CategoryKey>(category: K) {
+// Returns the handler for a given category
+export function getCategoryHandler<K extends CategoryKey>(category: K) {
   return CATEGORY_HANDLERS[category] as CategoryHandler<
     CategoryMap[K]["Item"],
     CategoryMap[K]["Raw"]
   >;
 }
 
-export async function getCategoryData<T, R>(
+// Fetch data for a given category and year
+async function getCategoryData<T, R>(
   handler: CategoryHandler<T, R>,
   year: string
 ): Promise<{
   data: R | null;
-  dataArray?: R[] | null;
-  roundsList?: RoundsList;
+  dataArray: R[] | null;
+  roundsList: RoundsList;
 } | null> {
   try {
     let data: R | null = null;
@@ -205,41 +222,38 @@ export async function getCategoryData<T, R>(
   }
 }
 
-type CacheEntry<T> = {
-  value: T;
-  expiresAt: number;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const categoryDataCache = new Map<string, CacheEntry<any>>();
-
-// 1 hour
-const REQUEST_CACHE_TIME = 1000 * 60 * 60;
-
-export async function getCategoryDataWithRequestCached<T, R>(
+/*
+  Fetches category data and caches the result in memory
+  for a fixed duration stored in MEMORY_CACHE_TTL,
+  and returns the cached data for subsequent calls within that period.
+*/
+async function getCategoryDataWithMemoryCache<T, R>(
   handler: CategoryHandler<T, R>,
   year: string
 ): Promise<{
   data: R | null;
-  dataArray?: R[] | null | undefined;
-  roundsList?: RoundsList;
+  dataArray: R[] | null;
+  roundsList: RoundsList;
 } | null> {
   const cacheKey = `${handler.fetch.name}-${year}`;
   const now = Date.now();
-  const cached = categoryDataCache.get(cacheKey);
+  const cachedData = categoryDataCache.get(cacheKey);
 
-  if (cached && cached.expiresAt > now) {
-    return cached.value;
+  if (cachedData && cachedData.expiresAt > now) {
+    return cachedData.value;
   }
 
   const data = await getCategoryData(handler, year);
 
-  // Cache requests for 'REQUEST_CACHE_TIME'
+  // Cache requests for 'MEMORY_CACHE_TTL '
   // This value is not yet stored in JSON
   categoryDataCache.set(cacheKey, {
     value: data,
-    expiresAt: now + REQUEST_CACHE_TIME,
+    expiresAt: now + MEMORY_CACHE_TTL,
   });
 
   return data;
 }
+
+// Memoizes results per render tree for a single request
+export const getCategoryDataCached = cache(getCategoryDataWithMemoryCache);

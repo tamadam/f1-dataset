@@ -1,7 +1,7 @@
 import {
   CategoryKey,
-  getCategory,
-  getCategoryDataWithRequestCached,
+  getCategoryHandler,
+  getCategoryDataCached,
 } from "./components/CategoryPageHandler";
 import styles from "./layout.module.scss";
 import SelectorCard from "../../components/Selector/SelectorCard";
@@ -22,8 +22,8 @@ export default async function ResultsPageCategoryLayout({
 
   const translate = await getTranslations("General");
 
-  const handler = getCategory(category);
-  const rawData = await getCategoryDataWithRequestCached(handler, year);
+  const handler = getCategoryHandler(category);
+  const rawData = await getCategoryDataCached(handler, year);
   if (!rawData) return notFound();
 
   const data = handler.extract(rawData.data);

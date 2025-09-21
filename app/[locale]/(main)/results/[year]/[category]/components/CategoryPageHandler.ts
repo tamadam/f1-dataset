@@ -23,18 +23,10 @@ import FastestLapsTable from "./FastestLapsTable";
 import { Race, RawRaces } from "@/app/types/races";
 import RacesTable from "./RacesTable";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
+import { MEMORY_CACHE_TTL, memoryCache } from "@/app/lib/api/memory-cache";
 
 export type CategoryKey = keyof CategoryMap;
 export type RoundsList = { roundNumber: string; roundName: string }[];
-
-type CacheEntry<T> = {
-  value: T;
-  expiresAt: number;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const categoryDataCache = new Map<string, CacheEntry<any>>();
-const MEMORY_CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
 // Describe data types for each category
 type CategoryMap = {
@@ -237,7 +229,7 @@ async function getCategoryDataWithMemoryCache<T, R>(
 } | null> {
   const cacheKey = `${handler.fetch.name}-${year}`;
   const now = Date.now();
-  const cachedData = categoryDataCache.get(cacheKey);
+  const cachedData = memoryCache.get(cacheKey);
 
   if (cachedData && cachedData.expiresAt > now) {
     return cachedData.value;
@@ -247,7 +239,7 @@ async function getCategoryDataWithMemoryCache<T, R>(
 
   // Cache requests for 'MEMORY_CACHE_TTL '
   // This value is not yet stored in JSON
-  categoryDataCache.set(cacheKey, {
+  memoryCache.set(cacheKey, {
     value: data,
     expiresAt: now + MEMORY_CACHE_TTL,
   });

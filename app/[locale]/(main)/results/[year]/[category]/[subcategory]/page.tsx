@@ -1,9 +1,9 @@
 import { routing } from "@/i18n/routing";
 import {
   CategoryKey,
-  getCategory,
+  getSubCategoryHandler,
   getRaceToFetch,
-  getSubCategoryData,
+  getSubCategoryDataWithMemoryCache,
   RaceFetchResult,
 } from "./components/SubcategoryPageHandler";
 import { notFound } from "next/navigation";
@@ -12,6 +12,7 @@ import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
+import { getRaceResults } from "@/app/lib/api/getRaceResults";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
@@ -55,6 +56,10 @@ export async function generateStaticParams() {
           const racesData = await getAllRaces(year);
           const races = racesData?.MRData.RaceTable.Races ?? [];
           for (const race of races) {
+            const round = race.round;
+
+            await getRaceResults(year, round);
+
             staticParams.push({
               locale,
               year,
@@ -85,7 +90,7 @@ export default async function ResultsSubcategoryPage({
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
 
-  const handler = getCategory(category as CategoryKey);
+  const handler = getSubCategoryHandler(category as CategoryKey);
 
   let id = subcategory;
   let raceToFetch: RaceFetchResult | null = null;
@@ -97,7 +102,7 @@ export default async function ResultsSubcategoryPage({
     id = raceToFetch.id;
   }
 
-  const rawData = await getSubCategoryData(handler, year, id);
+  const rawData = await getSubCategoryDataWithMemoryCache(handler, year, id);
   if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 

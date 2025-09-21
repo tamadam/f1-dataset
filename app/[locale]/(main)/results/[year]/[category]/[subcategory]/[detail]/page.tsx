@@ -9,6 +9,8 @@ import {
   getSubCategoryData,
   RaceFetchResult,
 } from "../components/SubcategoryPageHandler";
+import { getQualifyingResults } from "@/app/lib/api/getQualifyingResults";
+import { getSprintResults } from "@/app/lib/api/getSprintResults";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
@@ -31,7 +33,9 @@ export async function generateStaticParams() {
         const races = allRacesRaw?.MRData.RaceTable.Races ?? [];
 
         for (const race of races) {
+          const round = race.round;
           // currently the API only supports the quali and sprint results
+          await getQualifyingResults(year, round);
           if (DETAILS.Qualifying in race) {
             staticParams.push({
               locale,
@@ -43,6 +47,8 @@ export async function generateStaticParams() {
           }
 
           if (DETAILS.Sprint in race) {
+            await getSprintResults(year, round);
+
             staticParams.push({
               locale,
               year,

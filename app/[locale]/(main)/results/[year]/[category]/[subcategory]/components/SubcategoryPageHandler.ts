@@ -98,7 +98,7 @@ export function getSubCategoryHandler<K extends CategoryKey>(category: K) {
   >;
 }
 
-export async function getSubCategoryData<T, R, D>(
+async function getSubCategoryData<T, R, D>(
   handler: CategoryHandler<T, R, D>,
   year: string,
   id: string

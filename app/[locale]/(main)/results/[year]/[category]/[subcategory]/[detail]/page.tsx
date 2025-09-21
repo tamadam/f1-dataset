@@ -6,7 +6,7 @@ import { DETAILS, DETAILS_URLS } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import {
   getRaceToFetch,
-  getSubCategoryData,
+  getSubCategoryDataWithMemoryCache,
   RaceFetchResult,
 } from "../components/SubcategoryPageHandler";
 import { getQualifyingResults } from "@/app/lib/api/getQualifyingResults";
@@ -90,7 +90,7 @@ export default async function ResultsDetailPage({
 
   id = raceToFetch.id;
 
-  const rawData = await getSubCategoryData(handler, year, id);
+  const rawData = await getSubCategoryDataWithMemoryCache(handler, year, id);
   if (!rawData) return notFound();
   const data = handler.extract(rawData) ?? [];
 

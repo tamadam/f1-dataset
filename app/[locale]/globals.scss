@@ -1,31 +1,37 @@
 @font-face {
   font-family: 'NetflixBold';
-  src: url('/fonts/Netflix_Sans_Bold.otf') format('truetype');
+  src: url('/fonts/Netflix_Sans_Bold.woff2') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NetflixMedium';
-  src: url('/fonts/Netflix_Sans_Medium.otf') format('truetype');
+  src: url('/fonts/Netflix_Sans_Medium.woff2') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NetflixLight';
-  src: url('/fonts/Netflix_Sans_Light.otf') format('truetype');
+  src: url('/fonts/Netflix_Sans_Light.woff2') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Formula1_Regular';
-  src: url('/fonts/Formula1_Regular.ttf') format('truetype');
+  src: url('/fonts/Formula1_Regular.woff2') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Formula1_Bold';
-  src: url('/fonts/Formula1-Bold.otf') format('truetype');
+  src: url('/fonts/Formula1-Bold.woff2') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Formula1_Wide';
-  src: url('/fonts/Formula1-Wide.otf') format('truetype');
+  src: url('/fonts/Formula1-Wide.woff2') format('truetype');
+  font-display: swap;
 }
 
 :root {
@@ -46,7 +52,7 @@
   --grey-light: #9d9da3;
   --grey-light-transparent: #9d9da32a;
 
-  --header-height: 5rem;
+  --header-height: 4rem;
 
   --main-inline-padding: 4vw;
   --main-half-inline-padding: calc(var(--main-inline-padding) / 2);

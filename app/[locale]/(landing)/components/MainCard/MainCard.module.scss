@@ -39,20 +39,20 @@
        .title {
         --size: calc(1rem + 2vw);
         font-size: clamp(1.8rem, var(--size), 3rem);
-        font-family: "NetflixBold";
+        font-family: "NetflixBold", sans-serif;
        }
 
        .subtitle {
         --size: calc(1rem + 1vw);
         font-size: clamp(1.4rem, var(--size), 2rem);
-        font-family: "NetflixMedium";
+        font-family: "NetflixMedium", sans-serif;
         margin-block: 1rem;
        }
 
        .description {
         --size: calc(0.6rem + 1vw);
         font-size: clamp(1.125rem, var(--size), 1.4rem);
-        font-family: "NetflixMedium";
+        font-family: "NetflixMedium", sans-serif;
   
             > .descriptionButton {
                 margin-block-start: 2rem;

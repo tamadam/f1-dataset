@@ -16,13 +16,13 @@
     }
 
     .storyCardTitle {
-        font-family: "NetflixBold";
+        font-family: "NetflixBold", sans-serif;
         font-size: var(--landing-page-title-size);
         line-height: 1.2;
     }
 
     .storyCardDescription {
-        font-family: "NetflixLight";
+        font-family: "NetflixLight", sans-serif;
         font-size: var(--landing-page-description-size);
         margin-block-start: 1rem;
     }

@@ -27,10 +27,11 @@ const HeaderFull = () => {
           <Link tabIndex={0} href={`/`}>
             <Image
               src="/images/f1DatasetLogo.svg"
-              width={F1_LOGO_ORIGINAL_WIDTH / 8}
-              height={F1_LOGO_ORIGINAL_HEIGHT / 8}
+              width={F1_LOGO_ORIGINAL_WIDTH / 10}
+              height={F1_LOGO_ORIGINAL_HEIGHT / 10}
               alt="F1 Dataset Logo"
               className={styles.headerItem}
+              fetchPriority="high"
             />
           </Link>
         </div>

@@ -71,7 +71,7 @@
 
             .animatedItemValue {
                 scale: 1;
-                font-family: "Formula1_Regular";
+                font-family: "Formula1_Regular", sans-serif;
                 font-size: 2rem;
                 grid-column: var(--column-value);
                 justify-self: end;

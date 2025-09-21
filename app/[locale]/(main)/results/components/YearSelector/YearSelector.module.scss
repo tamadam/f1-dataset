@@ -12,10 +12,10 @@
             content: "";
             position: absolute;
             inset: 0;
-            background-image: url("/images/all-time-drivers.png");
+            background-image: url("/images/all-time-drivers.avif");
             background-repeat: no-repeat;
             background-size: cover;
-            background-position: center;
+            background-position: bottom left;
             display: none;
         }
     
@@ -37,7 +37,7 @@
 
             .selectorTitle {
                 font-size: var(--font-size-ml);
-                font-family: "Formula1_Wide";
+                font-family: "Formula1_Wide", sans-serif;
                 text-transform: uppercase;
                 color: var(--white);
                 margin-block-end: 1rem;

@@ -8,15 +8,12 @@
         max-width: var(--content-max-width);    
         margin-block-end: 1rem;
 
-        &::before {
-            content: "";
+        .backgroundItem {
             position: absolute;
             inset: 0;
-            background-image: url("/images/all-time-drivers.avif");
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: bottom left;
             display: none;
+            object-fit: cover;
+            object-position: left bottom;
         }
     
         &::after {
@@ -60,7 +57,7 @@
             --top-cut: 65%;
             --bottom-cut: 55%;
 
-            &::before {
+            .backgroundItem {
                 display: block;
             }
 

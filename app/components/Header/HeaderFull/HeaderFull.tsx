@@ -32,6 +32,7 @@ const HeaderFull = () => {
               alt="F1 Dataset Logo"
               className={styles.headerItem}
               fetchPriority="high"
+              priority
             />
           </Link>
         </div>

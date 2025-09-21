@@ -13,6 +13,7 @@ interface HeaderMenuProps {
 
 const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   // Close menu when Esc or Space pressed
   useEffect(() => {
@@ -22,14 +23,22 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
       }
     };
 
+    const updateIsMobile = () => setIsMobile(window.innerWidth < 1024);
+    updateIsMobile();
+
+    window.addEventListener("resize", updateIsMobile);
+
     if (isMenuOpen) {
       window.addEventListener("keydown", handleKeydown);
     }
 
     return () => {
       window.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("resize", updateIsMobile);
     };
   }, [isMenuOpen, setMenuOpen]);
+
+  const isHiddenElement = isMobile && !isMenuOpen;
 
   return (
     <>
@@ -61,7 +70,7 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
             : styles.menuOptionsWrapper
         }
         aria-label="Primary Navigation"
-        aria-hidden={!isMenuOpen}
+        aria-hidden={isHiddenElement}
       >
         <div className={styles.headerItems}>
           {menuItems.map((menuItem) => (
@@ -70,6 +79,7 @@ const HeaderMenu = ({ menuItems }: HeaderMenuProps) => {
               href={menuItem.href}
               className={styles.headerItem}
               onClick={() => setMenuOpen(false)}
+              tabIndex={isHiddenElement ? -1 : 0}
             >
               <span>{menuItem.label}</span>
               <span className={styles.headerItemIcon}>

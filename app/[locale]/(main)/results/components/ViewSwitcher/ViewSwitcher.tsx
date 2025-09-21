@@ -25,8 +25,15 @@ const ViewSwitcher = ({
   };
 
   return (
-    <div className={styles.viewModeSwitcher} role="tablist">
+    <div
+      className={styles.viewModeSwitcher}
+      role="tablist"
+      aria-label="View mode switcher"
+    >
       <Button
+        role="tab"
+        aria-selected={viewMode === "table"}
+        aria-label="Table view"
         className={clsx(styles.viewButton, {
           [styles.activeView]: viewMode === "table",
         })}
@@ -37,6 +44,9 @@ const ViewSwitcher = ({
         <DataTable className={styles.viewContent} />
       </Button>
       <Button
+        role="tab"
+        aria-selected={viewMode === "graph"}
+        aria-label="Graph view"
         className={clsx(styles.viewButton, {
           [styles.activeView]: viewMode === "graph",
         })}

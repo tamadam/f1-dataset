@@ -1,20 +1,19 @@
 import type { MetadataRoute } from "next";
 import { getAllF1Years } from "./lib/year-utils";
 import { routing } from "@/i18n/routing";
-import { CATEGORIES } from "./constants";
+import { APP_BASE_URL, CATEGORIES } from "./constants";
 import { getAllDrivers } from "./lib/api/getAllDrivers";
 import { getAllConstructors } from "./lib/api/getAllConstructors";
 import { getAllRaces } from "./lib/api/getAllRaces";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://f1-dataset.vercel.app";
   const years = getAllF1Years().map(String);
   const routes: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {
     // landing page
     routes.push({
-      url: `${baseUrl}/${locale}`,
+      url: `${APP_BASE_URL}/${locale}`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.5,
@@ -24,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const category of CATEGORIES) {
         // category pages
         routes.push({
-          url: `${baseUrl}/${locale}/results/${year}/${category}`,
+          url: `${APP_BASE_URL}/${locale}/results/${year}/${category}`,
           lastModified: new Date(),
           changeFrequency: "weekly",
           priority: 1,
@@ -35,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           for (const driver of drivers) {
             // driver specific pages
             routes.push({
-              url: `${baseUrl}/${locale}/results/${year}/${category}/${driver.driverId}`,
+              url: `${APP_BASE_URL}/${locale}/results/${year}/${category}/${driver.driverId}`,
               lastModified: new Date(),
               changeFrequency: "weekly",
               priority: 0.8,
@@ -46,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           for (const constructor of constructors) {
             // constructor specific pages
             routes.push({
-              url: `${baseUrl}/${locale}/results/${year}/${category}/${constructor.constructorId}`,
+              url: `${APP_BASE_URL}/${locale}/results/${year}/${category}/${constructor.constructorId}`,
               lastModified: new Date(),
               changeFrequency: "weekly",
               priority: 0.8,
@@ -58,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           for (const race of races) {
             // race specific pages
             routes.push({
-              url: `${baseUrl}/${locale}/results/${year}/${category}/${race.Circuit.circuitId}`,
+              url: `${APP_BASE_URL}/${locale}/results/${year}/${category}/${race.Circuit.circuitId}`,
               lastModified: new Date(),
               changeFrequency: "weekly",
               priority: 0.8,

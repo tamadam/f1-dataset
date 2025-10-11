@@ -7,7 +7,7 @@ import Button from "@/app/components/Button";
 export type ViewMode = "table" | "graph";
 
 interface ViewSwitcherProps {
-  defaultView?: ViewMode;
+  defaultView: ViewMode;
   onViewChange: (mode: ViewMode) => void;
 }
 

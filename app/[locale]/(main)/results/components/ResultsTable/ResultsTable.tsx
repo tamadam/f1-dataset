@@ -6,9 +6,9 @@ import styles from "./ResultsTable.module.scss";
 import { useRef, useEffect, useState } from "react";
 import clsx from "clsx";
 import { DateTime } from "@/app/types/f1Common";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { DETAILS_URLS } from "@/app/constants";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
 import ViewSwitcher, { ViewMode } from "../ViewSwitcher/ViewSwitcher";
@@ -83,7 +83,14 @@ const ResultsTable = <T,>({
   const contentRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
   const [showRightShadow, setShowRightShadow] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>("table");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const viewModeParam = searchParams.get("viewMode");
+  const viewMode: ViewMode =
+    viewModeParam === "table" || viewModeParam === "graph"
+      ? viewModeParam
+      : "table";
+
   const { locale, year, category, subcategory } = useParams();
   const pathname = usePathname();
 
@@ -128,7 +135,10 @@ const ResultsTable = <T,>({
   });
 
   const handleViewChange = (view: ViewMode) => {
-    setViewMode(view);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("viewMode", view);
+
+    router.replace(`${pathname}?${params.toString()}`);
   };
 
   const [allHidden, setAllHidden] = useState(false);

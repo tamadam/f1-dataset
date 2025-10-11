@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://f1-dataset.vercel.app/sitemap/sitemap.xml

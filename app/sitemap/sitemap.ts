@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 //import { getAllF1Years } from "./lib/year-utils";
 import { routing } from "@/i18n/routing";
-import { APP_BASE_URL } from "./constants";
+import { APP_BASE_URL } from "../constants";
 /* import { getAllDrivers } from "./lib/api/getAllDrivers";
 import { getAllConstructors } from "./lib/api/getAllConstructors";
 import { getAllRaces } from "./lib/api/getAllRaces"; */

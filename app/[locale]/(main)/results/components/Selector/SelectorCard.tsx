@@ -1,7 +1,7 @@
 import { F1DatasetLogo } from "@/app/components/icons";
 import styles from "./SelectorCard.module.scss";
 import Selector, { SelectorProps } from "./Selector";
-import clsx from "clsx";
+import Image from "next/image";
 
 interface SelectorPropsExtended {
   title: string;
@@ -19,13 +19,23 @@ const SelectorCard = ({
 }: SelectorCardProps) => {
   if (!elements) return null;
 
+  const imageData = {
+    src:
+      backgroundType === "driver"
+        ? "/images/f1-results-driver.avif"
+        : "/images/car-background-selector.jpg",
+    alt: backgroundType === "driver" ? "f1-driver" : "f1-car",
+  };
+
   return (
-    <div
-      className={clsx(styles.selectorWrapper, {
-        [styles.driverBackground]: backgroundType === "driver",
-        [styles.carBackground]: backgroundType === "car",
-      })}
-    >
+    <div className={styles.selectorWrapper}>
+      <Image
+        src={imageData.src}
+        alt={imageData.alt}
+        className={styles.selectorCardBackground}
+        fill
+      />
+
       <div className={styles.selectorContent}>
         <div className={styles.selectorTitle}>
           <F1DatasetLogo width={40} height={40} />

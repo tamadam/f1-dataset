@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
-import { getAllF1Years } from "./lib/year-utils";
+//import { getAllF1Years } from "./lib/year-utils";
 import { routing } from "@/i18n/routing";
-import { APP_BASE_URL, CATEGORIES } from "./constants";
+import { APP_BASE_URL } from "./constants";
 /* import { getAllDrivers } from "./lib/api/getAllDrivers";
 import { getAllConstructors } from "./lib/api/getAllConstructors";
 import { getAllRaces } from "./lib/api/getAllRaces"; */
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const years = getAllF1Years().map(String);
+  //const years = getAllF1Years().map(String);
   const routes: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {
@@ -19,7 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     });
 
-    for (const year of years) {
+    /*  for (const year of years) {
       for (const category of CATEGORIES) {
         // category pages
         routes.push({
@@ -29,7 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 1,
         });
 
-        /* if (category === "drivers") {
+         if (category === "drivers") {
           const drivers = await getAllDrivers(year);
           for (const driver of drivers) {
             // driver specific pages
@@ -63,9 +63,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
               priority: 0.8,
             });
           }
-        } */
+        } 
       }
-    }
+    } */
   }
 
   return routes;

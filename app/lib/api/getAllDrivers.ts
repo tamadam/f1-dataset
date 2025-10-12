@@ -10,19 +10,23 @@ export const getAllDrivers = async (year: string): Promise<Driver[]> => {
     const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json`;
     const cacheSubFolder = ["drivers"];
     const cacheKey = generateCacheKey("drivers", year);
-    
+
+    const skipCustomCache = false;
+
     const response = await fetchWithCacheAndRateLimit<DriversResponse>(
       endpoint,
       cacheSubFolder,
       cacheKey,
-      false,
-      (data) => Boolean(data?.MRData?.DriverTable?.Drivers),
+      skipCustomCache,
+      (data) => Boolean(data?.MRData?.DriverTable?.Drivers)
     );
 
     return response?.MRData?.DriverTable?.Drivers || [];
   } catch (error) {
-    throw new Error(`Failed to fetch all drivers for ${year}: ${error instanceof Error ? error.message : "Unknown error"}`);
+    throw new Error(
+      `Failed to fetch all drivers for ${year}: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
-
-

@@ -6,7 +6,11 @@ import { Constructor } from "@/app/types/f1Common";
 
 // Returns the list of constructors for a given year (only the list, not the final standings)
 export const getAllConstructors = async (
-  year: string
+  year: string,
+  cacheOptions?: {
+    readCachedOnly?: boolean;
+    skipCacheWrite?: boolean;
+  }
 ): Promise<Constructor[]> => {
   try {
     const endpoint = `${F1_API_BASE_URL}/${year}/constructors.json`;
@@ -20,7 +24,9 @@ export const getAllConstructors = async (
       cacheSubFolder,
       cacheKey,
       skipCustomCache,
-      (data) => Boolean(data?.MRData?.ConstructorTable?.Constructors)
+      (data) => Boolean(data?.MRData?.ConstructorTable?.Constructors),
+      cacheOptions?.readCachedOnly,
+      cacheOptions?.skipCacheWrite
     );
 
     return response?.MRData?.ConstructorTable?.Constructors || [];

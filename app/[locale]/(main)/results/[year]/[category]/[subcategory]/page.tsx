@@ -14,6 +14,9 @@ import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { getRaceResults } from "@/app/lib/api/getRaceResults";
 
+export const revalidate = 3600;
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
   const staticParams: {

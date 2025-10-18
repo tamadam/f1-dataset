@@ -6,6 +6,7 @@ const DEFAULT_REVALIDATE_TIME = 3600; // 1 hour
 
 const limiter = new RateLimiter();
 
+// Prevent multiple concurrent fetches for the same key
 const cacheLocks = new Map<string, Promise<unknown>>();
 
 export const fetchWithRateLimit = async <T>(
@@ -36,6 +37,8 @@ export const fetchWithCacheAndRateLimit = async <T>(
   cacheKey: string,
   skipCustomCache: boolean,
   isValidResponse: (data: T) => boolean,
+  readCachedOnly = false,
+  skipCacheWrite = false,
   revalidateTime = DEFAULT_REVALIDATE_TIME
 ): Promise<T | null> => {
   if (skipCustomCache) {
@@ -49,11 +52,18 @@ export const fetchWithCacheAndRateLimit = async <T>(
     return cached;
   }
 
+  // Skip fetching if data is not cached and readCachedOnly is set
+  if (readCachedOnly) {
+    return null;
+  }
+
   // Ensure only one fetch happens for the same cacheKey
   if (!cacheLocks.has(cacheKey)) {
     const fetchDataPromise = (async () => {
       try {
-        const data: T | null = await fetchWithRateLimit<T>(endpoint);
+        const data: T | null = await fetchWithRateLimit<T>(endpoint, {
+          next: { revalidate: revalidateTime },
+        });
 
         // Request was skipped due to rate limits
         if (data === null) {
@@ -64,7 +74,9 @@ export const fetchWithCacheAndRateLimit = async <T>(
           throw new Error("Invalid API response structure.");
         }
 
-        await setCachedResponse(cacheSubFolder, cacheKey, data);
+        if (!skipCacheWrite) {
+          await setCachedResponse(cacheSubFolder, cacheKey, data);
+        }
 
         return data;
       } catch (error) {

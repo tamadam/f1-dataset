@@ -12,6 +12,9 @@ import {
 import { getQualifyingResults } from "@/app/lib/api/getQualifyingResults";
 import { getSprintResults } from "@/app/lib/api/getSprintResults";
 
+export const revalidate = 3600;
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
   const staticParams: {

@@ -8,6 +8,9 @@ import {
 } from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
 
+export const revalidate = 3600;
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
 

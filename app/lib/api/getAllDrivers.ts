@@ -4,10 +4,16 @@ import { generateCacheKey } from "./api-client";
 import { DriversResponse } from "@/app/types/drivers";
 import { Driver } from "@/app/types/f1Common";
 
-// Returns the list of drivers for a given year (only the list, not the final standings)
-export const getAllDrivers = async (year: string): Promise<Driver[]> => {
+// Returns the list of drivers for a given year
+export const getAllDrivers = async (
+  year: string,
+  cacheOptions?: {
+    readCachedOnly?: boolean;
+    skipCacheWrite?: boolean;
+  }
+): Promise<Driver[]> => {
   try {
-    const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json`;
+    const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json/?limit=100`;
     const cacheSubFolder = ["drivers"];
     const cacheKey = generateCacheKey("drivers", year);
 
@@ -18,7 +24,9 @@ export const getAllDrivers = async (year: string): Promise<Driver[]> => {
       cacheSubFolder,
       cacheKey,
       skipCustomCache,
-      (data) => Boolean(data?.MRData?.DriverTable?.Drivers)
+      (data) => Boolean(data?.MRData?.DriverTable?.Drivers),
+      cacheOptions?.readCachedOnly,
+      cacheOptions?.skipCacheWrite
     );
 
     return response?.MRData?.DriverTable?.Drivers || [];

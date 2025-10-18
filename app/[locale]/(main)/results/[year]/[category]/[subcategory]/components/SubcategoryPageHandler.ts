@@ -128,10 +128,12 @@ export async function getSubCategoryDataWithMemoryCache<T, R, D>(
 
   // Cache requests for 'MEMORY_CACHE_TTL '
   // This value is not yet stored in JSON
-  memoryCache.set(cacheKey, {
-    value: data,
-    expiresAt: now + MEMORY_CACHE_TTL,
-  });
+  if (data) {
+    memoryCache.set(cacheKey, {
+      value: data,
+      expiresAt: now + MEMORY_CACHE_TTL,
+    });
+  }
 
   return data;
 }

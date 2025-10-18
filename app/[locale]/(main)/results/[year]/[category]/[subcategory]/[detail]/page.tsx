@@ -9,8 +9,6 @@ import {
   getSubCategoryDataWithMemoryCache,
   RaceFetchResult,
 } from "../components/SubcategoryPageHandler";
-import { getQualifyingResults } from "@/app/lib/api/getQualifyingResults";
-import { getSprintResults } from "@/app/lib/api/getSprintResults";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -36,9 +34,7 @@ export async function generateStaticParams() {
         const races = allRacesRaw?.MRData.RaceTable.Races ?? [];
 
         for (const race of races) {
-          const round = race.round;
           // currently the API only supports the quali and sprint results
-          await getQualifyingResults(year, round);
           if (DETAILS.Qualifying in race) {
             staticParams.push({
               locale,
@@ -50,8 +46,6 @@ export async function generateStaticParams() {
           }
 
           if (DETAILS.Sprint in race) {
-            await getSprintResults(year, round);
-
             staticParams.push({
               locale,
               year,
@@ -91,6 +85,7 @@ export default async function ResultsDetailPage({
   raceToFetch = await getRaceToFetch(subcategory, year);
   if (!raceToFetch) return notFound();
 
+  // Id is the round number
   id = raceToFetch.id;
 
   const rawData = await getSubCategoryDataWithMemoryCache(handler, year, id);

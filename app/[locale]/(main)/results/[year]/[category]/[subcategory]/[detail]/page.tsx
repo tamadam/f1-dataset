@@ -9,6 +9,7 @@ import {
   getSubCategoryDataWithMemoryCache,
   RaceFetchResult,
 } from "../components/SubcategoryPageHandler";
+import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -74,6 +75,10 @@ export default async function ResultsDetailPage({
   }>;
 }) {
   const { locale, year, category, subcategory, detail } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   if (isNaN(Number(year)) || category !== "races") return notFound();
 
   const handler = getCategory(detail as CategoryKey);

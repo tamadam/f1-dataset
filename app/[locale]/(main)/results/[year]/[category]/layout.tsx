@@ -7,7 +7,7 @@ import styles from "./layout.module.scss";
 import SelectorCard from "../../components/Selector/SelectorCard";
 import { CATEGORIES } from "@/app/constants";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export default async function ResultsPageCategoryLayout({
   params,
@@ -16,7 +16,11 @@ export default async function ResultsPageCategoryLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string; year: string; category: CategoryKey }>;
 }>) {
-  const { year, category } = await params;
+  const { locale, year, category } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
 

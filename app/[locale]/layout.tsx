@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "./globals.scss";
 import Footer from "@/app/components/Footer/Footer";
+import { setRequestLocale } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "F1 Dataset",
@@ -21,6 +22,9 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  // Enable static rendering
+  setRequestLocale(locale);
 
   return (
     <html lang={locale}>

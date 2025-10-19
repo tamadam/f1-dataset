@@ -7,6 +7,7 @@ import {
   getCategoryDataCached,
 } from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
+import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -31,6 +32,10 @@ export default async function ResultsCategoryPage({
   params: Promise<{ locale: string; year: string; category: string }>;
 }) {
   const { locale, year, category } = await params;
+
+  // Enable static rendering
+  setRequestLocale(locale);
+
   if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
   const handler = getCategoryHandler(category as CategoryKey);

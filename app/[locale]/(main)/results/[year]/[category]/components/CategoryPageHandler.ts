@@ -24,6 +24,7 @@ import { Race, RawRaces } from "@/app/types/races";
 import RacesTable from "./RacesTable";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { MEMORY_CACHE_TTL, memoryCache } from "@/app/lib/api/memory-cache";
+import { ApiError } from "@/app/lib/api/custom-error";
 
 export type CategoryKey = keyof CategoryMap;
 export type RoundsList = { roundNumber: string; roundName: string }[];
@@ -181,7 +182,7 @@ async function getCategoryData<T, R>(
   data: R | null;
   dataArray: R[] | null;
   roundsList: RoundsList;
-} | null> {
+}> {
   try {
     let data: R | null = null;
     let dataArray: R[] | null = null;
@@ -209,8 +210,16 @@ async function getCategoryData<T, R>(
 
     return { data, dataArray, roundsList };
   } catch (error) {
-    console.error(`Error fetching data for ${year}`, error);
-    return null;
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching category data: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+      500
+    );
   }
 }
 
@@ -226,7 +235,7 @@ async function getCategoryDataWithMemoryCache<T, R>(
   data: R | null;
   dataArray: R[] | null;
   roundsList: RoundsList;
-} | null> {
+}> {
   const cacheKey = `${handler.fetch.name}-${year}`;
   const now = Date.now();
   const cachedData = memoryCache.get(cacheKey);

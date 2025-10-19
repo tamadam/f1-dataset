@@ -7,6 +7,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { getAllRaces } from "./getAllRaces";
 import { RoundsList } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
+import { ApiError } from "./custom-error";
 
 // Returns the constructor standings for a given year (reflects current state if the season is ongoing)
 export const getConstructorStandings = async (
@@ -36,10 +37,15 @@ export const getConstructorStandings = async (
         )
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch constructor standings for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching constructor standings for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };
@@ -73,10 +79,15 @@ export const getConstructorStandingsByRound = async (
         )
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch constructor standings by round for ${year} round ${round}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching constructor standings by round for ${year} round ${round}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };
@@ -114,10 +125,15 @@ export const getConstructorStandingsAllRounds = async (
 
     return { roundsList: races, results };
   } catch (error) {
-    throw new Error(
-      `Failed to fetch constructor standings with all rounds for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching constructor standings with all rounds for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

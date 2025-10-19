@@ -3,6 +3,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { ConstructorsResponse } from "@/app/types/constructors";
 import { Constructor } from "@/app/types/f1Common";
+import { ApiError } from "./custom-error";
 
 // Returns the list of constructors for a given year (only the list, not the final standings)
 export const getAllConstructors = async (
@@ -31,10 +32,15 @@ export const getAllConstructors = async (
 
     return response?.MRData?.ConstructorTable?.Constructors || [];
   } catch (error) {
-    throw new Error(
-      `Failed to fetch all constructors for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching all constructors for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

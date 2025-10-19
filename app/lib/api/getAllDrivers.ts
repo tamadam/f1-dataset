@@ -3,6 +3,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { DriversResponse } from "@/app/types/drivers";
 import { Driver } from "@/app/types/f1Common";
+import { ApiError } from "./custom-error";
 
 // Returns the list of drivers for a given year
 export const getAllDrivers = async (
@@ -31,10 +32,15 @@ export const getAllDrivers = async (
 
     return response?.MRData?.DriverTable?.Drivers || [];
   } catch (error) {
-    throw new Error(
-      `Failed to fetch all drivers for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching all drivers for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

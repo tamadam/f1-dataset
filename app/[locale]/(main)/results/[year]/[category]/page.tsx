@@ -40,7 +40,9 @@ export default async function ResultsCategoryPage({
     return notFound();
   const handler = getCategoryHandler(category as CategoryKey);
   const rawData = await getCategoryDataCached(handler, year);
-  if (!rawData) return notFound();
+  if (!rawData.data) {
+    return notFound();
+  }
 
   const latestRoundData = handler.extract(rawData.data);
   const allRoundsData = {

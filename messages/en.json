@@ -95,6 +95,9 @@
       "question4": "Is there a schedule showing upcoming races and events?",
       "question4Answer": "Although we plan to introduce a similar feature in the future, it's currently not a top priority. However, we are always working on improvements and new features, so stay tuned for future updates."
     }
+  },
+  "ErrorPage": {
+    "errorMessage": "Oops! Looks like the F1 data took a pit stop without telling us. Try refreshing the page and let's get back on track!"
   }
 }
   

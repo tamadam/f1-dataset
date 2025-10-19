@@ -10,3 +10,4 @@ export { default as F1DatasetLogo } from "./F1DatasetLogo";
 export { default as Globe } from "./Globe";
 export { default as LineGraph } from "./LineGraph";
 export { default as Plus } from "./Plus";
+export { default as Refresh } from "./Refresh";

@@ -1,6 +1,7 @@
 import { F1_API_BASE_URL } from "@/app/constants";
 import { RawQualifyingResults } from "@/app/types/qualifyingResults";
 import { fetchWithCacheAndRateLimit, generateCacheKey } from "./api-client";
+import { ApiError } from "./custom-error";
 
 // Returns the results for a given qualifying in a specific year
 export const getQualifyingResults = async (
@@ -27,10 +28,15 @@ export const getQualifyingResults = async (
       (data) => Boolean(data?.MRData?.RaceTable?.Races)
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch qualifying results for ${year} for round ${round}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching qualifying results for ${year} for round ${round}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

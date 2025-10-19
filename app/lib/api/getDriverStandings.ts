@@ -4,6 +4,7 @@ import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { getAllRaces } from "./getAllRaces";
 import { RoundsList } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
+import { ApiError } from "./custom-error";
 
 // Returns the driver standings for a given year (reflects current state if the season is ongoing)
 export const getDriverStandings = async (
@@ -61,10 +62,15 @@ export const getDriverStandingsByRound = async (
         )
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch driver standings by round for ${year} round ${round}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching driver standings by round for ${year} for round ${round}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

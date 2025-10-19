@@ -2,6 +2,7 @@ import { F1_API_BASE_URL } from "@/app/constants";
 import { fetchWithCacheAndRateLimit } from "./api-client";
 import { generateCacheKey } from "./api-client";
 import { RawDriverResults } from "@/app/types/driverResults";
+import { ApiError } from "./custom-error";
 
 // Returns the race-by-race results for a given driver in a specific year
 export const getDriverResults = async (
@@ -32,10 +33,15 @@ export const getDriverResults = async (
       cacheOptions?.skipCacheWrite
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch driver results for ${year} for driver ${driverId}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching driver results for ${year} for driver ${driverId}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

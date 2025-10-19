@@ -1,3 +1,4 @@
+import { ApiError } from "./custom-error";
 import { getAllRaces } from "./getAllRaces";
 
 // Returns the total rounds for a given year
@@ -10,10 +11,15 @@ export const getTotalRounds = async (year: string): Promise<number> => {
 
     return allRaces.MRData.RaceTable.Races.length || 0;
   } catch (error) {
-    throw new Error(
-      `Failed to fetch total rounds for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching total rounds for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

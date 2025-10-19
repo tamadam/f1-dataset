@@ -1,6 +1,7 @@
 import { F1_API_BASE_URL } from "@/app/constants";
 import { RawRaces } from "@/app/types/races";
 import { fetchWithCacheAndRateLimit, generateCacheKey } from "./api-client";
+import { ApiError } from "./custom-error";
 
 // Returns the list of races for a given year
 export const getAllRaces = async (year: string): Promise<RawRaces | null> => {
@@ -19,10 +20,15 @@ export const getAllRaces = async (year: string): Promise<RawRaces | null> => {
       (data) => Boolean(data?.MRData?.RaceTable?.Races)
     );
   } catch (error) {
-    throw new Error(
-      `Failed to fetch all races for ${year}: ${
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching all races for ${year}: ${
         error instanceof Error ? error.message : "Unknown error"
-      }`
+      }`,
+      500
     );
   }
 };

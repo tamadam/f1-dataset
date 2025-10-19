@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "prebuild": "shx mkdir -p cache/api",
-    "postbuild": "shx cp -r cache/api .next/cache/custom/ || true",
     "clear:cache": "shx rm -rf cache/api .next/cache/custom && echo 'Cleared both cache folders'",
     "start": "next start",
     "lint": "next lint",

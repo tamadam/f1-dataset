@@ -17,6 +17,7 @@ import { DateTime } from "@/app/types/f1Common";
 import { DETAILS, DETAILS_URLS } from "@/app/constants";
 import { getTranslations } from "next-intl/server";
 import { MEMORY_CACHE_TTL, memoryCache } from "@/app/lib/api/memory-cache";
+import { ApiError } from "@/app/lib/api/custom-error";
 
 export type CategoryKey = keyof CategoryMap;
 
@@ -106,8 +107,16 @@ async function getSubCategoryData<T, R, D>(
   try {
     return await handler.fetch(year, id);
   } catch (error) {
-    console.error(`Error fetching data for ${year}`, error);
-    return null;
+    if (error instanceof ApiError) {
+      throw error;
+    }
+
+    throw new ApiError(
+      `Unexpected error fetching category data: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+      500
+    );
   }
 }
 

@@ -95,7 +95,10 @@
             "question4": "Elérhető valamilyen menetrend, ahol a közelgő versenyek és események láthatóak?",
             "question4Answer": "Bár a jövőben tervezünk ehhez hasonló funkció bevezetését az oldalon, jelenleg nem ez az elsődleges prioritás. Mindazonáltal mindig törekszünk a folyamatos fejlesztésre és bővítésre, ezért legyen résen és figyelje a jövőbeni frissítéseket."
         }
-    }
+    },
+    "ErrorPage": {
+        "errorMessage": "Hoppá! Úgy tűnik, az F1 adatok beálltak a boxba egy gyors kerékcserére. Próbáld meg frissíteni az oldalt!"
+      }
   }
 
 

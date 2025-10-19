@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCachedResponse, setCachedResponse } from "./build-cache";
+import { ApiError } from "./custom-error";
 import { RateLimiter } from "./rate-limiter";
 
 const DEFAULT_REVALIDATE_TIME = 3600; // 1 hour
@@ -16,15 +16,12 @@ export const fetchWithRateLimit = async <T>(
   return await limiter.enqueue<T>(async () => {
     const response = await fetch(url, options);
 
-    if (response.status === 429) {
-      const error: any = new Error(`Rate limited - ${response.statusText}`);
-      error.status = 429;
-      error.headers = response.headers;
-      throw error;
-    }
-
     if (!response.ok) {
-      throw new Error(`Request failed - ${response.status}`);
+      throw new ApiError(
+        `Request failed in fetchWithRateLimit: ${response.statusText}`,
+        response.status,
+        response.headers
+      );
     }
 
     return response.json();
@@ -41,57 +38,66 @@ export const fetchWithCacheAndRateLimit = async <T>(
   skipCacheWrite = false,
   revalidateTime = DEFAULT_REVALIDATE_TIME
 ): Promise<T | null> => {
-  if (skipCustomCache) {
-    return fetchWithRateLimit<T>(endpoint, {
-      next: { revalidate: revalidateTime },
-    });
-  }
+  try {
+    if (skipCustomCache) {
+      return await fetchWithRateLimit<T>(endpoint, {
+        next: { revalidate: revalidateTime },
+      });
+    }
 
-  const cached = await getCachedResponse<T>(cacheSubFolder, cacheKey);
-  if (cached) {
-    return cached;
-  }
+    const cached = await getCachedResponse<T>(cacheSubFolder, cacheKey);
+    if (cached) {
+      return cached;
+    }
 
-  // Skip fetching if data is not cached and readCachedOnly is set
-  if (readCachedOnly) {
-    return null;
-  }
+    // Skip fetching if data is not cached and readCachedOnly is set
+    if (readCachedOnly) {
+      return null;
+    }
 
-  // Ensure only one fetch happens for the same cacheKey
-  if (!cacheLocks.has(cacheKey)) {
-    const fetchDataPromise = (async () => {
-      try {
-        const data: T | null = await fetchWithRateLimit<T>(endpoint, {
-          next: { revalidate: revalidateTime },
-        });
+    // Ensure only one fetch happens for the same cacheKey
+    if (!cacheLocks.has(cacheKey)) {
+      const fetchDataPromise = (async () => {
+        try {
+          const data: T | null = await fetchWithRateLimit<T>(endpoint, {
+            next: { revalidate: revalidateTime },
+          });
 
-        // Request was skipped due to rate limits
-        if (data === null) {
-          return null;
+          // Request was skipped due to rate limits
+          if (data === null) {
+            return null;
+          }
+
+          if (!isValidResponse(data)) {
+            throw new ApiError("Invalid API response structure.", 422);
+          }
+
+          if (!skipCacheWrite) {
+            await setCachedResponse(cacheSubFolder, cacheKey, data);
+          }
+
+          return data;
+        } catch (error) {
+          throw error;
+        } finally {
+          cacheLocks.delete(cacheKey);
         }
+      })();
+      cacheLocks.set(cacheKey, fetchDataPromise);
+    }
 
-        if (!isValidResponse(data)) {
-          throw new Error("Invalid API response structure.");
-        }
-
-        if (!skipCacheWrite) {
-          await setCachedResponse(cacheSubFolder, cacheKey, data);
-        }
-
-        return data;
-      } catch (error) {
-        console.log(error);
-        throw new Error(
-          `Fetch failed in api-client: ${(error as Error).message}`
-        );
-      } finally {
-        cacheLocks.delete(cacheKey);
-      }
-    })();
-    cacheLocks.set(cacheKey, fetchDataPromise);
+    return (await cacheLocks.get(cacheKey)) as Promise<T>;
+  } catch (error) {
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    throw new ApiError(
+      `Unexpected error in fetchWithCacheAndRateLimit: ${
+        (error as Error).message
+      }`,
+      500
+    );
   }
-
-  return (await cacheLocks.get(cacheKey)) as Promise<T>;
 };
 
 // Construct a cache key

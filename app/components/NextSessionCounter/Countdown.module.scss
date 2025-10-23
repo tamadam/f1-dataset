@@ -1,0 +1,23 @@
+.counter {
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+    position: relative;
+    margin-left: 1rem;
+
+    &::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: var(--red-light);
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: -1rem;
+        transform: translateY(-50%);
+    }
+}
+
+.label {
+    vertical-align: middle;
+}

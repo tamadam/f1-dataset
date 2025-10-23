@@ -47,6 +47,7 @@
     "constructorStandingsRoundByRound": "{year} Team Championship - Round by Round",
     "fastest-laps": "Fastest Laps",
     "round": "Round",
+    "roundShort": "R{number}",
     "date": "Date",
     "grandPrix": "Grand Prix",
     "grandPrixWithNumber": "Grand Prix {number}",
@@ -57,7 +58,13 @@
     "points": "Points",
     "time": "Time",
     "laps": "Laps",
-    "time-retired": "Time/Retired"
+    "time-retired": "Time/Retired",
+    "nextSession": "Next Session",
+    "ongoingSession": "Session ongoing",
+    "day": "D",
+    "hour": "H",
+    "minute": "M",
+    "second": "S"
   },
   "LandingPage": {
     "metadata": {

@@ -57,5 +57,5 @@ export type SessionResults = {
 
 export type DateTime = {
     date: string;
-    time: string;
+    time?: string;
 }

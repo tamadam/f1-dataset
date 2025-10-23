@@ -151,6 +151,7 @@ export type RaceFetchResult = {
   id: string;
   raceName: string;
   circuitName: string;
+  country: string;
 } & {
   [K in keyof typeof DETAILS]: {
     label: string;
@@ -177,6 +178,7 @@ export async function getRaceToFetch(
     id: String(race.round),
     raceName: race.raceName,
     circuitName: race.Circuit.circuitName,
+    country: race.Circuit.Location.country,
     FirstPractice: {
       label: translate("practice1"),
       date: race.FirstPractice,

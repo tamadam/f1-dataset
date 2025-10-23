@@ -22,7 +22,7 @@ export enum DETAILS {
   Sprint = "Sprint",
   SprintQualifying = "SprintQualifying",
   SprintShootout = "SprintShootout",
-  Race = "Race Result",
+  Race = "Race",
 }
 
 export enum DETAILS_URLS {

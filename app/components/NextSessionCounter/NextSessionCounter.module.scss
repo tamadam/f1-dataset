@@ -1,0 +1,72 @@
+.nextSessionWrapper {
+    background: var(--black);
+    color: var(--white);
+    font-family: "Formula1_Regular", sans-serif;
+
+
+    .nextSessionContent {
+        display: grid;
+        grid-template-areas: "c1"
+        "c3"
+        "c2"
+        "c4";
+        max-width: var(--content-max-width);
+        margin: 0 auto;
+        padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+        padding-block-end: 1rem;
+        overflow: hidden;
+
+        .infoGroup {
+            font-family: "Formula1_Regular", sans-serif;
+            display: contents;
+
+            .infoGroupLabel {
+                font-size: var(--font-size-xs);
+                text-transform: uppercase;
+            }
+
+            .infoGroupBody {
+                display: flex;
+                align-items: center;
+
+                a {
+                    display: inline-block;
+                }
+
+                svg {
+                    display: inline;
+                    vertical-align: bottom;
+                }
+            }
+
+            .raceDate {
+                grid-area: c1;
+            }
+
+            .raceName {
+                grid-area: c3;
+            }
+
+            .raceSession {
+                grid-area: c2;
+                margin-block-start: 0.4rem;
+            }
+
+            .raceCountdown {
+                grid-area: c4;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            grid-template-areas: "c1 c2"
+            "c3 c4";
+
+            .raceSession,
+            .raceCountdown {
+                justify-self: end;
+                margin: 0 !important;
+            }
+        }
+    }
+
+}

@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'Formula1_Regular';
-  src: url('/fonts/Formula1_Regular.woff2') format('truetype');
+  src: url('/fonts/Formula1-Regular.woff2') format('truetype');
   font-display: swap;
 }
 
@@ -139,6 +139,10 @@ a {
 button {
   background: none;
   border: none;
+}
+
+strong {
+  font-family: "Formula1_Bold", sans-serif;
 }
 
     

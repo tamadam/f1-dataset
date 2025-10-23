@@ -47,6 +47,7 @@
         "constructorStandingsRoundByRound": "{year} Csapatbajnokság - Nagydíjról nagydíjra",
         "fastest-laps": "Leggyorsabb körök",
         "round": "Forduló",
+        "roundShort": "{number}. Forduló",
         "date": "Dátum",
         "grandPrix": "Nagydíj",
         "grandPrixWithNumber": "{number}. Nagydíj",
@@ -57,7 +58,13 @@
         "points": "Pontok",
         "time": "Idő",
         "laps": "Körök",
-        "time-retired": "Idő/Kiesett"
+        "time-retired": "Idő/Kiesett",
+        "nextSession": "Következik",
+        "ongoingSession": "Épp zajlik",
+        "day": "N",
+        "hour": "Ó",
+        "minute": "P",
+        "second": "MP"
     },
     "LandingPage": {
         "metadata": {

@@ -8,6 +8,8 @@ import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "./SubcategoryPageHandler";
 import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
+import { getCountryCodeFromName } from "@/app/lib/country-utils";
+import Flag from "@/app/components/Flag/Flag";
 
 interface RaceResultsTableProps {
   year: string;
@@ -67,12 +69,21 @@ const RaceResultsTable = ({
     (a, b) => b.order - a.order
   );
 
+  const rawCountry =
+    data?.[0]?.Circuit?.Location.country || detail?.country || "";
+  const countryCode = getCountryCodeFromName(rawCountry);
+
   return (
     <ResultsTable<RaceResultRow>
       caption={`${year} ${
         data?.[0]?.raceName || detail?.raceName || ""
       } ${translate("results")}`}
-      captionDescription={raceInfo}
+      captionDescription={
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span>{raceInfo}</span>
+          {countryCode && <Flag countryCode={countryCode} />}
+        </div>
+      }
       noDataText={translate("noResults")}
       data={rows}
       detailList={raceDetails}

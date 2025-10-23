@@ -57,7 +57,7 @@ export type ColumnDefinition<T> = {
 
 interface ResultsTableProps<T> {
   caption: string;
-  captionDescription?: string;
+  captionDescription?: string | ReactNode;
   noDataText?: string | ReactNode;
   data: T[] | undefined;
   chartData?: {

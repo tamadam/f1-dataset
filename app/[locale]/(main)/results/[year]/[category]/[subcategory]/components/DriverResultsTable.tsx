@@ -32,7 +32,7 @@ const DriverResultsTable = ({
           header: translate("grandPrix"),
           renderCell: (value) => `${value.raceName}`,
           urlHref: (value) =>
-            `/results/${year}/races/${value.Circuit.circuitId}`,
+            `/results/${year}/races/${value.Circuit.circuitId}-${value.round}`,
           styles: {
             columnSize: "2fr",
             textAlign: "left",

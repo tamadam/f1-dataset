@@ -111,7 +111,7 @@ const CATEGORY_HANDLERS: {
     extract: (res) => res?.MRData.RaceTable.Races ?? [],
     isValidResponse: (res) => Boolean(res?.MRData?.RaceTable?.Races),
     selectorMap: (entry) => ({
-      id: entry.Circuit.circuitId,
+      id: `${entry.Circuit.circuitId}-${entry.round}`,
       name: entry.raceName,
       round: entry.round,
     }),

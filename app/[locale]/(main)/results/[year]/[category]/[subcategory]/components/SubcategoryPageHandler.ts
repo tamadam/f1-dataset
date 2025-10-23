@@ -168,8 +168,11 @@ export async function getRaceToFetch(
 ): Promise<RaceFetchResult | null> {
   const allRacesRaw = await getAllRaces(year);
   const allRaces = allRacesRaw?.MRData.RaceTable.Races as RawRace[];
+  const [circuitId, round] = subcategory.split("-");
 
-  const race = allRaces.find((r) => r.Circuit.circuitId === subcategory);
+  const race = allRaces.find(
+    (r) => r.round === round && r.Circuit.circuitId === circuitId
+  );
   if (!race) return null;
 
   const translate = await getTranslations("General");

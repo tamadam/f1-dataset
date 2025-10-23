@@ -62,13 +62,14 @@ export async function generateStaticParams() {
           for (const race of races) {
             const round = race.round;
 
+            // why is this needed?
             await getRaceResults(year, round);
 
             staticParams.push({
               locale,
               year,
               category,
-              subcategory: race.Circuit.circuitId,
+              subcategory: `${race.Circuit.circuitId}-${round}`,
             });
           }
         }
@@ -101,11 +102,14 @@ export default async function ResultsSubcategoryPage({
 
   let id = subcategory;
   let raceToFetch: RaceFetchResult | null = null;
-  // If the category is "races", find the round based on circuitId
+  // If the category is "races", fetch the race details to pass to the component
   if (category === "races") {
     raceToFetch = await getRaceToFetch(subcategory, year);
     if (!raceToFetch) return notFound();
 
+    // We now use the circuitId-round format in the URL,
+    // but the round is also included in the response that is needed by the child components.
+    // We can keep it this way and assign the race round to `id`.
     id = raceToFetch.id;
   }
 

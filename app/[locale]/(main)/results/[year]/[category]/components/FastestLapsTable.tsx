@@ -19,7 +19,7 @@ const FastestLapsTable = ({ year, data }: FastestLapsTableProps) => {
           field: "raceName",
           header: translate("grandPrix"),
           urlHref: (value) =>
-            `/results/${year}/races/${value.Circuit.circuitId}`,
+            `/results/${year}/races/${value.Circuit.circuitId}-${value.round}`,
         },
         {
           field: "Results",

@@ -41,7 +41,7 @@ export async function generateStaticParams() {
               locale,
               year,
               category,
-              subcategory: race.Circuit.circuitId,
+              subcategory: `${race.Circuit.circuitId}-${race.round}`,
               detail: DETAILS_URLS.Qualifying,
             });
           }
@@ -51,7 +51,7 @@ export async function generateStaticParams() {
               locale,
               year,
               category,
-              subcategory: race.Circuit.circuitId,
+              subcategory: `${race.Circuit.circuitId}-${race.round}`,
               detail: DETAILS_URLS.Sprint,
             });
           }

@@ -8,6 +8,8 @@ import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
 import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 import { useTranslations } from "next-intl";
+import { getCountryCodeFromName } from "@/app/lib/country-utils";
+import Flag from "@/app/components/Flag/Flag";
 
 interface QualifyingResultsTableProps {
   year: string;
@@ -46,12 +48,20 @@ const QualifyingResultsTable = ({
   const raceDetails: DetailItem[] = [...detailsList].sort(
     (a, b) => b.order - a.order
   );
+
+  const countryCode = getCountryCodeFromName(detail?.country || "");
+
   return (
     <ResultsTable<QualifyingResult>
       caption={`${year} ${detail?.raceName || ""} ${translate(
         "qualifyingResults"
       )}`}
-      captionDescription={raceInfo}
+      captionDescription={
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span>{raceInfo}</span>
+          {countryCode && <Flag countryCode={countryCode} />}
+        </div>
+      }
       noDataText={translate("noResults")}
       data={data}
       detailList={raceDetails}

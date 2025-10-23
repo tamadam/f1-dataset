@@ -155,7 +155,7 @@ const NextSessionCounter = ({ races, locale }: NextSessionCounterProps) => {
             {countryCode && <Flag countryCode={countryCode} />}
 
             <Link
-              href={`/results/${nextEventYear}/races/${nextRace.circuitId}`}
+              href={`/results/${nextEventYear}/races/${nextRace.circuitId}-${nextRace.round}`}
             >
               {nextRace.country} <ArrowRight width="1em" height="1em" />
             </Link>

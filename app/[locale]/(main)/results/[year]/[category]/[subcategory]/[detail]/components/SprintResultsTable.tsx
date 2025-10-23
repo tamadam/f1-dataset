@@ -8,6 +8,8 @@ import ResultsTable, {
 import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { DETAILS } from "@/app/constants";
 import { useTranslations } from "next-intl";
+import { getCountryCodeFromName } from "@/app/lib/country-utils";
+import Flag from "@/app/components/Flag/Flag";
 
 interface SprintResultsTableProps {
   year: string;
@@ -47,10 +49,17 @@ const SprintResultsTable = ({
     (a, b) => b.order - a.order
   );
 
+  const countryCode = getCountryCodeFromName(detail?.country || "");
+
   return (
     <ResultsTable<SessionResults>
       caption={`${year} ${detail?.raceName || ""} ${translate("sprint")}`}
-      captionDescription={raceInfo}
+      captionDescription={
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span>{raceInfo}</span>
+          {countryCode && <Flag countryCode={countryCode} />}
+        </div>
+      }
       noDataText={translate("noResults")}
       data={data}
       detailList={raceDetails}

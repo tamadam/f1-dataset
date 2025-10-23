@@ -39,8 +39,6 @@ const NextSessionCounter = ({ races, locale }: NextSessionCounterProps) => {
   if (!isClient) return null;
   const [currentDate, time] = new Date().toISOString().split("T");
   const currentTime = time.split(".")[0] + "Z";
-  console.log(currentDate);
-  console.log(currentTime);
 
   const finalCurrentDate = new Date(`${currentDate}T${currentTime}`);
 

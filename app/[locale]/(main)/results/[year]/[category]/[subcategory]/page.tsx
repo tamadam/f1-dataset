@@ -12,7 +12,6 @@ import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
-import { getRaceResults } from "@/app/lib/api/getRaceResults";
 import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;
@@ -61,9 +60,6 @@ export async function generateStaticParams() {
           const races = racesData?.MRData.RaceTable.Races ?? [];
           for (const race of races) {
             const round = race.round;
-
-            // why is this needed?
-            await getRaceResults(year, round);
 
             staticParams.push({
               locale,

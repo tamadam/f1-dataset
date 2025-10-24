@@ -11,6 +11,7 @@ import Faq from "../../components/Faq/Faq";
 import { routing } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import BackToTopButton from "@/app/components/BackToTopButton/BackToTopButton";
+import HeaderSimple from "@/app/components/Header/HeaderSimple/HeaderSimple";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -52,6 +53,7 @@ export default async function LandingPage({
 
   return (
     <>
+      <HeaderSimple />
       <MainCard />
       <Separator />
       {storyCards.map((storyCard) => (

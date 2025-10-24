@@ -3,7 +3,6 @@ import { F1_FIRST_YEAR } from "../constants";
 export const getAllF1Years = (options?: {
   excludeCurrent?: boolean;
 }): number[] => {
-  return [2020, 2021, 2022, 2023, 2024];
   const currentYear = getCurrentYear();
   const endYear = options?.excludeCurrent ? currentYear - 1 : currentYear;
 

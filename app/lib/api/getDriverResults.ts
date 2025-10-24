@@ -23,7 +23,7 @@ export const getDriverResults = async (
     const skipCustomCache =
       process.env.NODE_ENV !== "production" || isCurrentSeason;
 
-    const res = await fetchWithCacheAndRateLimit<RawDriverResults>(
+    return await fetchWithCacheAndRateLimit<RawDriverResults>(
       endpoint,
       cacheSubFolder,
       cacheKey,
@@ -32,9 +32,6 @@ export const getDriverResults = async (
       cacheOptions?.readCachedOnly,
       cacheOptions?.skipCacheWrite
     );
-
-    console.log(res);
-    return res;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;

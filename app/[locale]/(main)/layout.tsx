@@ -3,6 +3,8 @@ import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { RacesProvider } from "@/app/providers/RacesProvider";
 import { setRequestLocale } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function MainPageLayout({
   children,
   params,

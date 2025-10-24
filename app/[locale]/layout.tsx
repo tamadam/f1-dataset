@@ -28,14 +28,15 @@ export default async function RootLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const rawAllRaces = await getAllRaces("2025");
-  const allRacesList = rawAllRaces?.MRData?.RaceTable?.Races || [];
+  //const allRacesList = rawAllRaces?.MRData?.RaceTable?.Races || [];
 
   return (
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <RacesProvider races={allRacesList}>
+          <RacesProvider races={[]}>
             <main>{children}</main>
           </RacesProvider>
           <Footer />

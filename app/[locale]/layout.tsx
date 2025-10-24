@@ -5,8 +5,6 @@ import { routing } from "@/i18n/routing";
 import "./globals.scss";
 import Footer from "@/app/components/Footer/Footer";
 import { setRequestLocale } from "next-intl/server";
-import { RacesProvider } from "../providers/RacesProvider";
-import { getAllRaces } from "../lib/api/getAllRaces";
 
 export const metadata: Metadata = {
   title: "F1 Dataset",
@@ -28,17 +26,11 @@ export default async function RootLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const rawAllRaces = await getAllRaces("2025");
-  //const allRacesList = rawAllRaces?.MRData?.RaceTable?.Races || [];
-
   return (
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <RacesProvider races={[]}>
-            <main>{children}</main>
-          </RacesProvider>
+          <main>{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>

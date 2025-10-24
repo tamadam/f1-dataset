@@ -9,6 +9,11 @@ import { CATEGORIES } from "@/app/constants";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { getCurrentYear } from "@/app/lib/year-utils";
+import { getAllRaces } from "@/app/lib/api/getAllRaces";
+import NextSessionCounter from "@/app/components/NextSessionCounter/NextSessionCounter";
+import { Race, RawRaces } from "@/app/types/races";
+
 export default async function ResultsPageCategoryLayout({
   params,
   children,
@@ -38,8 +43,13 @@ export default async function ResultsPageCategoryLayout({
     name: translate(category),
   }));
 
+  const currentYear: number = getCurrentYear();
+  const rawAllRaces: RawRaces | null = await getAllRaces(String(currentYear));
+  const allRacesList: Race[] = rawAllRaces?.MRData.RaceTable.Races || [];
+
   return (
     <>
+      <NextSessionCounter races={allRacesList} locale={locale} />
       <div className={styles.categoryLayoutPageWrapper}>
         <div className={styles.categoryLayoutSelectorWrapper}>
           <SelectorCard

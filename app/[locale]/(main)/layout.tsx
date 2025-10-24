@@ -16,7 +16,7 @@ export default async function MainPageLayout({
   setRequestLocale(locale);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const rawAllRaces = await getAllRaces("2025");
+  const rawAllRaces = await getAllRaces("2024");
   //const allRacesList = rawAllRaces?.MRData?.RaceTable?.Races || [];
 
   return (

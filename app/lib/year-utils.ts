@@ -11,7 +11,7 @@ export const getAllF1Years = (options?: {
     (_, i) => F1_FIRST_YEAR + i
   );
 
-  return allF1Years.filter((year) => year != 2021);
+  return allF1Years;
 };
 
 export const getAllF1YearsReverse = (): number[] => {

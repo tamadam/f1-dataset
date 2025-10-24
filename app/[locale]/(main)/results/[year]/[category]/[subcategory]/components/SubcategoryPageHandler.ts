@@ -76,17 +76,17 @@ export const SUBCATEGORY_HANDLERS: {
 } = {
   races: {
     fetch: getRaceResults,
-    extract: (res) => res?.MRData?.RaceTable?.Races ?? [],
+    extract: (res) => res?.MRData.RaceTable.Races ?? [],
     Component: RaceResultsTable,
   },
   drivers: {
     fetch: getDriverResults,
-    extract: (res) => res?.MRData?.RaceTable?.Races ?? [],
+    extract: (res) => res?.MRData.RaceTable.Races ?? [],
     Component: DriverResultsTable,
   },
   constructors: {
     fetch: getConstructorResults,
-    extract: (res) => res?.MRData?.RaceTable?.Races ?? [],
+    extract: (res) => res?.MRData.RaceTable.Races ?? [],
     Component: ConstructorResultsTable,
   },
 };

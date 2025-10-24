@@ -1,6 +1,6 @@
 "use client";
 
-import { DETAILS, F1_API_BASE_URL } from "@/app/constants";
+import { DETAILS } from "@/app/constants";
 import { Race } from "@/app/types/races";
 import React, { useEffect, useState } from "react";
 import Countdown from "./Countdown";
@@ -23,35 +23,17 @@ const SESSION_DURATIONS = {
 };
 
 interface NextSessionCounterProps {
+  races: Race[];
   locale: string;
 }
 
-const NextSessionCounter = ({ locale }: NextSessionCounterProps) => {
+const NextSessionCounter = ({ races, locale }: NextSessionCounterProps) => {
   const [isClient, setIsClient] = useState(false);
-  const [races, setRaces] = useState<Race[]>([]);
 
   const translate = useTranslations("General");
 
   useEffect(() => {
-    async function fetchRaces() {
-      try {
-        const year = new Date().getFullYear();
-        const res = await fetch(`${F1_API_BASE_URL}/${year}/races`, {
-          next: { revalidate: 3600 },
-        });
-
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        setRaces(data?.MRData?.RaceTable?.Races ?? []);
-      } catch (err) {
-        console.error("Failed to fetch races:", err);
-        setRaces([]);
-      } finally {
-        setIsClient(true);
-      }
-    }
-
-    fetchRaces();
+    setIsClient(true);
   }, []);
 
   if (!isClient) return null;

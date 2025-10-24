@@ -1,6 +1,5 @@
 import HeaderFull from "@/app/components/Header/HeaderFull/HeaderFull";
 import { setRequestLocale } from "next-intl/server";
-import NextSessionCounter from "@/app/components/NextSessionCounter/NextSessionCounter";
 
 export default async function MainPageLayout({
   children,
@@ -17,8 +16,6 @@ export default async function MainPageLayout({
   return (
     <>
       <HeaderFull />
-      <NextSessionCounter locale={locale} />
-
       <div>{children}</div>
     </>
   );

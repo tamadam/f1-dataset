@@ -1,8 +1,7 @@
-import { getAllF1Years } from "@/app/lib/year-utils";
-import styles from "./page.module.scss";
-import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
-import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
+import { getAllTimeDriversList } from "@/app/lib/api/getAllTimeDriversList";
+import { getAllTimeConstructorsList } from "@/app/lib/api/getAllTimeConstructorsList";
 import { setRequestLocale } from "next-intl/server";
+import styles from "./page.module.scss";
 
 const StatisticsPage = async ({
   params,
@@ -13,42 +12,6 @@ const StatisticsPage = async ({
 
   // Enable static rendering
   setRequestLocale(locale);
-
-  const years = getAllF1Years().map(String);
-  const currentYear = years.at(-1);
-  const driversAndConstructorsByYear = await Promise.all(
-    years.map(async (year) => {
-      const cacheOptions =
-        year === currentYear
-          ? { skipCacheWrite: true }
-          : { readCachedOnly: true };
-
-      const [allDrivers, allConstructors] = await Promise.all([
-        getAllDrivers(year, cacheOptions),
-        getAllConstructors(year, cacheOptions),
-      ]);
-
-      return { year, allDrivers, allConstructors };
-    })
-  );
-
-  const allDrivers = driversAndConstructorsByYear.flatMap(({ allDrivers }) =>
-    allDrivers.map((driver) => driver)
-  );
-
-  const allConstructors = driversAndConstructorsByYear.flatMap(
-    ({ allConstructors }) => allConstructors.map((constructor) => constructor)
-  );
-
-  // Deduplicate drivers and constructors by ID
-  const [allTimeDriversList, allTimeConstructorsList] = [
-    Array.from(new Map(allDrivers.map((d) => [d.driverId, d])).values()).sort(
-      (a, b) => a.givenName.localeCompare(b.givenName)
-    ),
-    Array.from(
-      new Map(allConstructors.map((c) => [c.constructorId, c])).values()
-    ).sort((a, b) => a.name.localeCompare(b.name)),
-  ];
 
   /* const results = await Promise.all(
     years.map(async (year) => {
@@ -82,6 +45,13 @@ const StatisticsPage = async ({
     .filter((pos) => pos === "1" || pos === "2" || pos === "3").length;
 
   console.log(allWins); */
+
+  const [allTimeDriversList, allTimeConstructorsList] = await Promise.all([
+    getAllTimeDriversList(),
+    getAllTimeConstructorsList(),
+  ]);
+
+
 
   return (
     <div className={styles.statisticsPageWrapper}>

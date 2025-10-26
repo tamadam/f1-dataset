@@ -1,6 +1,6 @@
 import HeaderFull from "@/app/components/Header/HeaderFull/HeaderFull";
-/* import NextSessionCounterWrapper from "@/app/components/NextSessionCounter/NextSessionCounterWrapper";
- */ import { setRequestLocale } from "next-intl/server";
+import NextSessionCounterWrapper from "@/app/components/NextSessionCounter/NextSessionCounterWrapper";
+import { setRequestLocale } from "next-intl/server";
 
 export default async function MainPageLayout({
   children,
@@ -17,7 +17,7 @@ export default async function MainPageLayout({
   return (
     <>
       <HeaderFull />
-      {/* <NextSessionCounterWrapper locale={locale} /> */}
+      <NextSessionCounterWrapper locale={locale} />
       <div>{children}</div>
     </>
   );

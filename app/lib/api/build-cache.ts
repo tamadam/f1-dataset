@@ -55,7 +55,6 @@ export const getCachedResponse = async <T>(
     return null;
   }
 };
-
 /* export const getCachedResponse = async<T>( subDirs: string[], key: string ): Promise<T | null> => {
     try {
         const filePath = path.join(getCacheDir(subDirs), `${key}.json`);

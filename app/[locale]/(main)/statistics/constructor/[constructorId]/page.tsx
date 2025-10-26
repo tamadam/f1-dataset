@@ -3,6 +3,9 @@ import { routing } from "@/i18n/routing";
 
 export const revalidate = 3600;
 
+// Dynamic segments not included in generateStaticParams will return a 404.
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const allTimeConstructorsList = await getAllTimeConstructorsList();
 

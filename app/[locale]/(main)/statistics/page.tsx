@@ -13,45 +13,10 @@ const StatisticsPage = async ({
   // Enable static rendering
   setRequestLocale(locale);
 
-  /* const results = await Promise.all(
-    years.map(async (year) => {
-      if (year !== currentYear) {
-        const data = await getDriverResults(year, "max_verstappen", {
-          readCachedOnly: true,
-        });
-
-        return { year, data };
-      }
-
-      const data = await getDriverResults(year, "max_verstappen", {
-        skipCacheWrite: true,
-      });
-      console.log("FORCURRENTYEAR: ", data);
-      return { year, data };
-    })
-  );
-
-  const driverResultsPerYear = results.filter((result) => Boolean(result.data));
-
-  console.log(driverResultsPerYear);
-
-  const allWins = driverResultsPerYear
-    .map((dr) =>
-      dr.data?.MRData.RaceTable.Races.map((r) =>
-        r.Results.map((res) => res.position)
-      ).flat(1)
-    )
-    .flat(1)
-    .filter((pos) => pos === "1" || pos === "2" || pos === "3").length;
-
-  console.log(allWins); */
-
   const [allTimeDriversList, allTimeConstructorsList] = await Promise.all([
     getAllTimeDriversList(),
     getAllTimeConstructorsList(),
   ]);
-
-
 
   return (
     <div className={styles.statisticsPageWrapper}>

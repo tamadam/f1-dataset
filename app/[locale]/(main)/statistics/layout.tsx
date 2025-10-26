@@ -13,5 +13,9 @@ export default async function StatisticsPageLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
-  return <div className={styles.statisticsPageLayoutWrapper}>{children}</div>;
+  return (
+    <div className={styles.statisticsPageLayoutOuterWrapper}>
+      <div className={styles.statisticsPageLayoutInnerWrapper}>{children}</div>
+    </div>
+  );
 }

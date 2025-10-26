@@ -1,3 +1,12 @@
-.statisticsPageLayoutWrapper {
-    background: #f6f4f0
+.statisticsPageLayoutOuterWrapper {
+    background: #f6f4f0;
+
+    .statisticsPageLayoutInnerWrapper {
+        padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
+        max-width: var(--content-max-width);
+        margin-inline: auto;
+        background: var(--white);
+        min-height: 100vh;
+    }
 }
+

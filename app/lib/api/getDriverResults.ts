@@ -20,8 +20,8 @@ export const getDriverResults = async (
     const currentYear = new Date().getFullYear().toString();
     const isCurrentSeason = year === currentYear;
 
-    const skipCustomCache =
-      process.env.NODE_ENV !== "production" || isCurrentSeason;
+    const skipCustomCache = isCurrentSeason;
+    //process.env.NODE_ENV !== "production" || isCurrentSeason;
 
     return await fetchWithCacheAndRateLimit<RawDriverResults>(
       endpoint,

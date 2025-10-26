@@ -37,28 +37,23 @@ export const setCachedResponse = async <T>(
 
 // Access JSON response from the file system
 
-const readLocks = new Map<string, Promise<unknown>>();
+const memoryCache = new Map<string, unknown>();
 
 export const getCachedResponse = async <T>(
   subDirs: string[],
   key: string
 ): Promise<T | null> => {
-  if (!readLocks.has(key)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const readPromise: any = (async () => {
-      try {
-        const filePath = path.join(getCacheDir(subDirs), `${key}.json`);
-        const data = await fs.readFile(filePath, "utf-8");
-        return JSON.parse(data);
-      } catch {
-        return null;
-      } finally {
-        readLocks.delete(key);
-      }
-    })();
-    readLocks.set(key, readPromise);
+  if (memoryCache.has(key)) return memoryCache.get(key) as T;
+
+  const filePath = path.join(getCacheDir(subDirs), `${key}.json`);
+  try {
+    const data = await fs.readFile(filePath, "utf-8");
+    const parsed = JSON.parse(data);
+    memoryCache.set(key, parsed);
+    return parsed;
+  } catch {
+    return null;
   }
-  return (await readLocks.get(key)) as T | null;
 };
 /* export const getCachedResponse = async<T>( subDirs: string[], key: string ): Promise<T | null> => {
     try {

@@ -63,8 +63,8 @@ export const getCachedResponse = async <T>(
     } catch {
         return null;
     }
-}
- */
+} */
+
 // Delete and recreate the cache folder
 export const clearCache = async (subDirs?: string[]): Promise<void> => {
   try {

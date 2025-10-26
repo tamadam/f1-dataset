@@ -5,6 +5,7 @@ import { getAllF1Years, getCurrentYear } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 
 export const revalidate = 3600;
+export const dynamic = "force-static";
 
 // Dynamic segments not included in generateStaticParams will return a 404.
 export const dynamicParams = false;

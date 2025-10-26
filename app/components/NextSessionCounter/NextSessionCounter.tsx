@@ -2,7 +2,6 @@
 
 import { DETAILS } from "@/app/constants";
 import { Race } from "@/app/types/races";
-import React, { useEffect, useState } from "react";
 import Countdown from "./Countdown";
 import styles from "./NextSessionCounter.module.scss";
 import { Link } from "@/i18n/navigation";
@@ -28,15 +27,8 @@ interface NextSessionCounterProps {
 }
 
 const NextSessionCounter = ({ races, locale }: NextSessionCounterProps) => {
-  const [isClient, setIsClient] = useState(false);
-
   const translate = useTranslations("General");
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
   const [currentDate, time] = new Date().toISOString().split("T");
   const currentTime = time.split(".")[0] + "Z";
 

@@ -5,7 +5,6 @@ import { routing } from "@/i18n/routing";
 import "./globals.scss";
 import Footer from "@/app/components/Footer/Footer";
 import { setRequestLocale } from "next-intl/server";
-import ClientSessions from "./Sessions";
 
 export const metadata: Metadata = {
   title: "F1 Dataset",
@@ -31,7 +30,6 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
-          <ClientSessions locale={locale} />
           <main>{children}</main>
           <Footer />
         </NextIntlClientProvider>

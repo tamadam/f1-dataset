@@ -13,7 +13,7 @@
         max-width: var(--content-max-width);
         margin: 0 auto;
         padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
-        padding-block-end: 1rem;
+        padding-block: 0.4rem;
         overflow: hidden;
 
         .infoGroup {

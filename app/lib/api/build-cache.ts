@@ -37,7 +37,7 @@ export const setCachedResponse = async <T>(
 
 // Access JSON response from the file system
 
-const memoryCache = new Map<string, unknown>();
+/* const memoryCache = new Map<string, unknown>();
 
 export const getCachedResponse = async <T>(
   subDirs: string[],
@@ -54,16 +54,19 @@ export const getCachedResponse = async <T>(
   } catch {
     return null;
   }
+}; */
+export const getCachedResponse = async <T>(
+  subDirs: string[],
+  key: string
+): Promise<T | null> => {
+  try {
+    const filePath = path.join(getCacheDir(subDirs), `${key}.json`);
+    const data = await fs.readFile(filePath, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return null;
+  }
 };
-/* export const getCachedResponse = async<T>( subDirs: string[], key: string ): Promise<T | null> => {
-    try {
-        const filePath = path.join(getCacheDir(subDirs), `${key}.json`);
-        const data = await fs.readFile(filePath, "utf-8");
-        return JSON.parse(data);
-    } catch {
-        return null;
-    }
-} */
 
 // Delete and recreate the cache folder
 export const clearCache = async (subDirs?: string[]): Promise<void> => {

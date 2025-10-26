@@ -62,7 +62,7 @@ export async function generateStaticParams() {
           for (const race of races) {
             const round = race.round;
 
-            // why is this needed?
+            // to prevent some weird build errors during Vercel build
             await getRaceResults(year, round);
 
             staticParams.push({

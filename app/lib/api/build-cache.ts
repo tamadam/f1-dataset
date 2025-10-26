@@ -36,25 +36,6 @@ export const setCachedResponse = async <T>(
 };
 
 // Access JSON response from the file system
-
-/* const memoryCache = new Map<string, unknown>();
-
-export const getCachedResponse = async <T>(
-  subDirs: string[],
-  key: string
-): Promise<T | null> => {
-  if (memoryCache.has(key)) return memoryCache.get(key) as T;
-
-  const filePath = path.join(getCacheDir(subDirs), `${key}.json`);
-  try {
-    const data = await fs.readFile(filePath, "utf-8");
-    const parsed = JSON.parse(data);
-    memoryCache.set(key, parsed);
-    return parsed;
-  } catch {
-    return null;
-  }
-}; */
 export const getCachedResponse = async <T>(
   subDirs: string[],
   key: string

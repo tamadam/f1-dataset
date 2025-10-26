@@ -5,6 +5,10 @@ import { routing } from "@/i18n/routing";
 import "./globals.scss";
 import Footer from "@/app/components/Footer/Footer";
 import { setRequestLocale } from "next-intl/server";
+import { getCurrentYear } from "@/app/lib/year-utils";
+import { getAllRaces } from "@/app/lib/api/getAllRaces";
+import NextSessionCounter from "@/app/components/NextSessionCounter/NextSessionCounter";
+import { Race, RawRaces } from "@/app/types/races";
 
 export const metadata: Metadata = {
   title: "F1 Dataset",
@@ -23,6 +27,10 @@ export default async function RootLayout({
     notFound();
   }
 
+  const currentYear: number = getCurrentYear();
+  const rawAllRaces: RawRaces | null = await getAllRaces(String(currentYear));
+  const allRacesList: Race[] = rawAllRaces?.MRData.RaceTable.Races || [];
+
   // Enable static rendering
   setRequestLocale(locale);
 
@@ -30,6 +38,8 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider>
+          <NextSessionCounter races={allRacesList} locale={locale} />
+
           <main>{children}</main>
           <Footer />
         </NextIntlClientProvider>

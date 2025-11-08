@@ -16,9 +16,9 @@ import { useTranslations } from "next-intl";
 import clsx from "clsx";
 
 const SESSION_DURATIONS = {
-  fortyMinutes: 60 * 40,
+  fortyMinutes: 60 * 40 * 1000,
   oneHour: 60 * 60 * 1000,
-  oneAndAHalfHours: 60 * 90,
+  oneAndAHalfHours: 60 * 90 * 1000,
 };
 
 interface NextSessionCounterProps {
@@ -68,7 +68,7 @@ const NextSessionCounter = ({ races, locale }: NextSessionCounterProps) => {
       },
       {
         ...race[DETAILS.Sprint],
-        sesssionName: translate("sprint"),
+        sessionName: translate("sprint"),
         sessionEstimatedDuration: SESSION_DURATIONS.fortyMinutes,
       },
       {

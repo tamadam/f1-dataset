@@ -10,6 +10,7 @@ import { formatDate, getValidLocaleForDate } from "@/app/lib/date-utils";
 import { useTranslations } from "next-intl";
 import { getCountryCodeFromName } from "@/app/lib/country-utils";
 import Flag from "@/app/components/Flag/Flag";
+import { DateTime } from "@/app/types/f1Common";
 
 interface RaceResultsTableProps {
   year: string;
@@ -65,9 +66,19 @@ const RaceResultsTable = ({
     detailsList = [...availableDetails];
   }
 
-  const raceDetails: DetailItem[] = [...detailsList].sort(
-    (a, b) => b.order - a.order
-  );
+  const raceDetails: DetailItem[] = [...detailsList].sort((a, b) => {
+    const getDateTime = (dateTime: DateTime) => {
+      const time = dateTime.time ?? "00:00:00Z";
+      return new Date(`${dateTime.date}T${time}`);
+    };
+
+    if (!(a.date && b.date)) return b.order - a.order;
+
+    const dateA = getDateTime(a.date).getTime();
+    const dateB = getDateTime(b.date).getTime();
+
+    return dateB - dateA;
+  });
 
   const rawCountry =
     data?.[0]?.Circuit?.Location.country || detail?.country || "";

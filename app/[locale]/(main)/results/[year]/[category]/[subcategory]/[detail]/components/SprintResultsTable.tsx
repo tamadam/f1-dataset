@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionResults } from "@/app/types/f1Common";
+import { DateTime, SessionResults } from "@/app/types/f1Common";
 import { RaceFetchResult } from "../../components/SubcategoryPageHandler";
 import ResultsTable, {
   DetailItem,
@@ -45,9 +45,19 @@ const SprintResultsTable = ({
     detailsList = [...availableDetails];
   }
 
-  const raceDetails: DetailItem[] = [...detailsList].sort(
-    (a, b) => b.order - a.order
-  );
+  const raceDetails: DetailItem[] = [...detailsList].sort((a, b) => {
+    const getDateTime = (dateTime: DateTime) => {
+      const time = dateTime.time ?? "00:00:00Z";
+      return new Date(`${dateTime.date}T${time}`);
+    };
+
+    if (!(a.date && b.date)) return b.order - a.order;
+
+    const dateA = getDateTime(a.date).getTime();
+    const dateB = getDateTime(b.date).getTime();
+
+    return dateB - dateA;
+  });
 
   const countryCode = getCountryCodeFromName(detail?.country || "");
 

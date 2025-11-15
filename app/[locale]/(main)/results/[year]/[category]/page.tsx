@@ -8,9 +8,8 @@ import {
 } from "./components/CategoryPageHandler";
 import { CATEGORIES } from "@/app/constants";
 import { setRequestLocale } from "next-intl/server";
-
-export const revalidate = 3600;
-export const dynamic = "force-static";
+import { cacheLife } from "next/cache";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
   const historicalYears = getAllF1Years({ excludeCurrent: true });
@@ -28,9 +27,9 @@ export async function generateStaticParams() {
 
 export default async function ResultsCategoryPage({
   params,
-}: {
-  params: Promise<{ locale: string; year: string; category: string }>;
-}) {
+}: PageProps<"/[locale]/results/[year]/[category]">) {
+  "use cache";
+  cacheLife("days");
   const { locale, year, category } = await params;
 
   // Enable static rendering
@@ -55,11 +54,13 @@ export default async function ResultsCategoryPage({
   const Component = handler.Component;
 
   return (
-    <Component
-      year={year}
-      data={latestRoundData}
-      allRoundsData={allRoundsData}
-      locale={locale}
-    />
+    <Suspense>
+      <Component
+        year={year}
+        data={latestRoundData}
+        allRoundsData={allRoundsData}
+        locale={locale}
+      />
+    </Suspense>
   );
 }

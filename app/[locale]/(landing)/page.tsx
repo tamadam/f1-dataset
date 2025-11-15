@@ -11,16 +11,15 @@ import Faq from "../../components/Faq/Faq";
 import { routing } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import BackToTopButton from "@/app/components/BackToTopButton/BackToTopButton";
+import { cacheLife } from "next/cache";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function LandingPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+export default async function LandingPage({ params }: PageProps<"/[locale]">) {
+  "use cache";
+  cacheLife("max");
   const { locale } = await params;
 
   // Enable static rendering

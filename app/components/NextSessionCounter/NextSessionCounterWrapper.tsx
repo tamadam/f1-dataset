@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCurrentYear } from "@/app/lib/year-utils";
 import NextSessionCounter from "@/app/components/NextSessionCounter/NextSessionCounter";
 import { Race } from "@/app/types/races";
 import { F1_API_BASE_URL } from "@/app/constants";
 
-interface Props {
+interface NextSessionCounterWrapperProps {
   locale: string;
+  currentYear: number;
 }
 
 const CACHE_KEY = "f1_dataset_races_list";
 const CACHE_TTL = 1000 * 60 * 60 * 24 * 30; // 30 days
 
-const NextSessionCounterWrapper = ({ locale }: Props) => {
+const NextSessionCounterWrapper = ({
+  locale,
+  currentYear,
+}: NextSessionCounterWrapperProps) => {
   const [races, setRaces] = useState<Race[]>([]);
 
   useEffect(() => {
@@ -31,7 +34,6 @@ const NextSessionCounterWrapper = ({ locale }: Props) => {
         }
 
         // Fetch fresh data
-        const currentYear = getCurrentYear();
         const raw = await fetch(`${F1_API_BASE_URL}/${currentYear}/races`, {
           cache: "no-store",
         });

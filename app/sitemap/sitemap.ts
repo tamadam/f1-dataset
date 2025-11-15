@@ -2,8 +2,11 @@ import type { MetadataRoute } from "next";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import { APP_BASE_URL, CATEGORIES } from "@/app/constants";
+import { cacheLife } from "next/cache";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  "use cache";
+  cacheLife("max");
   const years = getAllF1Years().map(String);
   const routes: MetadataRoute.Sitemap = [];
 

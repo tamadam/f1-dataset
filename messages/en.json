@@ -68,8 +68,8 @@
   },
   "LandingPage": {
     "metadata": {
-      "title": "Formula 1 Statistics and Insights",
-      "description": "Explore the world of Formula 1 with in-depth statistics, driver rankings, and customizable data analysis. Track current standings and dive into historical F1 data with ease."
+      "title": "F1 Dataset",
+      "description": "A comprehensive collection of Formula 1 data, including race results, driver and team statistics, and historical records reaching back to the earliest seasons."
     },
     "mainCard": {
       "mainTitle": "Unlimited supply of Formula 1 data and analysis.",

@@ -7,17 +7,19 @@ import Image from "next/image";
 import HeaderMenu from "./HeaderMenu";
 import { MenuItem } from "@/app/types/header";
 import { Link } from "@/i18n/navigation";
-import { getCurrentYear } from "@/app/lib/year-utils";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-const HeaderFull = () => {
-  const year = getCurrentYear();
-  const translate = useTranslations("General");
+const HeaderFull = async ({ currentYear }: { currentYear: number }) => {
+  const translation = await getTranslations("General");
 
   const menuItemsList: MenuItem[] = [
-    { id: 1, label: translate("results"), href: `/results/${year}/races` },
-    { id: 2, label: `${translate("statistics")}`, href: "/statistics" },
-    { id: 3, label: `${translate("powerRankings")} - TBD`, href: "/" },
+    {
+      id: 1,
+      label: translation("results"),
+      href: `/results/${currentYear}/races`,
+    },
+    { id: 2, label: `${translation("statistics")}`, href: "/statistics" },
+    { id: 3, label: `${translation("powerRankings")} - TBD`, href: "/" },
   ];
 
   return (

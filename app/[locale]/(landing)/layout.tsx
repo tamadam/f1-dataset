@@ -1,32 +1,23 @@
 import HeaderSimple from "@/app/components/Header/HeaderSimple/HeaderSimple";
+import { getCurrentYear } from "@/app/lib/year-utils";
+import { setRequestLocale } from "next-intl/server";
+import { cacheLife } from "next/cache";
 
-import { getTranslations } from "next-intl/server";
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const translation = await getTranslations({
-    locale,
-    namespace: "LandingPage",
-  });
-
-  return {
-    title: translation("metadata.title"),
-    description: translation("metadata.description"),
-  };
-}
-
-export default function LandingPageLayout({
+export default async function LandingPageLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  params,
+}: LayoutProps<"/[locale]">) {
+  "use cache";
+  cacheLife("max");
+
+  const { locale } = await params;
+  const currentYear = await getCurrentYear();
+
+  setRequestLocale(locale);
+
   return (
     <>
-      <HeaderSimple />
+      <HeaderSimple currentYear={currentYear} />
       <div>{children}</div>
     </>
   );

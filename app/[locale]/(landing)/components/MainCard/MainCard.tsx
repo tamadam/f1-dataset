@@ -2,13 +2,13 @@ import Image from "next/image";
 import styles from "./MainCard.module.scss";
 import Button from "@/app/components/Button";
 import { ArrowRight } from "@/app/components/icons";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { getCurrentYear } from "@/app/lib/year-utils";
 
-const MainCard = () => {
-  const year = getCurrentYear();
-  const translation = useTranslations("LandingPage");
-  const generalTranslation = useTranslations("General");
+const MainCard = async () => {
+  const year = await getCurrentYear();
+  const translation = await getTranslations("LandingPage");
+  const generalTranslation = await getTranslations("General");
 
   return (
     <div className={styles.mainCardWrapper}>

@@ -8,14 +8,14 @@ import SelectorCard from "../../components/Selector/SelectorCard";
 import { CATEGORIES } from "@/app/constants";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { cacheLife } from "next/cache";
 
 export default async function ResultsPageCategoryLayout({
-  params,
   children,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: string; year: string; category: string }>;
-}>) {
+  params,
+}: LayoutProps<"/[locale]/results/[year]/[category]">) {
+  "use cache";
+  cacheLife("days");
   const { locale, year, category } = await params;
 
   // Enable static rendering

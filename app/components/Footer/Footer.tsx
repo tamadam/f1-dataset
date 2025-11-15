@@ -5,11 +5,12 @@ import {
   F1_LOGO_ORIGINAL_HEIGHT,
   F1_LOGO_ORIGINAL_WIDTH,
 } from "@/app/constants";
-import { useTranslations } from "next-intl";
+import { getCurrentYear } from "@/app/lib/year-utils";
+import { getTranslations } from "next-intl/server";
 
-const Footer = () => {
-  const translation = useTranslations("General");
-  const currentYear = new Date().getFullYear();
+const Footer = async () => {
+  const currentYear = await getCurrentYear();
+  const translation = await getTranslations("General");
 
   return (
     <footer>

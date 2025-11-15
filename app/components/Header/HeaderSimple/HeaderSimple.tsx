@@ -6,12 +6,11 @@ import {
 } from "@/app/constants";
 import Button from "@/app/components/Button";
 import LanguageSelector from "../../LanguageSelector/LanguageSelector";
-import { useTranslations } from "next-intl";
-import { getCurrentYear } from "@/app/lib/year-utils";
+import { getTranslations } from "next-intl/server";
 
-const HeaderSimple = () => {
-  const year = getCurrentYear();
-  const translation = useTranslations("General");
+const HeaderSimple = async ({ currentYear }: { currentYear: number }) => {
+  const translation = await getTranslations("General");
+
   return (
     <header className={styles.simpleHeader}>
       <div className={styles.headerWrapper}>
@@ -26,7 +25,7 @@ const HeaderSimple = () => {
         <div className={styles.headerItem}>
           <LanguageSelector horizontalAlignment="right" />
           <div>
-            <Button variant="primary" href={`results/${year}/races`}>
+            <Button variant="primary" href={`results/${currentYear}/races`}>
               <span>{translation("exploreButton")}</span>
             </Button>
           </div>

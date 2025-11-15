@@ -14,7 +14,7 @@ export default async function ResultsPageCategoryLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string; year: string; category: CategoryKey }>;
+  params: Promise<{ locale: string; year: string; category: string }>;
 }>) {
   const { locale, year, category } = await params;
 
@@ -26,7 +26,7 @@ export default async function ResultsPageCategoryLayout({
 
   const translate = await getTranslations("General");
 
-  const handler = getCategoryHandler(category);
+  const handler = getCategoryHandler(category as CategoryKey);
   const rawData = await getCategoryDataCached(handler, year);
   if (!rawData) return notFound();
 

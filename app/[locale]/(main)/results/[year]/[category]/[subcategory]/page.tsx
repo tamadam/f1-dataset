@@ -118,9 +118,7 @@ export default async function ResultsSubcategoryPage({
   const data = handler.extract(rawData) ?? [];
 
   // In case of races we want to handle if the user clicks on a race which has no result yet
-  if (category !== "races" && (!data || data.length === 0)) {
-    return notFound();
-  }
+  if (!data || data.length === 0) return notFound();
 
   const Component = handler.Component;
   return (

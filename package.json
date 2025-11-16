@@ -8,29 +8,32 @@
     "prebuild": "shx mkdir -p cache/api",
     "clear:cache": "shx rm -rf cache/api .next/cache/custom && echo 'Cleared both cache folders'",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "generate-icons": "npx @svgr/cli --no-dimensions --out-dir ./app/components/icons ./public/svgs/ --typescript"
   },
   "dependencies": {
     "chart.js": "^4.5.0",
     "clsx": "^2.1.1",
     "countries-list": "^3.2.0",
-    "next": "^15.2.4",
-    "next-intl": "^4.0.2",
-    "react": "^19.0.0",
+    "next": "16.0.3",
+    "next-intl": "^4.5.3",
+    "react": "19.2.0",
     "react-chartjs-2": "^5.3.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "19.2.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@svgr/cli": "^8.1.0",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "19.2.5",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9",
-    "eslint-config-next": "15.2.1",
+    "eslint-config-next": "16.0.3",
     "sass": "^1.86.0",
     "shx": "^0.4.0",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@types/react": "19.2.5",
+    "@types/react-dom": "19.2.3"
   }
 }

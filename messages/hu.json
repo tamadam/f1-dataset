@@ -68,8 +68,8 @@
     },
     "LandingPage": {
         "metadata": {
-            "title": "Forma 1 Statisztikák és Elemzések",
-            "description": "Fedezd fel a Forma 1 világát részletes statisztikákkal, versenyzői rangsorokkal és személyre szabható elemzésekkel. Kövesd nyomon az aktuális állásokat és böngéssz az F1 történelmének adatai között."
+            "title": "F1 Dataset",
+            "description": "Átfogó F1 adatgyűjtemény, amely tartalmaz versenyeredményeket, pilóta- és csapatstatisztikákat, valamint a sportág kezdetéig visszanyúló történelmi adatokat."
         },
         "mainCard": {
             "mainTitle": "Forma 1 adatok és elemzések korlátlan kínálata.",

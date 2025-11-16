@@ -35,4 +35,5 @@ export enum DETAILS_URLS {
   Race = "",
 }
 
-export const APP_BASE_URL = "https://f1-dataset.vercel.app";
+export const APP_BASE_URL =
+  process.env.APP_BASE_URL || "https://f1-dataset.vercel.app";

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "NODE_OPTIONS='--max_old_space_size=4096' next build",
     "prebuild": "shx mkdir -p cache/api",
     "clear:cache": "shx rm -rf cache/api .next/cache/custom && echo 'Cleared both cache folders'",
     "start": "next start",

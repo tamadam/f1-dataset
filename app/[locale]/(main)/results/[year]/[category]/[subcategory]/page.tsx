@@ -63,7 +63,7 @@ export async function generateStaticParams() {
             const round = race.round;
 
             // to prevent some weird build errors during Vercel build
-            //await getRaceResults(year, round);
+            await getRaceResults(year, round);
 
             staticParams.push({
               locale,

@@ -12,8 +12,8 @@ import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
-import { getRaceResults } from "@/app/lib/api/getRaceResults";
-import { setRequestLocale } from "next-intl/server";
+/* import { getRaceResults } from "@/app/lib/api/getRaceResults";
+ */ import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -28,7 +28,9 @@ export async function generateStaticParams() {
   }[] = [];
 
   const locales = routing.locales;
-  const years = historicalYears.map((year) => year.toString());
+  const years = historicalYears
+    .filter((year) => year >= 1980)
+    .map((year) => year.toString());
 
   for (const locale of locales) {
     for (const year of years) {

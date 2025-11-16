@@ -13,7 +13,9 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
-  const historicalYears = getAllF1Years({ excludeCurrent: true });
+  const historicalYears = getAllF1Years({ excludeCurrent: true }).filter(
+    (year) => year >= 1980
+  );
 
   return routing.locales.flatMap((locale) =>
     historicalYears.flatMap((year) =>

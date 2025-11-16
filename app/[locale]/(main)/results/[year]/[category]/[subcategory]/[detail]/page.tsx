@@ -26,7 +26,9 @@ export async function generateStaticParams() {
   }[] = [];
 
   const locales = routing.locales;
-  const years = historicalYears.map((year) => year.toString());
+  const years = historicalYears
+    .filter((year) => year >= 1980)
+    .map((year) => year.toString());
   const category = "races";
 
   for (const locale of locales) {

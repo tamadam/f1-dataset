@@ -3,9 +3,6 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
-  experimental: {
-    cpus: 1,
-  },
 };
 
 const withNextIntl = createNextIntlPlugin();

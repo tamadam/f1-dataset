@@ -1,14 +1,15 @@
 import { notFound } from "next/navigation";
-import { CategoryKey, getCategory } from "./components/DetailPageHandler";
+import {
+  CategoryKey,
+  getCategory,
+  getRaceToFetch,
+  getSubCategoryDataWithMemoryCache,
+  RaceFetchResult,
+} from "./components/DetailPageHandler";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import { DETAILS, DETAILS_URLS } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
-import {
-  getRaceToFetch,
-  getSubCategoryDataWithMemoryCache,
-  RaceFetchResult,
-} from "../components/SubcategoryPageHandler";
 import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;

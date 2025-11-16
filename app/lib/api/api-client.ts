@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import { getCachedResponse, setCachedResponse } from "./build-cache";
 import { ApiError } from "./custom-error";
 import { RateLimiter } from "./rate-limiter";
@@ -13,6 +14,8 @@ export const fetchWithRateLimit = async <T>(
   url: string,
   options?: RequestInit
 ): Promise<T | null> => {
+  "use cache";
+  cacheLife("hours");
   return await limiter.enqueue<T>(async () => {
     const response = await fetch(url, options);
 

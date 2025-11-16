@@ -12,7 +12,7 @@ import { cacheLife } from "next/cache";
 import { Suspense } from "react";
 
 export async function generateStaticParams() {
-  const historicalYears = getAllF1Years({ excludeCurrent: true });
+  const historicalYears = await getAllF1Years({ excludeCurrent: true });
 
   return routing.locales.flatMap((locale) =>
     historicalYears.flatMap((year) =>

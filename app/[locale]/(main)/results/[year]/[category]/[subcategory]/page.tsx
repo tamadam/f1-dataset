@@ -14,12 +14,11 @@ import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { getRaceResults } from "@/app/lib/api/getRaceResults";
 import { setRequestLocale } from "next-intl/server";
-
-export const revalidate = 3600;
-export const dynamic = "force-static";
+import { cacheLife } from "next/cache";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
-  const historicalYears = getAllF1Years({ excludeCurrent: true });
+  const historicalYears = await getAllF1Years({ excludeCurrent: true });
   const staticParams: {
     locale: string;
     year: string;
@@ -90,6 +89,8 @@ export default async function ResultsSubcategoryPage({
     subcategory: string;
   }>;
 }) {
+  "use cache";
+  cacheLife("hours");
   const { locale, year, category, subcategory } = await params;
 
   // Enable static rendering
@@ -124,6 +125,8 @@ export default async function ResultsSubcategoryPage({
 
   const Component = handler.Component;
   return (
-    <Component year={year} data={data} locale={locale} detail={raceToFetch} />
+    <Suspense>
+      <Component year={year} data={data} locale={locale} detail={raceToFetch} />
+    </Suspense>
   );
 }

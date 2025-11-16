@@ -1,13 +1,12 @@
-import React from "react";
 import Selector from "../Selector/Selector";
 import { getAllF1YearsReverse } from "@/app/lib/year-utils";
 import styles from "./YearSelector.module.scss";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
-const YearSelector = () => {
-  const elements = getAllF1YearsReverse();
-  const translate = useTranslations("General");
+const YearSelector = async () => {
+  const elements = await getAllF1YearsReverse();
+  const translate = await getTranslations("General");
 
   return (
     <div className={styles.yearSelectorWrapper}>

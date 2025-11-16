@@ -1,12 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cacheLife } from "next/cache";
 import { F1_FIRST_YEAR } from "../constants";
 
-export const getAllF1Years = (options?: {
+export const getAllF1Years = async (options?: {
   excludeCurrent?: boolean;
-}): number[] => {
-  return [2021, 2022, 2023, 2024];
-  /*   const currentYear = getCurrentYear();
+}): Promise<number[]> => {
+  "use cache";
+  cacheLife("days");
+
+  const currentYear = await getCurrentYear();
   const endYear = options?.excludeCurrent ? currentYear - 1 : currentYear;
 
   const allF1Years = Array.from(
@@ -14,11 +15,13 @@ export const getAllF1Years = (options?: {
     (_, i) => F1_FIRST_YEAR + i
   );
 
-  return allF1Years; */
+  return allF1Years;
 };
 
-export const getAllF1YearsReverse = (): number[] => {
-  return getAllF1Years().reverse();
+export const getAllF1YearsReverse = async (): Promise<number[]> => {
+  "use cache";
+  cacheLife("days");
+  return (await getAllF1Years()).reverse();
 };
 
 export const getCurrentYear = async (): Promise<number> => {

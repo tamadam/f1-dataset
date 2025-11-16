@@ -7,7 +7,7 @@ import { cacheLife } from "next/cache";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   "use cache";
   cacheLife("max");
-  const years = getAllF1Years().map(String);
+  const years = (await getAllF1Years()).map(String);
   const routes: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {

@@ -170,7 +170,7 @@ const ConstructorStandingsTable = ({
                 <Link href="/results/1958/constructors">{chunks}</Link>
               ),
             })
-          : ""
+          : undefined
       }
       data={data}
       chartData={chartData}

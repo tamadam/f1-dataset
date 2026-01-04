@@ -13,6 +13,11 @@ export const revalidate = 3600;
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
+  // skip initial generation in production
+  if (process.env.GENERATE_STATIC_PAGES !== "1") {
+    return [];
+  }
+
   const historicalYears = getAllF1Years({ excludeCurrent: true }).filter(
     (year) => year >= 1980
   );

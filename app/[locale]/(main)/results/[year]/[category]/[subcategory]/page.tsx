@@ -12,13 +12,17 @@ import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
 import { getAllF1Years } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
-/* import { getRaceResults } from "@/app/lib/api/getRaceResults";
- */ import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
+  // skip initial generation in production
+  if (process.env.GENERATE_STATIC_PAGES !== "1") {
+    return [];
+  }
+
   const historicalYears = getAllF1Years({ excludeCurrent: true });
   const staticParams: {
     locale: string;
@@ -63,9 +67,6 @@ export async function generateStaticParams() {
           const races = racesData?.MRData.RaceTable.Races ?? [];
           for (const race of races) {
             const round = race.round;
-
-            // to prevent some weird build errors during Vercel build
-            // await getRaceResults(year, round);
 
             staticParams.push({
               locale,

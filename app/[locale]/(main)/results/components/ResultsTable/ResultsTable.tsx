@@ -236,6 +236,7 @@ const ResultsTable = <T,>({
                             ? `${basePath}/${detail.urlKey}`
                             : basePath
                         }
+                        prefetch={false}
                       >
                         <div className={styles.detailElementLabel}>
                           <span className={styles.elementLabel}>
@@ -317,6 +318,7 @@ const ResultsTable = <T,>({
                                   <Link
                                     href={column.urlHref(item)}
                                     className={styles.resultsTableLink}
+                                    prefetch={false}
                                   >
                                     {rawContent}
                                   </Link>

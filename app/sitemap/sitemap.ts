@@ -4,9 +4,7 @@ import { routing } from "@/i18n/routing";
 import { APP_BASE_URL, CATEGORIES } from "@/app/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const years = getAllF1Years()
-    .filter((year) => year >= 1980)
-    .map(String);
+  const years = getAllF1Years().map(String);
   const routes: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {

@@ -18,9 +18,7 @@ export async function generateStaticParams() {
     return [];
   }
 
-  const historicalYears = getAllF1Years({ excludeCurrent: true }).filter(
-    (year) => year >= 1980
-  );
+  const historicalYears = getAllF1Years({ excludeCurrent: true });
 
   return routing.locales.flatMap((locale) =>
     historicalYears.flatMap((year) =>

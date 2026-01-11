@@ -8,6 +8,7 @@ import SelectorCard from "../../components/Selector/SelectorCard";
 import { CATEGORIES } from "@/app/constants";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { isValidF1Year } from "@/app/lib/year-utils";
 
 export default async function ResultsPageCategoryLayout({
   params,
@@ -21,7 +22,9 @@ export default async function ResultsPageCategoryLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
-  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+  const isValidYear = isValidF1Year(year);
+
+  if (!isValidYear || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
 
   const translate = await getTranslations("General");

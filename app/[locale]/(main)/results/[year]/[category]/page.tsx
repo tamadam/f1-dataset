@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getAllF1Years } from "@/app/lib/year-utils";
+import { getAllF1Years, isValidF1Year } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import {
   CategoryKey,
@@ -41,7 +41,9 @@ export default async function ResultsCategoryPage({
   // Enable static rendering
   setRequestLocale(locale);
 
-  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+  const isValidYear = isValidF1Year(year);
+
+  if (!isValidYear || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
   const handler = getCategoryHandler(category as CategoryKey);
   const rawData = await getCategoryDataCached(handler, year);

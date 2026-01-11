@@ -9,7 +9,7 @@ import {
 import { notFound } from "next/navigation";
 import { getAllDrivers } from "@/app/lib/api/getAllDrivers";
 import { getAllConstructors } from "@/app/lib/api/getAllConstructors";
-import { getAllF1Years } from "@/app/lib/year-utils";
+import { getAllF1Years, isValidF1Year } from "@/app/lib/year-utils";
 import { CATEGORIES } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
 import { setRequestLocale } from "next-intl/server";
@@ -96,7 +96,9 @@ export default async function ResultsSubcategoryPage({
   // Enable static rendering
   setRequestLocale(locale);
 
-  if (isNaN(Number(year)) || !CATEGORIES.includes(category as CategoryKey))
+  const isValidYear = isValidF1Year(year);
+
+  if (!isValidYear || !CATEGORIES.includes(category as CategoryKey))
     return notFound();
 
   const handler = getSubCategoryHandler(category as CategoryKey);

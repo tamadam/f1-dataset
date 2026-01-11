@@ -21,3 +21,10 @@ export const getAllF1YearsReverse = (): number[] => {
 export const getCurrentYear = (): number => {
   return new Date().getFullYear();
 };
+
+export const isValidF1Year = (year: string): boolean => {
+  const yearNumber = Number(year);
+  const currentYear = getCurrentYear();
+
+  return !isNaN(yearNumber) && yearNumber >= 1950 && yearNumber <= currentYear;
+};

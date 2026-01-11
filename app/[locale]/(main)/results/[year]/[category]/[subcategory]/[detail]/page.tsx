@@ -6,7 +6,7 @@ import {
   getSubCategoryDataWithMemoryCache,
   RaceFetchResult,
 } from "./components/DetailPageHandler";
-import { getAllF1Years } from "@/app/lib/year-utils";
+import { getAllF1Years, isValidF1Year } from "@/app/lib/year-utils";
 import { routing } from "@/i18n/routing";
 import { DETAILS, DETAILS_URLS } from "@/app/constants";
 import { getAllRaces } from "@/app/lib/api/getAllRaces";
@@ -85,7 +85,9 @@ export default async function ResultsDetailPage({
   // Enable static rendering
   setRequestLocale(locale);
 
-  if (isNaN(Number(year)) || category !== "races") return notFound();
+  const isValidYear = isValidF1Year(year);
+
+  if (!isValidYear || category !== "races") return notFound();
 
   const handler = getCategory(detail as CategoryKey);
 

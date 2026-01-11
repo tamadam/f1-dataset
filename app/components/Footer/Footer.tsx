@@ -43,7 +43,7 @@ const Footer = () => {
           <LanguageSelector />
         </div>
         <div className={styles.copyright}>
-          &copy; {currentYear} {translation("footer.copyRightText")}
+          &copy; 2025-{currentYear} {translation("footer.copyRightText")}
         </div>
       </div>
     </footer>

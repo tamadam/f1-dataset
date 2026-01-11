@@ -57,6 +57,12 @@ const QualifyingResultsTable = ({
     const dateA = getDateTime(a.date).getTime();
     const dateB = getDateTime(b.date).getTime();
 
+    // The API omits time for practice and qualifying sessions,
+    // so we sort same-day sessions using the custom `order` value.
+    if (dateA === dateB) {
+      return b.order - a.order;
+    }
+
     return dateB - dateA;
   });
 

@@ -11,12 +11,18 @@ export const getAllDrivers = async (
   cacheOptions?: {
     readCachedOnly?: boolean;
     skipCacheWrite?: boolean;
-  }
+  },
+  baseOffset: number = 0
 ): Promise<Driver[]> => {
   try {
-    const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json/?limit=100`;
+    const limit = 100;
+    const endpoint = `${F1_API_BASE_URL}/${year}/drivers.json/?limit=${limit}&offset=${baseOffset}`;
     const cacheSubFolder = ["drivers"];
-    const cacheKey = generateCacheKey("drivers", year);
+
+    const cacheKey =
+      baseOffset > 0
+        ? generateCacheKey("drivers", `${year}-offset${baseOffset}`)
+        : generateCacheKey("drivers", year);
 
     const skipCustomCache = false;
 
@@ -30,7 +36,23 @@ export const getAllDrivers = async (
       cacheOptions?.skipCacheWrite
     );
 
-    return response?.MRData?.DriverTable?.Drivers || [];
+    const drivers = response?.MRData?.DriverTable?.Drivers || [];
+
+    // Determine total drivers
+    const total = Number(response?.MRData.total || 0);
+    const offset = Number(response?.MRData.offset || 0);
+
+    // If there are more drivers, recursively fetch the next page
+    if (offset + limit < total) {
+      const nextDrivers = await getAllDrivers(
+        year,
+        cacheOptions,
+        offset + limit
+      );
+      return [...drivers, ...nextDrivers];
+    }
+
+    return drivers;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;

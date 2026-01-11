@@ -6,21 +6,29 @@ import { getAllRaces } from "./getAllRaces";
 import { RoundsList } from "@/app/[locale]/(main)/results/[year]/[category]/components/CategoryPageHandler";
 import { ApiError } from "./custom-error";
 
+// We save the original JSON files for caching, but when returning the result,
+// we replace the `DriverStandings` property with a merged array that includes
+// all results from all paginated pages.
+// We achieve this by recursively calling the function with a new `baseOffset`,
+// which is the previous offset plus the `limit` value.
+
 // Returns the driver standings for a given year (reflects current state if the season is ongoing)
 export const getDriverStandings = async (
-  year: string
+  year: string,
+  baseOffset: number = 0
 ): Promise<RawDriverStandings | null> => {
   try {
-    const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/`;
+    const limit = 100;
+    const endpoint = `${F1_API_BASE_URL}/${year}/${F1_API_DRIVER_STANDINGS_URL}/?limit=${limit}&offset=${baseOffset}`;
     const cacheSubFolder = ["driver-standings"];
-    const cacheKey = generateCacheKey("driver-standings", year);
-    const currentYear = new Date().getFullYear().toString();
-    const isCurrentSeason = year === currentYear;
+    const cacheKey =
+      baseOffset > 0
+        ? generateCacheKey("driver-standings", `${year}-offset${baseOffset}`)
+        : generateCacheKey("driver-standings", year);
 
-    const skipCustomCache =
-      process.env.NODE_ENV !== "production" || isCurrentSeason;
+    const skipCustomCache = false;
 
-    return await fetchWithCacheAndRateLimit<RawDriverStandings>(
+    const response = await fetchWithCacheAndRateLimit<RawDriverStandings>(
       endpoint,
       cacheSubFolder,
       cacheKey,
@@ -30,6 +38,44 @@ export const getDriverStandings = async (
           data?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings
         )
     );
+
+    if (!response) return null;
+
+    const driverStandings =
+      response.MRData.StandingsTable.StandingsLists?.[0]?.DriverStandings || [];
+
+    const total = Number(response?.MRData?.total || 0);
+
+    // If more pages exist, recursively fetch next page
+    if (baseOffset + limit < total) {
+      const nextDriverStandingsPage = await getDriverStandings(
+        year,
+        baseOffset + limit
+      );
+
+      const nextDriverStandings =
+        nextDriverStandingsPage?.MRData.StandingsTable.StandingsLists?.[0]
+          ?.DriverStandings || [];
+
+      return {
+        ...response,
+        MRData: {
+          ...response.MRData,
+          StandingsTable: {
+            ...response.MRData.StandingsTable,
+            StandingsLists: [
+              {
+                ...response.MRData.StandingsTable.StandingsLists[0],
+                DriverStandings: [...driverStandings, ...nextDriverStandings],
+              },
+            ],
+          },
+        },
+      };
+    }
+
+    // When only one page (<100 results)
+    return response;
   } catch (error) {
     throw new Error(
       `Failed to fetch driver standings for ${year}: ${
@@ -42,16 +88,24 @@ export const getDriverStandings = async (
 // Returns the driver standings for a given year and for a specific round
 export const getDriverStandingsByRound = async (
   year: string,
-  round: number
+  round: number,
+  baseOffset: number = 0
 ): Promise<RawDriverStandings | null> => {
   try {
-    const endpoint = `${F1_API_BASE_URL}/${year}/${round}/${F1_API_DRIVER_STANDINGS_URL}/`;
+    const limit = 100;
+    const endpoint = `${F1_API_BASE_URL}/${year}/${round}/${F1_API_DRIVER_STANDINGS_URL}/?limit=${limit}&offset=${baseOffset}`;
     const cacheSubFolder = ["driver-standings", year];
-    const cacheKey = generateCacheKey("driver-standings", `${year}-${round}`);
+    const cacheKey =
+      baseOffset > 0
+        ? generateCacheKey(
+            "driver-standings",
+            `${year}-${round}-offset${baseOffset}`
+          )
+        : generateCacheKey("driver-standings", `${year}-${round}`);
 
     const skipCustomCache = false;
 
-    return await fetchWithCacheAndRateLimit<RawDriverStandings>(
+    const response = await fetchWithCacheAndRateLimit<RawDriverStandings>(
       endpoint,
       cacheSubFolder,
       cacheKey,
@@ -61,6 +115,45 @@ export const getDriverStandingsByRound = async (
           data?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings
         )
     );
+
+    if (!response) return null;
+
+    const driverStandings =
+      response.MRData.StandingsTable.StandingsLists?.[0]?.DriverStandings || [];
+
+    const total = Number(response?.MRData?.total || 0);
+
+    // If more pages exist, recursively fetch next page
+    if (baseOffset + limit < total) {
+      const nextDriverStandingsPage = await getDriverStandingsByRound(
+        year,
+        round,
+        baseOffset + limit
+      );
+
+      const nextDriverStandings =
+        nextDriverStandingsPage?.MRData.StandingsTable.StandingsLists?.[0]
+          ?.DriverStandings || [];
+
+      return {
+        ...response,
+        MRData: {
+          ...response.MRData,
+          StandingsTable: {
+            ...response.MRData.StandingsTable,
+            StandingsLists: [
+              {
+                ...response.MRData.StandingsTable.StandingsLists[0],
+                DriverStandings: [...driverStandings, ...nextDriverStandings],
+              },
+            ],
+          },
+        },
+      };
+    }
+
+    // When only one page (<100 results)
+    return response;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;

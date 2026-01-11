@@ -26,7 +26,9 @@ export const getDriverStandings = async (
         ? generateCacheKey("driver-standings", `${year}-offset${baseOffset}`)
         : generateCacheKey("driver-standings", year);
 
-    const skipCustomCache = false;
+    const currentYear = new Date().getFullYear().toString();
+    const isCurrentSeason = year === currentYear;
+    const skipCustomCache = isCurrentSeason;
 
     const response = await fetchWithCacheAndRateLimit<RawDriverStandings>(
       endpoint,

@@ -22,8 +22,7 @@ export const getConstructorStandings = async (
     const currentYear = new Date().getFullYear().toString();
     const isCurrentSeason = year === currentYear;
 
-    const skipCustomCache =
-      process.env.NODE_ENV !== "production" || isCurrentSeason;
+    const skipCustomCache = isCurrentSeason;
 
     return await fetchWithCacheAndRateLimit<RawConstructorStandings>(
       endpoint,

@@ -45,7 +45,14 @@ export default async function ResultsCategoryPage({
     return notFound();
   const handler = getCategoryHandler(category as CategoryKey);
   const rawData = await getCategoryDataCached(handler, year);
-  if (!rawData.data) {
+  if (
+    !rawData.data &&
+    !(
+      category === "constructors" &&
+      Number(year) < 1958 &&
+      Number(year) >= 1950
+    )
+  ) {
     return notFound();
   }
 

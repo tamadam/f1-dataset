@@ -5,6 +5,7 @@ export class RateLimiter {
     resolve: (value: any) => void;
     reject: (reason?: any) => void;
     attempt: number;
+    url: string;
   }> = [];
 
   private readonly shortTermInterval = 1000; // 1 sec
@@ -15,10 +16,10 @@ export class RateLimiter {
 
   constructor(private maxRetries = 3) {}
 
-  async enqueue<T>(fn: () => Promise<T>): Promise<T> {
+  async enqueue<T>(fn: () => Promise<T>, url: string): Promise<T> {
     // console.log('Adding request to the queue');
     return new Promise((resolve, reject) => {
-      this.queue.push({ fn, resolve, reject, attempt: 0 });
+      this.queue.push({ fn, resolve, reject, attempt: 0, url });
       this.processQueue();
     });
   }
@@ -58,7 +59,7 @@ export class RateLimiter {
     try {
       // console.log(`Attempting request, attempt #${item.attempt + 1}`);
       const result = await item.fn();
-      console.log("Request successful");
+      console.log(`Request successful: ${item.url}`);
       item.resolve(result);
     } catch (error) {
       console.log(`Request failed with error:`, error);

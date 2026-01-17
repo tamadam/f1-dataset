@@ -25,7 +25,7 @@ export const fetchWithRateLimit = async <T>(
     }
 
     return response.json();
-  });
+  }, url);
 };
 
 export const fetchWithCacheAndRateLimit = async <T>(

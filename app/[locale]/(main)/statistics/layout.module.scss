@@ -1,7 +1,7 @@
-.statisticsPageWrapper {
+.statisticsPageLayoutOuterWrapper {
     background: #f6f4f0;
 
-    .statisticsPageContent {
+    .statisticsPageLayoutInnerWrapper {
         padding-inline: clamp(1rem, var(--main-inline-padding), 5rem);
         max-width: var(--content-max-width);
         margin-inline: auto;

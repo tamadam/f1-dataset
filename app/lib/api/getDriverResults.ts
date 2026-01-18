@@ -20,8 +20,11 @@ export const getDriverResults = async (
     const currentYear = new Date().getFullYear().toString();
     const isCurrentSeason = year === currentYear;
 
-    const skipCustomCache =
-      process.env.NODE_ENV !== "production" || isCurrentSeason;
+    // In dev mode, opening the driver statistics page
+    // fetches all years for a given driver starting from 1950
+    // if the prod environment check is not applied.
+    const skipCustomCache = isCurrentSeason;
+    /* process.env.NODE_ENV !== "production" || isCurrentSeason; */
 
     return await fetchWithCacheAndRateLimit<RawDriverResults>(
       endpoint,

@@ -1,4 +1,8 @@
 .searchTableWrapper {
-   max-block-size: 40rem;
+   max-block-size: 20rem;
    overflow: auto;
+
+   @media (width >= 1140) {
+    max-block-size: 30rem;
+   }
 }

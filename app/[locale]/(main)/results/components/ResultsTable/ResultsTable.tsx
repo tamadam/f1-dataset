@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { CSSProperties, ReactNode } from "react";
+import {
+  CSSProperties,
+  ReactNode,
+  useMemo,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 import styles from "./ResultsTable.module.scss";
-import { useRef, useEffect, useState } from "react";
 import clsx from "clsx";
 import { DateTime } from "@/app/types/f1Common";
 import { useParams, useSearchParams } from "next/navigation";
@@ -25,6 +31,7 @@ import {
 import { Line } from "react-chartjs-2";
 import Button from "@/app/components/Button";
 import { Eye, EyeOff } from "@/app/components/icons";
+import TableSearch from "./TableSearch";
 
 ChartJS.register(
   CategoryScale,
@@ -67,6 +74,11 @@ interface ResultsTableProps<T> {
   detailList?: DetailItem[];
   columns: ColumnDefinition<T>[];
   tableInlineStyles?: CSSProperties;
+  getRowKey?: (item: T) => string;
+  // Search-related props
+  enableSearch?: boolean;
+  searchableFields?: (keyof T)[];
+  searchPlaceholder?: string;
 }
 
 const ResultsTable = <T,>({
@@ -78,6 +90,10 @@ const ResultsTable = <T,>({
   detailList,
   columns,
   tableInlineStyles = {},
+  getRowKey,
+  enableSearch = false,
+  searchableFields = [],
+  searchPlaceholder = "",
 }: ResultsTableProps<T>) => {
   const translate = useTranslations("General");
   const contentRef = useRef<HTMLDivElement>(null);
@@ -97,6 +113,24 @@ const ResultsTable = <T,>({
   const chartRef = useRef(null);
 
   const basePath = `/results/${year}/${category}/${subcategory}`;
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter data based on search
+  const filteredData = useMemo(() => {
+    if (!enableSearch || !searchTerm || !data) return data;
+
+    const searchWords = searchTerm.toLowerCase().trim().split(/\s+/);
+
+    return data.filter((item) => {
+      const combined = searchableFields
+        .map((field) => String(item[field] ?? "").toLowerCase())
+        .join(" ");
+
+      // check if every search word exists somewhere
+      return searchWords.every((word) => combined.includes(word));
+    });
+  }, [data, searchTerm, enableSearch, searchableFields]);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -122,7 +156,7 @@ const ResultsTable = <T,>({
 
   const safeLocal: "hu" | "en" = getValidLocaleForDate(locale);
 
-  const noDataAvailable = !data || data.length === 0;
+  const noDataAvailable = !filteredData || filteredData.length === 0;
 
   const columnStyle = {
     "--columns": columns
@@ -206,6 +240,17 @@ const ResultsTable = <T,>({
           {captionDescription}
         </div>
       )}
+
+      {/* Search Input - Only show when search is enabled and in table view */}
+      {enableSearch && (
+        <TableSearch
+          onChange={setSearchTerm}
+          placeholder={searchPlaceholder}
+          dataLength={data?.length || 0}
+          filteredDataLength={filteredData?.length || 0}
+        />
+      )}
+
       {!chartData || viewMode === "table" ? (
         <div
           className={clsx(styles.resultsWrapper, {
@@ -296,12 +341,17 @@ const ResultsTable = <T,>({
                   {noDataAvailable ? (
                     <tr>
                       <td colSpan={columns.length}>
-                        {noDataText ?? translate("noData")}
+                        {searchTerm && enableSearch
+                          ? translate("noSearchResult", { term: searchTerm })
+                          : noDataText ?? translate("noData")}
                       </td>
                     </tr>
                   ) : (
-                    data.map((item, index) => (
-                      <tr key={index} style={columnStyle}>
+                    filteredData.map((item, index) => (
+                      <tr
+                        key={getRowKey ? getRowKey(item) : index}
+                        style={columnStyle}
+                      >
                         {columns.map((column) => {
                           const value = item[column.field];
                           return (

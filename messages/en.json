@@ -64,7 +64,10 @@
     "day": "D",
     "hour": "H",
     "minute": "M",
-    "second": "S"
+    "second": "S",
+    "search": "Search",
+    "searchResultsCount": "Showing {filteredDataLength} of {dataLength} results",
+    "noSearchResult": "No results for \"{term}\""
   },
   "LandingPage": {
     "metadata": {
@@ -103,6 +106,12 @@
       "question4Answer": "Although we plan to introduce a similar feature in the future, it's currently not a top priority. However, we are always working on improvements and new features, so stay tuned for future updates."
     }
   },
+  "StatisticsPage": {
+    "statisticsDriverTableTitle": "All Drivers",
+    "statisticsDriverTableDescription": "Select a driver to explore their stats.",
+    "statisticsConstructorTableTitle": "All Constructors",
+    "statisticsConstructorTableDescription": "Select a constructor to explore their stats."
+},
   "ErrorPage": {
     "errorMessage": "Oops! Looks like the F1 data took a pit stop without telling us. Try refreshing the page and let's get back on track!"
   }

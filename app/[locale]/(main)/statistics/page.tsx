@@ -1,6 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
 import { getAllTimeDriversList } from "@/app/lib/api/getAllTimeDriversList";
 import { getAllTimeConstructorsList } from "@/app/lib/api/getAllTimeConstructorsList";
+import DriverSearchTable from "./components/SearchTables/DriverSearchTable";
+import ConstructorSearchTable from "./components/SearchTables/ConstructorSearchTable";
+import styles from "./page.module.scss";
 
 export const revalidate = 60;
 export const dynamic = "force-static";
@@ -21,24 +24,15 @@ const StatisticsPage = async ({
   ]);
 
   return (
-    <div>
-      <div>
-        {new Date().toLocaleTimeString()}
-        <h1>Drivers</h1> {allTimeDriversList.length}
-        <select>
-          {allTimeDriversList.map((d) => (
-            <option key={d.driverId}>
-              {d.givenName} {d.familyName}
-            </option>
-          ))}
-        </select>
-        <h1>Constructors {allTimeConstructorsList.length}</h1>
-        <select>
-          {allTimeConstructorsList.map((c) => (
-            <option key={c.constructorId}>{c.name}</option>
-          ))}
-        </select>
-      </div>
+    <div className={styles.statisticsPageWrapper}>
+      <DriverSearchTable
+        drivers={allTimeDriversList}
+        searchPlaceholder="Max Verstappen"
+      />
+      <ConstructorSearchTable
+        constructors={allTimeConstructorsList}
+        searchPlaceholder="Mercedes"
+      />
     </div>
   );
 };
